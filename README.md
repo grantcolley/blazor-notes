@@ -41,12 +41,13 @@ Blazor Web Apps provide a component-based architecture with server-side renderin
 
 # Hosting Models
 ### Blazor Server hosting model
-With the Blazor Server hosting model, components are executed on the server from within an ASP.NET Core app. UI updates, event handling, and JavaScript calls are handled over a SignalR connection using the WebSockets protocol. The state on the server associated with each connected client is called a circuit.
-For the Blazor Server hosting model, each browser screen requires a separate circuit and separate instances of server-managed component state.
+With the Blazor Server hosting model, components are executed on the server from within an **ASP.NET Core app**. UI updates, event handling, and JavaScript calls are handled over a **SignalR** connection using the **WebSockets** protocol. The state on the server associated with each connected client is called a **circuit**.
+
+For the Blazor Server hosting model, **each browser screen requires a separate circuit and separate instances of server-managed component state**.
 Blazor considers closing a browser tab or navigating to an external URL a graceful termination. In the event of a graceful termination, the circuit and associated resources are immediately released. A client may also disconnect non-gracefully, for instance due to a network interruption. Blazor Server stores disconnected circuits for a configurable interval to allow the client to reconnect.
 On the client, the Blazor script establishes the SignalR connection with the server.
 
-We recommend using the Azure SignalR Service for apps that adopt the Blazor Server hosting model. The service allows for scaling up a Blazor Server app to a large number of concurrent SignalR connections.
+We recommend using the Azure **SignalR** Service for apps that adopt the Blazor Server hosting model. The service allows for scaling up a Blazor Server app to a large number of concurrent SignalR connections.
 
 ### Blazor WebAssembly
 The Blazor WebAssembly hosting model runs components client-side in the browser on a WebAssembly-based .NET runtime. Razor components, their dependencies, and the .NET runtime are downloaded to the browser. Components are executed directly on the browser UI thread. Unused code is stripped out of the app when it's published by the Intermediate Language (IL) Trimmer.
