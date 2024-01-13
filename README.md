@@ -6,10 +6,13 @@
 
 ## Table of Contents
 * [Overview](#overview)
-  * [Hosting Models](#hosting-models)
+  * [Full-stack Web App](#full-stack-web-app)
   * [Supported Platforms](#supported-platforms)
- 
-    
+* [Hosting Models](#hosting-models) 
+  * [Blazor Server hosting model](#blazor-server-hosting-model)
+  * [Blazor WebAssembly](#blazor-webassembly)
+  * [Blazor Hybrid](#blazor-hybrid)
+
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
 
@@ -17,7 +20,7 @@ Blazor apps are based on components. A component in Blazor is an element of UI, 
 
 Blazor Web Apps provide a component-based architecture with server-side rendering and full client-side interactivity in a single solution, where you can switch between server-side and client-side rendering modes and even mix them in the same page.
 
-### Hosting Models
+### Full-stack web app
 * **Server side static** <br>Blazor Web Apps can quickly deliver UI to the browser by statically rendering HTML content from the server in response to requests.
 
 * **Server side interactive** <br>Blazor supports interactive server-side rendering (interactive SSR), where UI interactions are handled from the server over a real-time connection with the browser. Page content for interactive pages is prerendered, where content on the server is initially generated and sent to the client without enabling event handlers for rendered controls. The server outputs the HTML UI of the page as soon as possible in response to the initial request, which makes the app feel more responsive to users.
@@ -36,8 +39,8 @@ Blazor Web Apps provide a component-based architecture with server-side renderin
 
 [*Reference - Microsoft ASP.NET Core Blazor : Supported Platforms*](https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms)
 
-https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-8.0
-Blazor Server hosting model
+# Hosting Models
+### Blazor Server hosting model
 With the Blazor Server hosting model, components are executed on the server from within an ASP.NET Core app. UI updates, event handling, and JavaScript calls are handled over a SignalR connection using the WebSockets protocol. The state on the server associated with each connected client is called a circuit.
 For the Blazor Server hosting model, each browser screen requires a separate circuit and separate instances of server-managed component state.
 Blazor considers closing a browser tab or navigating to an external URL a graceful termination. In the event of a graceful termination, the circuit and associated resources are immediately released. A client may also disconnect non-gracefully, for instance due to a network interruption. Blazor Server stores disconnected circuits for a configurable interval to allow the client to reconnect.
@@ -45,11 +48,14 @@ On the client, the Blazor script establishes the SignalR connection with the ser
 
 We recommend using the Azure SignalR Service for apps that adopt the Blazor Server hosting model. The service allows for scaling up a Blazor Server app to a large number of concurrent SignalR connections.
 
-Blazor WebAssembly
+### Blazor WebAssembly
 The Blazor WebAssembly hosting model runs components client-side in the browser on a WebAssembly-based .NET runtime. Razor components, their dependencies, and the .NET runtime are downloaded to the browser. Components are executed directly on the browser UI thread. Unused code is stripped out of the app when it's published by the Intermediate Language (IL) Trimmer.
 A Blazor WebAssembly app built as a Progressive Web App (PWA) uses modern browser APIs to enable many of the capabilities of a native client app, such as working offline, running in its own app window, launching from the host's operating system, receiving push notifications, and automatically updating in the background.
 
+### Blazor Hybrid
 Blazor Hybrid apps can be built using different .NET native app frameworks, including .NET MAUI, WPF, and Windows Forms. Blazor provides BlazorWebView controls for adding Razor components to apps built with these frameworks.
+
+[*Reference - Microsoft ASP.NET Core Blazor : Hosting Models*](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models)
 
 https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/?view=aspnetcore-8.0
 Static and interactive rendering concepts
