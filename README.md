@@ -1,8 +1,10 @@
 # blazor-notes
 > [!NOTE]
-> This is a collection of notes about **ASP.NET Core Blazor** I have taken while reading other resources. The purpose of this `readme` is simply to consolidate them into a single page for my own reference.
+> This is a collection of notes about **ASP.NET Core Blazor** I have taken while reading other resources\*. The purpose of this `readme` is simply to consolidate them into a single page for my own reference.
 >
 > In some cases, the note may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source.
+>
+> \* *mostly [**Microsoft** documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor)*
 
 ## Table of Contents
 * [Overview](#overview)
@@ -12,6 +14,9 @@
     * [Blazor Server hosting model](#blazor-server-hosting-model)
     * [Blazor WebAssembly](#blazor-webassembly)
     * [Blazor Hybrid](#blazor-hybrid)
+* [Fundamentals](#fundamentals)
+  * [Static and interactive rendering concepts](#static-and-interactive-rendering-concepts)
+
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -58,6 +63,7 @@ Blazor Hybrid apps can be built using different .NET native app frameworks, incl
 
 [*Reference - Microsoft ASP.NET Core Blazor : Hosting Models*](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models)
 
+# Fundamentals
 ### Static and interactive rendering concepts
 Razor components are either statically rendered or interactively rendered.
 
