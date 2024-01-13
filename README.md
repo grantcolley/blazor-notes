@@ -8,10 +8,10 @@
 * [Overview](#overview)
   * [Full-stack Web App](#full-stack-web-app)
   * [Supported Platforms](#supported-platforms)
-* [Hosting Models](#hosting-models) 
-  * [Blazor Server hosting model](#blazor-server-hosting-model)
-  * [Blazor WebAssembly](#blazor-webassembly)
-  * [Blazor Hybrid](#blazor-hybrid)
+  * [Hosting Models](#hosting-models) 
+    * [Blazor Server hosting model](#blazor-server-hosting-model)
+    * [Blazor WebAssembly](#blazor-webassembly)
+    * [Blazor Hybrid](#blazor-hybrid)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -39,32 +39,33 @@ Blazor Web Apps provide a component-based architecture with server-side renderin
 
 [*Reference - Microsoft ASP.NET Core Blazor : Supported Platforms*](https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms)
 
-# Hosting Models
-### Blazor Server hosting model
+### Hosting Models
+##### Blazor Server hosting model
 With the Blazor Server hosting model, components are executed on the server from within an **ASP.NET Core app**. UI updates, event handling, and JavaScript calls are handled over a **SignalR** connection using the **WebSockets** protocol. The state on the server associated with each connected client is called a **circuit**.
 
 For the Blazor Server hosting model, **each browser screen requires a separate circuit and separate instances of server-managed component state**.
 Blazor considers closing a browser tab or navigating to an external URL a graceful termination. In the event of a graceful termination, the circuit and associated resources are immediately released. A client may also disconnect non-gracefully, for instance due to a network interruption. Blazor Server stores disconnected circuits for a configurable interval to allow the client to reconnect.
 On the client, the Blazor script establishes the SignalR connection with the server.
 
-We recommend using the Azure **SignalR** Service for apps that adopt the Blazor Server hosting model. The service allows for scaling up a Blazor Server app to a large number of concurrent SignalR connections.
+We recommend using the **Azure SignalR Service** for apps that adopt the Blazor Server hosting model. The service allows for scaling up a Blazor Server app to a large number of concurrent **SignalR** connections.
 
-### Blazor WebAssembly
-The Blazor WebAssembly hosting model runs components client-side in the browser on a WebAssembly-based .NET runtime. Razor components, their dependencies, and the .NET runtime are downloaded to the browser. Components are executed directly on the browser UI thread. Unused code is stripped out of the app when it's published by the Intermediate Language (IL) Trimmer.
-A Blazor WebAssembly app built as a Progressive Web App (PWA) uses modern browser APIs to enable many of the capabilities of a native client app, such as working offline, running in its own app window, launching from the host's operating system, receiving push notifications, and automatically updating in the background.
+##### Blazor WebAssembly
+The Blazor WebAssembly hosting model runs components client-side in the browser on a **WebAssembly-based .NET runtime**. Razor components, their dependencies, and the .NET runtime are downloaded to the browser. Components are executed directly on the browser UI thread. Unused code is stripped out of the app when it's published by the **Intermediate Language (IL) Trimmer**.
+A Blazor WebAssembly app built as a **Progressive Web App (PWA)** uses modern browser APIs to enable many of the capabilities of a native client app, such as working offline, running in its own app window, launching from the host's operating system, receiving push notifications, and automatically updating in the background.
 
-### Blazor Hybrid
-Blazor Hybrid apps can be built using different .NET native app frameworks, including .NET MAUI, WPF, and Windows Forms. Blazor provides BlazorWebView controls for adding Razor components to apps built with these frameworks.
+##### Blazor Hybrid
+Blazor Hybrid apps can be built using different .NET native app frameworks, including **.NET MAUI**, **WPF**, and **Windows Forms**. Blazor provides `BlazorWebView` controls for adding Razor components to apps built with these frameworks.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Hosting Models*](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models)
 
-https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/?view=aspnetcore-8.0
-Static and interactive rendering concepts
+### Static and interactive rendering concepts
 Razor components are either statically rendered or interactively rendered.
 
 Static or static rendering is a server-side scenario that means the component is rendered without the capacity for interplay between the user and .NET/C# code. JavaScript and HTML DOM events remain unaffected, but no user events on the client can be processed with .NET running on the server.
 
 Interactive or interactive rendering means that the component has the capacity to process .NET events via C# code. The .NET events are either processed on the server by the ASP.NET Core runtime or in the browser on the client by the WebAssembly-based Blazor runtime.
+
+[*Reference - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
 
 https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing?view=aspnetcore-8.0
 Routing and navigation
