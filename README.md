@@ -12,13 +12,8 @@
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
-Blazor apps are based on components. 
 
-A component in Blazor is an element of UI, such as a page, dialog, or data entry form.
-
-Components are .NET C# classes built into .NET assemblies.
-
-The component class is usually written in the form of a Razor markup page with a .razor file extension.
+Blazor apps are based on components. A component in Blazor is an element of UI, such as a page, dialog, or data entry form. Components are .NET C# classes built into .NET assemblies. The component class is usually written in the form of a Razor markup page with a `.razor` file extension.
 
 Blazor Web Apps provide a component-based architecture with server-side rendering and full client-side interactivity in a single solution, where you can switch between server-side and client-side rendering modes and even mix them in the same page.
 
