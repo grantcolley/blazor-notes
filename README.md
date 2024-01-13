@@ -2,9 +2,9 @@
 > [!NOTE]
 > This is a collection of notes about **ASP.NET Core Blazor** I have taken while reading other resources\*. The purpose of this `readme` is simply to consolidate them into a single page for my own reference.
 >
-> In some cases, the note may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source.
+> In some cases, the note may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source\*.
 >
-> \* *mostly [**Microsoft** documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor)*
+> \* *this content is mostly from [**Microsoft** documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor)*
 
 ## Table of Contents
 * [Overview](#overview)
@@ -15,8 +15,14 @@
     * [Blazor WebAssembly](#blazor-webassembly)
     * [Blazor Hybrid](#blazor-hybrid)
 * [Fundamentals](#fundamentals)
-  * [Static and interactive rendering concepts](#static-and-interactive-rendering-concepts)
-
+  * [Static and Interactive Rendering Concepts](#static-and-interactive-rendering-concepts)
+  * [Routing and Navigation](#routing-and-navigation)
+    * [Focus an Element on Navigation](#focus-an-element-on-navigation)
+    * [Route to Components from Multiple Assemblies](#route-to-components-from-multiple-assemblies)
+    * [Interactive-Routing](#interactive-routing)
+    * [Route Parameters](#route-parameters)
+    * [NavigationManager](#navigationmanager)
+  * 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -73,67 +79,87 @@ Interactive or **interactive rendering** means that the **component has the capa
 
 [*Reference - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
 
-https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing?view=aspnetcore-8.0
-Routing and navigation
-If prerendering isn't disabled, the Blazor router (Router component, <Router> in Routes.razor) performs static routing to components during static server-side rendering (static SSR). This type of routing is called static routing.
+### Routing and navigation
+If **prerendering** isn't disabled, the Blazor router (Router component, `<Router>` in `Routes.razor`) performs static routing to components during **static server-side rendering** (static SSR). This type of routing is called static routing.
 
-When an interactive render mode is assigned to the Routes component, the Blazor router becomes interactive after static SSR with static routing on the server. This type of routing is called interactive routing.
+When an **interactive render mode** is assigned to the Routes component, the Blazor router becomes ***interactive after static SSR*** with static routing on the server. This type of routing is called interactive routing.
 
-Static routers use endpoint routing and the HTTP request path to determine which component to render. When the router becomes interactive, it uses the document's URL (the URL in the browser's address bar) to determine which component to render, and it can do so without performing an HTTP request to fetch new page content.
+> [!TIP]
+> ***Static routers use endpoint routing and the HTTP request path to determine which component to render**. When the **router becomes interactive, it uses the document's URL (the URL in the browser's address bar) to determine which component to render**, and it can do so without performing an HTTP request to fetch new page content.*
 
-Interactive routing also prevents prerendering because new page content isn't requested from the server with a normal page request.
+***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
 
-The Router component enables routing to Razor components and is located in the app's Routes component (Components/Routes.razor).
+The Router component enables routing to Razor components and is located in the app's Routes component (`Components/Routes.razor`).
 
-When a Razor component (.razor) with an @page directive is compiled, the generated component class is provided a RouteAttribute specifying the component's route template.
+When a Razor component (`.razor`) with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
 
-At runtime, the RouteView component:
-- Receives the RouteData from the Router along with any route parameters.
+At runtime, the `RouteView` component:
+- Receives the `RouteData` from the Router along with any route parameters.
 - Renders the specified component with its layout, including any further nested layouts.
 
-Components support multiple route templates using multiple @page directives. 
+Components support multiple route templates using multiple `@page` directives. 
+```C#
 @page "/blazor-route"
 @page "/different-blazor-route"
+```
 
-Focus an element on navigation
-The FocusOnNavigate component sets the UI focus to an element based on a CSS selector after navigating from one page to another.
+##### Focus an Element on Navigation
+The `FocusOnNavigate` component sets the UI focus to an element based on a CSS selector after navigating from one page to another.
+```C#
 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+```
 
-Route to components from multiple assemblies
-Use the Router component's AdditionalAssemblies parameter and the endpoint convention builder AddAdditionalAssemblies to discover routable components in additional assemblies. 
+##### Route to Components from Multiple Assemblies
+Use the Router component's `AdditionalAssemblies` parameter and the endpoint convention builder `AddAdditionalAssemblies` to discover routable components in additional assemblies. 
 
-Interactive routing
-An interactive render mode can be assigned to the Routes component (Routes.razor) that makes the Blazor router become interactive after static SSR and static routing on the server.
+##### Interactive Routing
+An interactive render mode can be assigned to the Routes component (`Routes.razor`) that makes the Blazor router become interactive after static SSR and static routing on the server.
+```
 <Routes @rendermode="InteractiveServer" />
+```
 
-The Router component inherits interactive server-side rendering (interactive SSR) from the Routes component. The router becomes interactive after static routing on the server.
+The `Router` component inherits interactive server-side rendering (interactive SSR) from the `Routes` component. **The router becomes interactive after static routing on the server**.
 
-Internal navigation for interactive routing does not involve requesting new page content from the server. Therefore, prerendering does not occur for internal page requests.
+> [!TIP]
+> Internal navigation for interactive routing does not involve requesting new page content from the server. Therefore, prerendering does not occur for internal page requests.
 
-If the Routes component is defined in the server project, the AdditionalAssemblies parameter of the Router component should include the .Client project's assembly. This allows the router to work correctly when rendered interactively. Additional assemblies are scanned in addition to the assembly specified to AppAssembly.
+If the `Routes` component is defined in the server project, the `AdditionalAssemblies` parameter of the `Router` component should include the `.Client` project's assembly. This allows the router to work correctly when rendered interactively. Additional assemblies are scanned in addition to the assembly specified to AppAssembly.
+```C#
 <Router
     AppAssembly="..."
     AdditionalAssemblies="new[] { typeof(BlazorSample.Client._Imports).Assembly }">
     ...
 </Router>
+```
 
-Route parameters
+##### Route Parameters
 Route parameter names are case insensitive. Optional parameters are supported.
+```C#
 @page "/route-parameter-2/{text?}"
+```
 
 A route constraint enforces type matching on a route segment to a component.
+```C#
 @page "/user/{Id:int}"
+```
 
 Catch-all route parameters, which capture paths across multiple folder boundaries, are supported. Catch-all route parameters are named to match the route segment name and must be a string type.
+```C#
 @page "/catch-all/{*pageRoute}"
+```
 
-NavigationManager
-Use NavigationManager to manage URIs and navigation.
+##### NavigationManager
+Use `NavigationManager` to manage URIs and navigation.
 
-NavigationManager.NavigateTo - if forceLoad == true, client-side routing is bypassed and the browser is forced to load the new page from the server
-NavigationManager.LocationChanged - event fired when the navigation path has changed. If IsNavigationIntercepted == true, then the Blazor intercepted the navigation from the browser, else NavigationManager.NavigateTo caused the navigation to occur.  
-NavigationManager.Refresh(bool forceLoad = false) - refreshes the page
- 
+* **NavigationManager.NavigateTo** - if `forceLoad == true`, client-side routing is bypassed and the browser is forced to load the new page from the server
+
+* **NavigationManager.LocationChanged** - event fired when the navigation path has changed. If `IsNavigationIntercepted == true`, then the Blazor intercepted the navigation from the browser, else `NavigationManager.NavigateTo` caused the navigation to occur.
+
+* **NavigationManager.Refresh(bool forceLoad = false)** - refreshes the page
+
+[*Reference - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
+
+
 https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-8.0
 Register common services
 If one or more common services are required client- and server-side, you can place the common service registrations in a method client-side and call the method to register the services in both projects.
