@@ -27,6 +27,10 @@
     * [Keyed Services](#keyed-services)
     * [OwningComponentBase](#owningcomponentbase)
   * [Startup](#startup)
+    * [Startup Process](#startup-process)
+    * [Load Client-side Boot Resources](#load-client-side-boot-resources)
+    * [Control Headers in Code](#control-headers-in-code)
+  * 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -218,7 +222,45 @@ public IMyService MyService { get; set; }
 [*Reference - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
 
 ### Startup
+##### Startup Process
+The Blazor startup process is automatic and asynchronous via the Blazor script (blazor.*.js), where the * placeholder is:
+- web for a Blazor Web App
+- server for a Blazor Server app
+- webassembly for a Blazor WebAssembly app
 
+##### Load Client-side Boot Resources
+When an app loads in the browser, the app downloads boot resources from the server:
+- JavaScript code to bootstrap the app
+- .NET runtime and assemblies
+- Locale specific data
+
+##### Control Headers in Code
+**Server-side and Prerendered Client-side Scenarios**
+Use ASP.NET Core Middleware to control the headers collection.
+```C#
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy", "{POLICY STRING}");
+    await next();
+});
+```
+
+**Client-side Development Without Prerendering**
+Pass StaticFileOptions to MapFallbackToFile that specifies response headers at the OnPrepareResponse stage.
+```C#
+var staticFileOptions = new StaticFileOptions
+{
+    OnPrepareResponse = context =>
+    {
+        context.Context.Response.Headers.Add("Content-Security-Policy", 
+            "{POLICY STRING}");
+    }
+};
+
+...
+
+app.MapFallbackToFile("index.html", staticFileOptions);
+```
 [*Reference - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
 
 
