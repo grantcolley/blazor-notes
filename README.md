@@ -31,7 +31,11 @@
     * [Load Client-side Boot Resources](#load-client-side-boot-resources)
     * [Control Headers in Code](#control-headers-in-code)
   * [Logging](#logging)
-  * 
+  * [Exceptions](#exceptions)
+    * [Handle Caught Exceptions Outside of a Razor Component's Lifecycle](#handle-caught-exceptions-outside-of-a-razor-components-lifecycle)
+    * [Detailed Errors for Razor Component Server-side Rendering](#detailed-errors-for-razor-component-server-side-rendering)
+    * [Global Exception Handling](#global-exception-handling)
+      * [ErrorBoundary](#errorboundary)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -275,6 +279,57 @@ At default log levels and without configuring additional logging providers:
 
 [*Reference - Microsoft ASP.NET Core Blazor : Logging*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging).
 
+### Exceptions
+##### Handle Caught Exceptions Outside of a Razor Component's Lifecycle
+Use `ComponentBase.DispatchExceptionAsync` in a Razor component to process exceptions thrown outside of the component's lifecycle call stack. This permits the component's code to treat exceptions as though they're lifecycle method exceptions. Thereafter, Blazor's error handling mechanisms, such as error boundaries, can process the exceptions.
+<br>
+`ComponentBase.DispatchExceptionAsync` is used in Razor component files that inherit from ComponentBase.
+```C#
+try
+{
+    ...
+}
+catch (Exception ex)
+{
+    await DispatchExceptionAsync(ex);
+}
+```
+A common scenario is if a component wants to start an asynchronous operation but doesn't await a Task. If the operation fails, you may still want the component to treat the failure as a component lifecycle exception.
+
+
+##### Detailed Errors for Razor Component Server-side Rendering
+Use the `RazorComponentsServiceOptions.DetailedErrors` option to control producing detailed information on errors for Razor component server-side rendering. The default value is `false`.
+```C#
+builder.Services.AddRazorComponents(options => options.DetailedErrors = true);
+```
+
+> [!WARNING]
+> Only enable detailed errors in the Development environment.
+
+##### Global Exception Handling
+
+###### ErrorBoundary
+To define an error boundary, use the ErrorBoundary component to wrap existing content. The app continues to function normally, but the error boundary handles unhandled exceptions.
+```C#
+<article class="content px-4">
+    <ErrorBoundary>
+        <ChildContent>
+            @Body
+        </ChildContent>
+        <ErrorContent>
+            <p class="alert alert-danger" role="alert">
+                Oh, dear! Oh, my! - George Takei
+            </p>
+        </ErrorContent>
+    </ErrorBoundary>
+</article>
+```
+> [!TIP]
+> To implement an error boundary in a global fashion, add the boundary around the body content of the app's main layout.
+>
+> In Blazor Web Apps with the error boundary only applied to a static MainLayout component, the boundary is only active during the static server-side rendering (static SSR) phase. The boundary doesn't activate just because a component further down the component hierarchy is interactive. To enable interactivity broadly for the MainLayout component and the rest of the components further down the component hierarchy, enable interactive server-side rendering (interactive SSR) at the top of the Routes component `Components/Routes.razor`.
+>
+>If you prefer not to enable server interactivity across the entire app from the Routes component, place the error boundary further down the component hierarchy.
 
 
 
