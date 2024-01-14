@@ -22,7 +22,11 @@
     * [Interactive-Routing](#interactive-routing)
     * [Route Parameters](#route-parameters)
     * [NavigationManager](#navigationmanager)
-  * 
+  * [Dependency Injection](#dependency-injection)
+    * [Service Lifetime](#service-lifetime)
+    * [Keyed Services](#keyed-services)
+    * [OwningComponentBase](#owningcomponentbase)
+  * [Startup](#startup)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -159,38 +163,45 @@ Use `NavigationManager` to manage URIs and navigation.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
 
-
-https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-8.0
+### Dependency Injection
 Register common services
+
 If one or more common services are required client- and server-side, you can place the common service registrations in a method client-side and call the method to register the services in both projects.
 
-Service lifetime
-Scoped
+##### Service Lifetime
+**Scoped**
 - Client-side doesn't currently have a concept of DI scopes. Scoped-registered services behave like Singleton services.
 - Server-side development supports the Scoped lifetime across HTTP requests but not across SignalR connection/circuit messages among components that are loaded on the client. It recreates the services on each HTTP request.
 
-Singleton
+**Singleton**
 - All components requiring a Singleton service receive the same instance of the service.
 
-Transient
+**Transient**
 - Whenever a component obtains an instance of a Transient service from the service container, it receives a new instance of the service.
 
-inject the services into the components using the @inject Razor directive or [Inject] attribute.
+Inject the services into the components using the `@inject` Razor directive or `[Inject]` attribute.
+```C#
 @inject IDataAccess DataRepository
 
 [Inject]
 protected IDataAccess DataRepository { get; set; } = default!;
+```
 
-Inject keyed services into components
+##### Keyed Services
 Blazor supports injecting keyed services using the [Inject] attribute. Keys allow for scoping of registration and consumption of services when using dependency injection.
+```C#
 [Inject(Key = "my-service")]
 public IMyService MyService { get; set; }
+```
 
-In ASP.NET Core apps, scoped services are typically scoped to the current request. After the request completes, any scoped or transient services are disposed by the DI system. Server-side, the request scope lasts for the duration of the client connection, which can result in transient and scoped services living much longer than expected. Client-side, services registered with a scoped lifetime are treated as singletons, so they live longer than scoped services in typical ASP.NET Core apps.
+> [!TIP]
+> In ASP.NET Core apps, scoped services are typically scoped to the current request. After the request completes, any scoped or transient services are disposed by the DI system. Server-side, the request scope lasts for the duration of the client connection, which can result in transient and scoped services living much longer than expected. Client-side, services registered with a scoped lifetime are treated as singletons, so they live longer than scoped services in typical ASP.NET Core apps.
 
-OwningComponentBase
-OwningComponentBase is an abstract type derived from ComponentBase that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
-OwningComponentBase is an abstract, disposable child of the ComponentBase type with a protected ScopedServices property of type IServiceProvider. The provider can be used to resolve services that are scoped to the lifetime of the component.
+##### OwningComponentBase
+**OwningComponentBase** is an abstract type derived from ComponentBase that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
+
+**OwningComponentBase** is an abstract, disposable child of the ComponentBase type with a protected ScopedServices property of type IServiceProvider. The provider can be used to resolve services that are scoped to the lifetime of the component.
+```C#
 @code {
     private ITimeTravel TimeTravel2 { get; set; } = default!;
 
@@ -199,12 +210,16 @@ OwningComponentBase is an abstract, disposable child of the ComponentBase type w
         TimeTravel2 = ScopedServices.GetRequiredService<ITimeTravel>();
     }
 }
+```
 
-NOTE: regular scoped objects injected into the component using @inject or the [Inject] attribute are tied to the user's circuit, which remains intact and isn't disposed until the underlying circuit is deconstructed. Scoped objects created using ScopedServices.GetRequiredService<ITimeTravel>(); receives a new ITimeTravel service instance each time the component is initialized.
+> [!TIP]
+> Regular scoped objects injected into the component using `@inject` or the `[Inject]` attribute are tied to the user's circuit, which remains intact and isn't disposed until the underlying circuit is deconstructed. Scoped objects created using ScopedServices.GetRequiredService<ITimeTravel>(); receives a new ITimeTravel service instance each time the component is initialized.
 
-https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup?view=aspnetcore-8.0
-Startup
+[*Reference - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
 
+### Startup
+
+[*Reference - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
 
 
 
