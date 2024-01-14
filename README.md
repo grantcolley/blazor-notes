@@ -200,7 +200,7 @@ public IMyService MyService { get; set; }
 ##### OwningComponentBase
 **OwningComponentBase** is an abstract type derived from `ComponentBase` that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
 
-**OwningComponentBase** is an abstract, disposable child of the ComponentBase type with a protected `ScopedServices` property of type `IServiceProvider`. The provider can be used to resolve services that are scoped to the lifetime of the component.
+**OwningComponentBase** is an abstract, disposable child of the `ComponentBase` type with a protected `ScopedServices` property of type `IServiceProvider`. The provider can be used to resolve services that are scoped to the lifetime of the component.
 ```C#
 @code {
     private ITimeTravel TimeTravel2 { get; set; } = default!;
