@@ -30,6 +30,7 @@
     * [Startup Process](#startup-process)
     * [Load Client-side Boot Resources](#load-client-side-boot-resources)
     * [Control Headers in Code](#control-headers-in-code)
+  * [Logging](#logging)
   * 
 
 # Overview
@@ -265,8 +266,14 @@ app.MapFallbackToFile("index.html", staticFileOptions);
 ```
 [*Reference - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
 
+### Logging
+Logging configuration can be loaded from app settings files. For more information, see ASP.NET Core Blazor configuration.
 
+At default log levels and without configuring additional logging providers:
+- **On the server**, logging only occurs to the server-side .NET console in the Development environment at the LogLevel.Information level or higher. For general ASP.NET Core logging guidance, see [Logging in .NET Core and ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging).
+- **On the client**, logging only occurs to the client-side browser developer tools console at the LogLevel.Information level or higher.
 
+[*Reference - Microsoft ASP.NET Core Blazor : Logging*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging).
 
 
 
