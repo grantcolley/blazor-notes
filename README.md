@@ -223,7 +223,7 @@ public IMyService MyService { get; set; }
 
 ### Startup
 ##### Startup Process
-The Blazor startup process is automatic and asynchronous via the Blazor script (blazor.*.js), where the * placeholder is:
+The Blazor startup process is automatic and asynchronous via the Blazor script `blazor.*.js`, where the * placeholder is:
 - web for a Blazor Web App
 - server for a Blazor Server app
 - webassembly for a Blazor WebAssembly app
@@ -236,6 +236,7 @@ When an app loads in the browser, the app downloads boot resources from the serv
 
 ##### Control Headers in Code
 **Server-side and Prerendered Client-side Scenarios**
+<br>
 Use ASP.NET Core Middleware to control the headers collection.
 ```C#
 app.Use(async (context, next) =>
@@ -246,7 +247,8 @@ app.Use(async (context, next) =>
 ```
 
 **Client-side Development Without Prerendering**
-Pass StaticFileOptions to MapFallbackToFile that specifies response headers at the OnPrepareResponse stage.
+<br>
+Pass `StaticFileOptions` to `MapFallbackToFile` that specifies response headers at the `OnPrepareResponse` stage.
 ```C#
 var staticFileOptions = new StaticFileOptions
 {
