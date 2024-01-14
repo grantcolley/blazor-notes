@@ -188,7 +188,7 @@ protected IDataAccess DataRepository { get; set; } = default!;
 ```
 
 ##### Keyed Services
-Blazor supports injecting keyed services using the [Inject] attribute. Keys allow for scoping of registration and consumption of services when using dependency injection.
+Blazor supports injecting keyed services using the `[Inject]` attribute. Keys allow for scoping of registration and consumption of services when using dependency injection.
 ```C#
 [Inject(Key = "my-service")]
 public IMyService MyService { get; set; }
@@ -198,9 +198,9 @@ public IMyService MyService { get; set; }
 > In ASP.NET Core apps, scoped services are typically scoped to the current request. After the request completes, any scoped or transient services are disposed by the DI system. Server-side, the request scope lasts for the duration of the client connection, which can result in transient and scoped services living much longer than expected. Client-side, services registered with a scoped lifetime are treated as singletons, so they live longer than scoped services in typical ASP.NET Core apps.
 
 ##### OwningComponentBase
-**OwningComponentBase** is an abstract type derived from ComponentBase that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
+**OwningComponentBase** is an abstract type derived from `ComponentBase` that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
 
-**OwningComponentBase** is an abstract, disposable child of the ComponentBase type with a protected ScopedServices property of type IServiceProvider. The provider can be used to resolve services that are scoped to the lifetime of the component.
+**OwningComponentBase** is an abstract, disposable child of the ComponentBase type with a protected `ScopedServices` property of type `IServiceProvider`. The provider can be used to resolve services that are scoped to the lifetime of the component.
 ```C#
 @code {
     private ITimeTravel TimeTravel2 { get; set; } = default!;
@@ -213,7 +213,7 @@ public IMyService MyService { get; set; }
 ```
 
 > [!TIP]
-> Regular scoped objects injected into the component using `@inject` or the `[Inject]` attribute are tied to the user's circuit, which remains intact and isn't disposed until the underlying circuit is deconstructed. Scoped objects created using ScopedServices.GetRequiredService<ITimeTravel>(); receives a new ITimeTravel service instance each time the component is initialized.
+> Regular scoped objects injected into the component using `@inject` or the `[Inject]` attribute are tied to the user's circuit, which remains intact and isn't disposed until the underlying circuit is deconstructed. Scoped objects created using `ScopedServices.GetRequiredService<ITimeTravel>();` receives a new ITimeTravel service instance each time the component is initialized.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
 
