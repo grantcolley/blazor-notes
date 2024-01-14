@@ -91,7 +91,7 @@ When an **interactive render mode** is assigned to the Routes component, the Bla
 
 The Router component enables routing to Razor components and is located in the app's Routes component, `Components/Routes.razor`.
 
-When a Razor component, `.razor`, with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
+When a Razor component `.razor` with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
 
 At runtime, the `RouteView` component:
 - Receives the `RouteData` from the Router along with any route parameters.
@@ -113,7 +113,7 @@ The `FocusOnNavigate` component sets the UI focus to an element based on a CSS s
 Use the Router component's `AdditionalAssemblies` parameter and the endpoint convention builder `AddAdditionalAssemblies` to discover routable components in additional assemblies. 
 
 ##### Interactive Routing
-An interactive render mode can be assigned to the Routes component (`Routes.razor`) that makes the Blazor router become interactive after static SSR and static routing on the server.
+An interactive render mode can be assigned to the Routes component `Routes.razor`, that makes the Blazor router become interactive after static SSR and static routing on the server.
 ```
 <Routes @rendermode="InteractiveServer" />
 ```
