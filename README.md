@@ -89,9 +89,9 @@ When an **interactive render mode** is assigned to the Routes component, the Bla
 
 ***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
 
-The Router component enables routing to Razor components and is located in the app's Routes component (`Components/Routes.razor`).
+The Router component enables routing to Razor components and is located in the app's Routes component, `Components/Routes.razor`.
 
-When a Razor component (`.razor`) with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
+When a Razor component, `.razor`, with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
 
 At runtime, the `RouteView` component:
 - Receives the `RouteData` from the Router along with any route parameters.
