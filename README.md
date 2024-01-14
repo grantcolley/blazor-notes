@@ -283,7 +283,7 @@ At default log levels and without configuring additional logging providers:
 ##### Handle Caught Exceptions Outside of a Razor Component's Lifecycle
 Use `ComponentBase.DispatchExceptionAsync` in a Razor component to process exceptions thrown outside of the component's lifecycle call stack. This permits the component's code to treat exceptions as though they're lifecycle method exceptions. Thereafter, Blazor's error handling mechanisms, such as error boundaries, can process the exceptions.
 <br>
-`ComponentBase.DispatchExceptionAsync` is used in Razor component files that inherit from ComponentBase.
+`ComponentBase.DispatchExceptionAsync` is used in Razor component files that inherit from `ComponentBase`.
 ```C#
 try
 {
@@ -309,7 +309,7 @@ builder.Services.AddRazorComponents(options => options.DetailedErrors = true);
 ##### Global Exception Handling
 
 ###### ErrorBoundary
-To define an error boundary, use the ErrorBoundary component to wrap existing content. The app continues to function normally, but the error boundary handles unhandled exceptions.
+To define an error boundary, use the `ErrorBoundary` component to wrap existing content. The app continues to function normally, but the error boundary handles unhandled exceptions.
 ```C#
 <article class="content px-4">
     <ErrorBoundary>
@@ -327,10 +327,11 @@ To define an error boundary, use the ErrorBoundary component to wrap existing co
 > [!TIP]
 > To implement an error boundary in a global fashion, add the boundary around the body content of the app's main layout.
 >
-> In Blazor Web Apps with the error boundary only applied to a static MainLayout component, the boundary is only active during the static server-side rendering (static SSR) phase. The boundary doesn't activate just because a component further down the component hierarchy is interactive. To enable interactivity broadly for the MainLayout component and the rest of the components further down the component hierarchy, enable interactive server-side rendering (interactive SSR) at the top of the Routes component `Components/Routes.razor`.
+> In Blazor Web Apps with the error boundary only applied to a static `MainLayout` component, the boundary is only active during the static server-side rendering (static SSR) phase. The boundary doesn't activate just because a component further down the component hierarchy is interactive. To enable interactivity broadly for the `MainLayout` component and the rest of the components further down the component hierarchy, enable interactive server-side rendering (interactive SSR) at the top of the `Routes` component `Components/Routes.razor`.
 >
->If you prefer not to enable server interactivity across the entire app from the Routes component, place the error boundary further down the component hierarchy.
+>If you prefer not to enable server interactivity across the entire app from the `Routes` component, place the error boundary further down the component hierarchy.
 
+[*Reference - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
 
 
 
