@@ -38,6 +38,7 @@
       * [Razor Component Server-side Rendering](#razor-component-server-side-rendering)
     * [Global Exception Handling](#global-exception-handling)
       * [ErrorBoundary](#errorboundary)
+  * [SignalR](#signalr)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -355,7 +356,9 @@ To define an error boundary, use the `ErrorBoundary` component to wrap existing 
 
 [*Reference - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
 
+### SignalR
 
+[*Reference - Microsoft ASP.NET Core Blazor : SignalR*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/signalr).
 
 
 
