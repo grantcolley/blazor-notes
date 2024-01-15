@@ -33,7 +33,9 @@
   * [Logging](#logging)
   * [Exceptions](#exceptions)
     * [Handle Caught Exceptions Outside of a Razor Component's Lifecycle](#handle-caught-exceptions-outside-of-a-razor-components-lifecycle)
-    * [Detailed Errors for Razor Component Server-side Rendering](#detailed-errors-for-razor-component-server-side-rendering)
+    * [Detailed Errors](#detailed-errors)
+      * [Circuit Errors](#circuit-errors) 
+      * [Razor Component Server-side Rendering](#razor-component-server-side-rendering)
     * [Global Exception Handling](#global-exception-handling)
       * [ErrorBoundary](#errorboundary)
 
@@ -296,8 +298,28 @@ catch (Exception ex)
 ```
 A common scenario is if a component wants to start an asynchronous operation but doesn't await a Task. If the operation fails, you may still want the component to treat the failure as a component lifecycle exception.
 
+##### Detailed Errors
+###### Circuit Errors
+This applies to Blazor Web Apps operating over a circuit.
+<br>
+For development purposes, sensitive circuit error information can be made available to the client by enabling detailed errors.
+<br>
+Set the DetailedErrors configuration key to true in the app's Development environment settings file `appsettings.Development.json`. Additionally, set SignalR server-side logging (Microsoft.AspNetCore.SignalR) to Debug or Trace for detailed SignalR logging.
+```C#
+{
+  "DetailedErrors": true,
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "Microsoft.AspNetCore.SignalR": "Debug"
+    }
+  }
+}
+```
 
-##### Detailed Errors for Razor Component Server-side Rendering
+###### Razor Component Server-side Rendering
 Use the `RazorComponentsServiceOptions.DetailedErrors` option to control producing detailed information on errors for Razor component server-side rendering. The default value is `false`.
 ```C#
 builder.Services.AddRazorComponents(options => options.DetailedErrors = true);
