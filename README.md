@@ -38,7 +38,8 @@
       * [Razor Component Server-side Rendering](#razor-component-server-side-rendering)
     * [Global Exception Handling](#global-exception-handling)
       * [ErrorBoundary](#errorboundary)
-  * [SignalR](#signalr)
+* [Components](#components)
+  * [Components Overview](#components-overview)  
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -356,9 +357,35 @@ To define an error boundary, use the `ErrorBoundary` component to wrap existing 
 
 [*Reference - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
 
-### SignalR
+# Components
+### Components Overview
+Blazor apps are built using Razor components with the `.razor` file extension using a combination of C# and HTML markup, that render into an in-memory representation of the browser's `Document Object Model (DOM)` called a render tree, which is used to update the UI.
 
-[*Reference - Microsoft ASP.NET Core Blazor : SignalR*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/signalr).
+Components are ordinary C# classes and `ComponentBase` is the base class for components, defining properties and methods for basic functionality, like processing a set of built-in component lifecycle events.
+
+Components are generated as C# partial classes and can be created as:
+- A single file contains C# code defined in one or more @code blocks, HTML markup, and Razor markup.
+- HTML and Razor markup are placed in a Razor file `.razor`. C# code is placed in a code-behind file defined as a partial class `.cs`.
+
+Razor components use directives to hange the way component markup is parsed or functions. 
+Razor component directive order:
+```C#
+@page
+@rendermode (.NET 8 or later)
+@using
+ - System namespaces
+ - Microsoft namespaces
+ - App namespaces
+ - Other directives
+```
+
+`@using` directives in the `_Imports.razor` file are only applied to Razor files `.razor`, not C# files `.cs`.
+
+A component's name must start with an uppercase character e.g. `ProductDetail.razor`.
+
+Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
+
+[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components).
 
 
 
