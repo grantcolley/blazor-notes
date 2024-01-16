@@ -42,6 +42,8 @@
   * [Components Overview](#components-overview)
   * [Markup](#markup)
   * [Asynchronous Methods](#asynchronous-methods)
+  * [Render Fragments](#render-fragments)
+  * [Capture References to Components](#capture-references-to-components)
   * 
 
 # Overview
@@ -416,8 +418,35 @@ When an app is compiled, the HTML markup and C# rendering logic are converted in
 > [!WARNING]
 > The Blazor framework doesn't track void-returning asynchronous methods `async`. As a result, exceptions aren't caught if void is returned. Always return a `Task` from asynchronous methods.
 
-Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Razor expression while rendering a component. This is because Blazor is designed for rendering interactive UIs.
+Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Razor expression while rendering a component. This is because Blazor is designed for rendering interactive UIs. In an interactive UI, the screen must always display something, so it doesn't make sense to block the rendering flow. Instead, asynchronous work is performed during one of the asynchronous lifecycle events. After each asynchronous lifecycle event, the component may render again.
 
+### Render Fragments
+Components can set the content of another component using `RenderFragment`.
+
+`RenderFragmentChild.razor`:
+```C#
+<div class="card-body">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
+```
+The following component provides content for rendering the `RenderFragmentChild.razor` by placing the content inside the child component's opening and closing tags.
+```C#
+@page "/render-fragments"
+
+<h1>Render Fragments Example</h1>
+
+<RenderFragmentChild>
+    Content of the child component is supplied
+    by the parent component.
+</RenderFragmentChild>
+```
+
+### Capture References to Components
 
 
 [*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
