@@ -44,7 +44,8 @@
   * [Asynchronous Methods](#asynchronous-methods)
   * [Render Fragments](#render-fragments)
   * [Capture References to Components](#capture-references-to-components)
-  * 
+  * [Static Assets](#static-assets)
+  * [Root Component](#root-component)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -448,12 +449,37 @@ The following component provides content for rendering the `RenderFragmentChild.
 
 ### Capture References to Components
 
+### Static Assets
+Static assets are located in the project's [web root (wwwroot)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root) folder or folders under the `wwwroot` folder.
+
+Use a base-relative path (/) to refer to the web root for a static asset.
+```C#
+<img alt="Company logo" src="/images/logo.png" />
+```
+
+### Root Component
+A root Razor component (root component) is the first component loaded of any component hierarchy created by the app.
+
+In an app created from the Blazor Web App project template, the App component (App.razor) is specified as the default root component in the `Program.cs` file.
+
+**Server-side**
+```C#
+app.MapRazorComponents<App>();
+```
+
+**WebAssembly**
+```C#
+builder.RootComponents.Add<App>("#app");
+```
+
 
 [*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
 <br>
 [*Reference - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
 <br>
 [*Reference - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
+<br>
+[*Reference - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
 
 
