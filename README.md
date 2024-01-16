@@ -40,8 +40,6 @@
       * [ErrorBoundary](#errorboundary)
 * [Components](#components)
   * [Components Overview](#components-overview)
-  * [Routing](#routing)
-    * [Route Parameters](#route-parameters) 
   * [Markup](#markup)
   * [Asynchronous Methods](#asynchronous-methods)
   * 
@@ -111,9 +109,9 @@ When an **interactive render mode** is assigned to the Routes component, the Bla
 
 ***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
 
-The Router component enables routing to Razor components and is located in the app's Routes component, `Components/Routes.razor`.
+When a Razor component `.razor` with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template. Routing in Blazor is achieved by providing a route template to each accessible component in the app. 
 
-When a Razor component `.razor` with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template.
+The `Router` component enables routing to Razor components and is located in the app's Routes component, `Components/Routes.razor`. At runtime, the router searches for component classes with a `RouteAttribute` and renders whichever component has a route template that matches the requested URL.
 
 At runtime, the `RouteView` component:
 - Receives the `RouteData` from the Router along with any route parameters.
@@ -168,6 +166,24 @@ A route constraint enforces type matching on a route segment to a component.
 Catch-all route parameters, which capture paths across multiple folder boundaries, are supported. Catch-all route parameters are named to match the route segment name and must be a string type.
 ```C#
 @page "/catch-all/{*pageRoute}"
+```
+
+Components can specify route parameters in the route template of the `@page` directive. The Blazor router uses route parameters to populate corresponding component parameters.
+
+```C#
+@page "/optional-parameter/{text?}"
+
+<h1>Blazor is @Text!</h1>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Text = Text ?? "fantastic";
+    }
+}
 ```
 
 ##### NavigationManager
@@ -389,32 +405,6 @@ Razor component directive order:
 A component's name must start with an uppercase character e.g. `ProductDetail.razor`.
 
 Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
-
-### Routing
-Routing in Blazor is achieved by providing a route template to each accessible component in the app with an `@page` directive, which gets compiled into a `RouteAttribute` specifying the route template. At runtime, the router searches for component classes with a RouteAttribute and renders whichever component has a route template that matches the requested URL.
-
-The rendered webpage for a component with the directive `@page "/hello-world"` is reached at the relative URL `/hello-world`.
-
-##### Route Parameters
-Components can specify route parameters in the route template of the `@page` directive. The Blazor router uses route parameters to populate corresponding component parameters.
-
-Optional route parameters are supported.
-
-```C#
-@page "/optional-parameter/{text?}"
-
-<h1>Blazor is @Text!</h1>
-
-@code {
-    [Parameter]
-    public string? Text { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Text = Text ?? "fantastic";
-    }
-}
-```
 
 ### Markup
 When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
