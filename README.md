@@ -41,6 +41,7 @@
 * [Components](#components)
   * [Components Overview](#components-overview)
   * [Routing](#routing)
+    * [Route Parameters](#route-parameters) 
   * [Markup](#markup)
   * [Asynchronous Methods](#asynchronous-methods)
   * 
@@ -394,6 +395,27 @@ Routing in Blazor is achieved by providing a route template to each accessible c
 
 The rendered webpage for a component with the directive `@page "/hello-world"` is reached at the relative URL `/hello-world`.
 
+##### Route Parameters
+Components can specify route parameters in the route template of the `@page` directive. The Blazor router uses route parameters to populate corresponding component parameters.
+
+Optional route parameters are supported.
+
+```C#
+@page "/optional-parameter/{text?}"
+
+<h1>Blazor is @Text!</h1>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Text = Text ?? "fantastic";
+    }
+}
+```
+
 ### Markup
 When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
 
@@ -403,6 +425,8 @@ When an app is compiled, the HTML markup and C# rendering logic are converted in
 ### Asynchronous Methods
 > [!WARNING]
 > The Blazor framework doesn't track void-returning asynchronous methods `async`. As a result, exceptions aren't caught if void is returned. Always return a `Task` from asynchronous methods.
+
+Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Razor expression while rendering a component. This is because Blazor is designed for rendering interactive UIs.
 
 
 
