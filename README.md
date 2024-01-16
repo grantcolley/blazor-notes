@@ -40,12 +40,13 @@
       * [ErrorBoundary](#errorboundary)
 * [Components](#components)
   * [Components Overview](#components-overview)
-  * [Markup](#markup)
-  * [Asynchronous Methods](#asynchronous-methods)
-  * [Render Fragments](#render-fragments)
-  * [Capture References to Components](#capture-references-to-components)
-  * [Static Assets](#static-assets)
-  * [Root Component](#root-component)
+    * [Markup](#markup)
+    * [Asynchronous Methods](#asynchronous-methods)
+    * [Render Fragments](#render-fragments)
+    * [Capture References to Components](#capture-references-to-components)
+    * [Static Assets](#static-assets)
+    * [Root Component](#root-component)
+  * [Render Modes](#render-modes)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -409,19 +410,19 @@ A component's name must start with an uppercase character e.g. `ProductDetail.ra
 
 Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
 
-### Markup
+##### Markup
 When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
 
 > [!NOTE]
 > The Blazor framework processes a component internally as a [render tree](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#render), which is the combination of a component's DOM and [Cascading Style Sheet Object Model (CSSOM)](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model). After the component is initially rendered, the component's render tree is regenerated in response to events. Blazor compares the new render tree against the previous render tree and applies any modifications to the browser's DOM for display.
 
-### Asynchronous Methods
+##### Asynchronous Methods
 > [!WARNING]
 > The Blazor framework doesn't track void-returning asynchronous methods `async`. As a result, exceptions aren't caught if void is returned. Always return a `Task` from asynchronous methods.
 
 Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Razor expression while rendering a component. This is because Blazor is designed for rendering interactive UIs. In an interactive UI, the screen must always display something, so it doesn't make sense to block the rendering flow. Instead, asynchronous work is performed during one of the asynchronous lifecycle events. After each asynchronous lifecycle event, the component may render again.
 
-### Render Fragments
+##### Render Fragments
 Components can set the content of another component using `RenderFragment`.
 
 `RenderFragmentChild.razor`:
@@ -447,7 +448,7 @@ The following component provides content for rendering the `RenderFragmentChild.
 </RenderFragmentChild>
 ```
 
-### Capture References to Components
+##### Capture References to Components
 To capture a component reference:
 - Add an `@ref` attribute to the child component.
 - Define a field with the same type as the child component.
@@ -491,7 +492,7 @@ To manipulate component references after the component has finished rendering, u
 }
 ```
 
-### Static Assets
+##### Static Assets
 Static assets are located in the project's [web root (wwwroot)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root) folder or folders under the `wwwroot` folder.
 
 Use a base-relative path (/) to refer to the web root for a static asset.
@@ -499,7 +500,7 @@ Use a base-relative path (/) to refer to the web root for a static asset.
 <img alt="Company logo" src="/images/logo.png" />
 ```
 
-### Root Component
+##### Root Component
 A root Razor component (root component) is the first component loaded of any component hierarchy created by the app.
 
 In an app created from the Blazor Web App project template, the App component (App.razor) is specified as the default root component in the `Program.cs` file.
@@ -514,7 +515,6 @@ app.MapRazorComponents<App>();
 builder.RootComponents.Add<App>("#app");
 ```
 
-
 [*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
 <br>
 [*Reference - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
@@ -523,7 +523,9 @@ builder.RootComponents.Add<App>("#app");
 <br>
 [*Reference - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
+### Render Modes
 
+[*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
 
 
