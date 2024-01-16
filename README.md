@@ -39,7 +39,11 @@
     * [Global Exception Handling](#global-exception-handling)
       * [ErrorBoundary](#errorboundary)
 * [Components](#components)
-  * [Components Overview](#components-overview)  
+  * [Components Overview](#components-overview)
+  * [Routing](#routing)
+  * [Markup](#markup)
+  * [Asynchronous Methods](#asynchronous-methods)
+  * 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -385,8 +389,26 @@ A component's name must start with an uppercase character e.g. `ProductDetail.ra
 
 Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components).
+### Routing
+Routing in Blazor is achieved by providing a route template to each accessible component in the app with an `@page` directive, which gets compiled into a `RouteAttribute` specifying the route template. At runtime, the router searches for component classes with a RouteAttribute and renders whichever component has a route template that matches the requested URL.
 
+The rendered webpage for a component with the directive `@page "/hello-world"` is reached at the relative URL `/hello-world`.
+
+### Markup
+When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
+
+> [!NOTE]
+> The Blazor framework processes a component internally as a [render tree](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#render), which is the combination of a component's DOM and [Cascading Style Sheet Object Model (CSSOM)](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model). After the component is initially rendered, the component's render tree is regenerated in response to events. Blazor compares the new render tree against the previous render tree and applies any modifications to the browser's DOM for display.
+
+### Asynchronous Methods
+> [!WARNING]
+> The Blazor framework doesn't track void-returning asynchronous methods `async`. As a result, exceptions aren't caught if void is returned. Always return a `Task` from asynchronous methods.
+
+
+
+[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components).
+[*Reference - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
+[*Reference - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
 
 
 
