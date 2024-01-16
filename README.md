@@ -420,8 +420,10 @@ Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Raz
 
 
 
-[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components).
+[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
+<br>
 [*Reference - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
+<br>
 [*Reference - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
 
 
