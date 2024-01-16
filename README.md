@@ -448,6 +448,48 @@ The following component provides content for rendering the `RenderFragmentChild.
 ```
 
 ### Capture References to Components
+To capture a component reference:
+- Add an `@ref` attribute to the child component.
+- Define a field with the same type as the child component.
+When the component is rendered, the field is populated with the component instance. You can then invoke .NET methods on the instance.
+
+`ReferenceChild.razor`:
+```C#
+@if (value > 0)
+{
+    <p>
+        <code>value</code>: @value
+    </p>
+}
+
+@code {
+    private int value;
+
+    public void ChildMethod(int value)
+    {
+        this.value = value;
+        StateHasChanged();
+    }
+}
+```
+A component reference is only populated after the component is rendered and its output includes `ReferenceChild`'s element. Until the component is rendered, there's nothing to reference.
+<br>
+To manipulate component references after the component has finished rendering, use the OnAfterRender or OnAfterRenderAsync methods.
+
+`ReferenceParent1.razor`:
+```C#
+@page "/reference-parent-1"
+
+<button @onclick="@(() => childComponent?.ChildMethod(5))">
+    Call <code>ReferenceChild.ChildMethod</code> with an argument of 5
+</button>
+
+<ReferenceChild @ref="childComponent" />
+
+@code {
+    private ReferenceChild? childComponent;
+}
+```
 
 ### Static Assets
 Static assets are located in the project's [web root (wwwroot)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root) folder or folders under the `wwwroot` folder.
