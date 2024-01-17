@@ -536,6 +536,33 @@ Render mode is applied using a `@rendermode` directive on the component instance
 > [!IMPORTANT]
 > Prerendering is enabled by default for interactive components.
 
+##### Enabling 
+A Blazor Web App must be configured to support interactive render modes in it's `Program.cs`. Individual components are still required to declare their render mode.
+
+**Component builder extensions** adds services to support rendering Interactive Server `AddInteractiveServerComponents` or Interactive WebAssembly components `AddInteractiveWebAssemblyComponents`.
+
+`MapRazorComponents` discovers available components and specifies the root component for the app (the first component loaded), which by default is the App component (App.razor).
+
+```C#
+// adds services to support rendering Interactive Server components.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+// configures interactive server-side rendering (interactive SSR) for the app.
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+```
+
+```C#
+// adds services to support rendering Interactive WebAssembly components.
+builder.Services.AddRazorComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+// configures the Interactive WebAssembly render mode for the app.
+app.MapRazorComponents<App>()
+    .AddInteractiveWebAssemblyRenderMode();
+```
+
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
 
