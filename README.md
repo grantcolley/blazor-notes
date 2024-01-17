@@ -47,7 +47,13 @@
     * [Static Assets](#static-assets)
     * [Root Component](#root-component)
   * [Render Modes](#render-modes)
-    * [Enabling Interactive Render Modes](#enabling-interactive-render-modes) 
+    * [Enabling Interactive Render Modes](#enabling-interactive-render-modes)
+    * [Apply a Render Mode to a Component](#apply-a-render-mode-to-a-component)
+      * [Apply a Render Mode to a Component Instance](#apply-a-render-mode-to-a-component-instance)
+      * [Apply a Render Mode to a Component Definition](#apply-a-render-mode-to-a-component-definition)
+    * [Apply a Render Mode to the Entire App](#apply-a-render-mode-to-the-entire-app)
+
+###### Apply a Render Mode to the Entire App
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -566,6 +572,49 @@ app.MapRazorComponents<App>()
 
 > [!NOTE]
 > Individual components are still required to declare their render mode.
+
+##### Apply a Render Mode to a Component
+
+###### Apply a Render Mode to a Component Instance
+```C#
+<Dialog @rendermode="InteractiveServer" />
+```
+
+###### Apply a Render Mode to a Component Definition
+```C#
+@page "..."
+@rendermode InteractiveServer
+```
+
+Applying a render mode to a component definition is commonly used when applying a render mode to a specific page.
+
+Routable pages by default use the same render mode as the Router component that rendered the page.
+
+> [!TIP]
+> Component authors should avoid coupling a component's implementation to a specific render mode. Instead, component authors should typically design components to support any render mode or hosting model. A component's implementation should avoid assumptions on where it's running (server or client)
+
+##### Apply a Render Mode to the Entire App
+To set the render mode for the entire app, indicate the render mode at the highest-level interactive component in the app's component hierarchy that isn't a root component. This is typically specified where the Routes component is used in the App component `Components/App.razor`:
+```C#
+<Routes @rendermode="InteractiveServer" />
+```
+
+##### Prerendering
+Prerendering is the process of initially rendering page content on the server without enabling event handlers for rendered controls.
+
+> [!NOTE]
+> Prerendering is enabled by default for interactive components.
+
+To disable prerendering for a component instance, pass the prerender flag with a value of false to the render mode:
+</br>
+```C#
+<... @rendermode="new InteractiveServerRenderMode(prerender: false)" />
+```
+To disable prerendering in a component definition:
+</br>
+```C#
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+```
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
