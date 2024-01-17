@@ -1,8 +1,8 @@
 # blazor-notes
 > [!IMPORTANT]
-> This is a collection of notes about **ASP.NET Core Blazor** I have taken while reading other resources\*. The purpose of this `readme` is simply to consolidate them into a single page for my own reference.
->
-> In some cases, the note may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source\*.
+> This is a collection of notes about **ASP.NET Core Blazor** taken while reading other resources\*. The purpose of this `readme` is simply to consolidate those notes I find important or useful in some way, into a single page for my own personal reference.
+> 
+> In some cases, the notes may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source\*.
 >
 > \* *this content is mostly from [**Microsoft**'s Blazor documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor), with some pointers to [**Mozilla** documentation](https://developer.mozilla.org/en-US/docs/Web) for additional reading about broader web development concepts.*
 
