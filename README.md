@@ -53,8 +53,6 @@
       * [Apply a Render Mode to a Component Definition](#apply-a-render-mode-to-a-component-definition)
     * [Apply a Render Mode to the Entire App](#apply-a-render-mode-to-the-entire-app)
 
-###### Apply a Render Mode to the Entire App
-
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
 
