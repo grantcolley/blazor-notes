@@ -57,6 +57,8 @@
     * [Interactive Server-side Rendering (Interactive SSR)](#interactive-server-side-rendering-interactive-ssr)
     * [Client-side Rendering (CSR)](#client-side-rendering-csr)
     * [Automatic (Auto) Rendering](#automatic-auto-rendering)
+    * [Client-side Services fail to Resolve during Prerendering](#client-side-services-fail-to-resolve-during-prerendering)
+    * [Render Mode Propagation](#render-mode-propagation)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -646,6 +648,12 @@ The Auto render mode never dynamically changes the render mode of a component al
 > [!TIP]
 > Components using the Auto render mode must be built from a separate client project that sets up the Blazor WebAssembly host.
 
+##### Client-side Services fail to Resolve during Prerendering
+Assuming that prerendering isn't disabled for a component or for the app, a component in the .Client project is prerendered on the server. Because the server doesn't have access to registered client-side Blazor services, it isn't possible to inject these services into a component without receiving an error that the service can't be found during prerendering.
+
+The recomended approach is to register the services in the main project, which makes them available during prerendering. 
+
+##### Render Mode Propagation
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
