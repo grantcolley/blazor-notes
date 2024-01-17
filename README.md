@@ -56,6 +56,7 @@
     * [Static Server-side Rendering (Static SSR)](#static-server-side-rendering-static-ssr)
     * [Interactive Server-side Rendering (Interactive SSR)](#interactive-server-side-rendering-interactive-ssr)
     * [Client-side Rendering (CSR)](#client-side-rendering-csr)
+    * [Automatic (Auto) Rendering](#automatic-auto-rendering)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -623,9 +624,17 @@ By default, components use the static server-side rendering (static SSR). The co
 
 ##### Interactive Server-side Rendering (Interactive SSR)
 Interactive server-side rendering (interactive SSR) renders the component interactively from the server using Blazor Server. User interactions are handled over a real-time connection with the browser. The circuit connection is established when the Server component is rendered.
+```C#
+@rendermode InteractiveServer
+```
 
 ##### Client-side Rendering (CSR)
 Client-side rendering (CSR) renders the component interactively on the client using Blazor WebAssembly. The .NET runtime and app bundle are downloaded and cached when the WebAssembly component is initially rendered. Components using CSR must be built from a separate client project that sets up the Blazor WebAssembly host.
+```C#
+@rendermode InteractiveWebAssembly
+```
+
+##### Automatic (Auto) Rendering
 
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
