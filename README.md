@@ -53,6 +53,7 @@
       * [Apply a Render Mode to a Component Definition](#apply-a-render-mode-to-a-component-definition)
     * [Apply a Render Mode to the Entire App](#apply-a-render-mode-to-the-entire-app)
     * [Prerendering](#prerendering)
+    * [Static Server-side Rendering (Static SSR)](#static-server-side-rendering-static-ssr)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -614,6 +615,10 @@ To disable prerendering in a component definition:
 ```C#
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 ```
+
+##### Static server-side rendering (static SSR)
+By default, components use the static server-side rendering (static SSR). The component renders to the response stream and interactivity isn't enabled.
+
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
