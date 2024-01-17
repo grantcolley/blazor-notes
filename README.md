@@ -108,7 +108,7 @@ If **prerendering** isn't disabled, the Blazor router (Router component, `<Route
 
 When an **interactive render mode** is assigned to the Routes component, the Blazor router becomes ***interactive after static SSR*** with static routing on the server. This type of routing is called interactive routing.
 
-> [!TIP]
+> [!IMPORTANT]
 > ***Static routers use endpoint routing and the HTTP request path to determine which component to render**. When the **router becomes interactive, it uses the document's URL (the URL in the browser's address bar) to determine which component to render**, and it can do so without performing an HTTP request to fetch new page content.*
 
 ***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
@@ -144,7 +144,7 @@ An interactive render mode can be assigned to the Routes component `Routes.razor
 
 The `Router` component inherits interactive server-side rendering (interactive SSR) from the `Routes` component. **The router becomes interactive after static routing on the server**.
 
-> [!TIP]
+> [!IMPORTANT]
 > Internal navigation for interactive routing does not involve requesting new page content from the server. Therefore, prerendering does not occur for internal page requests.
 
 If the `Routes` component is defined in the server project, the `AdditionalAssemblies` parameter of the `Router` component should include the `.Client` project's assembly. This allows the router to work correctly when rendered interactively. Additional assemblies are scanned in addition to the assembly specified to AppAssembly.
@@ -524,6 +524,17 @@ builder.RootComponents.Add<App>("#app");
 [*Reference - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
 ### Render Modes
+Every component in a Blazor Web App adopts a render mode to determine the hosting model that it uses, where it's rendered, and whether or not it's interactive.
+
+Render mode is applied using a `@rendermode` directive on the component instance or on the component definition
+
+- **Static Server	Static** - server-side rendering (static SSR)	Server
+- **Interactive Server** -	Interactive server-side rendering (interactive SSR) using Blazor Server	Server
+- **Interactive WebAssembly** -	Client-side rendering (CSR) using Blazor WebAssembly†	Client
+- **Interactive Auto** -	Interactive SSR using Blazor Server initially and then CSR on subsequent visits after the Blazor bundle is downloaded
+
+> [!IMPORTANT]
+> Prerendering is enabled by default for interactive components.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
