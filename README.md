@@ -47,6 +47,7 @@
     * [Static Assets](#static-assets)
     * [Root Component](#root-component)
   * [Render Modes](#render-modes)
+    * [Enabling Interactive Render Modes](#enabling-interactive-render-modes) 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -536,7 +537,7 @@ Render mode is applied using a `@rendermode` directive on the component instance
 > [!IMPORTANT]
 > Prerendering is enabled by default for interactive components.
 
-##### Enabling 
+##### Enabling Interactive Render Modes
 A Blazor Web App must be configured to support interactive render modes in it's `Program.cs`. Individual components are still required to declare their render mode.
 
 **Component builder extensions** adds services to support rendering Interactive Server `AddInteractiveServerComponents` or Interactive WebAssembly components `AddInteractiveWebAssemblyComponents`.
