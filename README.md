@@ -59,6 +59,11 @@
     * [Automatic (Auto) Rendering](#automatic-auto-rendering)
     * [Client-side Services fail to Resolve during Prerendering](#client-side-services-fail-to-resolve-during-prerendering)
     * [Render Mode Propagation](#render-mode-propagation)
+    * [Render Mode Inheritance](#render-mode-inheritance)
+    * [Child Components with Different Render Modes](#child-components-with-different-render-modes)
+    * [Interactive Component Parameters must be Serializable](#interactive-component-parameters-must-be-serializable)
+    * [Child Component must have same Render Mode as it's Parent](#child-component-must-have-same-render-mode-as-its-parent)
+    * [Closure of Circuits when there are no remaining Interactive Server Components](#closure-of-circuits-when-there-are-no-remaining-interactive-server-components)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -626,12 +631,19 @@ By default, components use the static server-side rendering (static SSR). The co
 
 ##### Interactive Server-side Rendering (Interactive SSR)
 Interactive server-side rendering (interactive SSR) renders the component interactively from the server using Blazor Server. User interactions are handled over a real-time connection with the browser. The circuit connection is established when the Server component is rendered.
+
+Interactive SSR components become interactive after the SignalR circuit is established.
+
 ```C#
 @rendermode InteractiveServer
 ```
 
 ##### Client-side Rendering (CSR)
-Client-side rendering (CSR) renders the component interactively on the client using Blazor WebAssembly. The .NET runtime and app bundle are downloaded and cached when the WebAssembly component is initially rendered. Components using CSR must be built from a separate client project that sets up the Blazor WebAssembly host.
+Client-side rendering (CSR) renders the component interactively on the client using Blazor WebAssembly. The .NET runtime and app bundle are downloaded and cached when the WebAssembly component is initially rendered. 
+
+CSR components become interactive after the Blazor app bundle is downloaded and the .NET runtime is active on the client.
+
+Components using CSR must be built from a separate client project that sets up the Blazor WebAssembly host.
 ```C#
 @rendermode InteractiveWebAssembly
 ```
@@ -654,6 +666,45 @@ Assuming that prerendering isn't disabled for a component or for the app, a comp
 The recomended approach is to register the services in the main project, which makes them available during prerendering. 
 
 ##### Render Mode Propagation
+Render modes propagate down the component hierarchy.
+
+**Rules for applying render modes:**
+- The default render mode is Static.
+- The Interactive Server (InteractiveServer), Interactive WebAssembly (InteractiveWebAssembly), and Interactive Auto (InteractiveAuto) render modes can be used from a component, including using different render modes for sibling components.
+- You can't switch to a different interactive render mode in a child component. For example, a Server component can't be a child of a WebAssembly component.
+- Parameters passed to an interactive child component from a Static parent must be JSON serializable. This means that you can't pass render fragments or child content from a Static parent component to an interactive child component.
+
+##### Render Mode Inheritance
+Child components inherit it's parent's render mode.
+
+In the following example the `SharedMessage` component inherits it's paren't `@rendermode InteractiveServer`.
+```C#
+@page "/render-mode-6"
+@rendermode InteractiveServer
+
+<SharedMessage />
+```
+
+##### Child Components with Different Render Modes
+In the following example, both `SharedMessage` components are prerendered (by default).
+- The first `SharedMessage` component with interactive server-side rendering (interactive SSR) is interactive after the **SignalR** circuit is established.
+- The second `SharedMessage` component with client-side rendering (CSR) is interactive after the Blazor app bundle is downloaded and the .NET runtime is active on the client.
+
+```C#
+@page "/render-mode-7"
+
+<SharedMessage @rendermode="InteractiveServer" />
+<SharedMessage @rendermode="InteractiveWebAssembly" />
+```
+
+##### Interactive Component Parameters must be Serializable
+Parameters for interactive components must be serializable. Non-serializable component parameters, such as child content or a render fragment, are not supported, and will result in a `System.InvalidOperationException`.
+
+##### Child Component must have same Render Mode as it's Parent
+Applying a different interactive render mode to a child component than its parent's render mode will result in a runtime error.
+
+##### Closure of Circuits when there are no remaining Interactive Server Components
+Interactive Server components handle web UI events using a real-time connection with the browser called a circuit. A circuit and its associated state are created when a root Interactive Server component is rendered. The circuit is closed when there are no remaining Interactive Server components on the page, which frees up server resources.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
