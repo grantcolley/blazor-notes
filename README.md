@@ -4,7 +4,7 @@
 >
 > In some cases, the note may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source\*.
 >
-> \* *this content is mostly from [**Microsoft**'s Blazor documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor), with some pointers to [**Mozilla** documentation](https://developer.mozilla.org/en-US/docs/Web) for additional reading about broader wed concepts.*
+> \* *this content is mostly from [**Microsoft**'s Blazor documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor), with some pointers to [**Mozilla** documentation](https://developer.mozilla.org/en-US/docs/Web) for additional reading about broader web development concepts.*
 
 ## Table of Contents
 * [Overview](#overview)
