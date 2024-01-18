@@ -227,21 +227,21 @@ Use `NavigationManager` to manage URIs and navigation.
 Enhanced navigation is enabled by default.
 
 Blazor Web Apps are capable of two types of routing for page navigation and form handling requests:
-- Normal navigation (cross-document navigation): a full-page reload is triggered for the request URL.
-- Enhanced navigation (same-document navigation): Blazor intercepts the request and performs a fetch request instead. Blazor then patches the response content into the page's DOM. Blazor's enhanced navigation and form handling avoid the need for a full-page reload and preserves more of the page state, so pages load faster, usually without losing the user's scroll position on the page.
+- **Normal navigation (cross-document navigation)**: a full-page reload is triggered for the request URL.
+- **Enhanced navigation (same-document navigation)**: Blazor intercepts the request and performs a fetch request instead. Blazor then patches the response content into the page's DOM. Blazor's enhanced navigation and form handling avoid the need for a full-page reload and preserves more of the page state, so pages load faster, usually without losing the user's scroll position on the page.
 
-Enhanced navigation is available when:
-- The Blazor Web App script (blazor.web.js) is used, not the Blazor Server script (blazor.server.js) or Blazor WebAssembly script (blazor.webassembly.js).
+**Enhanced navigation** is available when:
+- The Blazor Web App script `blazor.web.js` is used, not the Blazor Server script `blazor.server.js` or Blazor WebAssembly script `blazor.webassembly.js`.
 - The feature isn't explicitly disabled.
 - The destination URL is within the internal base URI space (the app's base path).
 
 If server-side routing and enhanced navigation are enabled, location changing handlers are only invoked for programmatic navigation initiated from an interactive runtime. In future releases, additional types of navigation, such as link clicks, may also invoke location changing handlers.
 
-When an enhanced navigation occurs, LocationChanged event handlers registered with Interactive Server and WebAssembly runtimes are typically invoked. There are cases when location changing handlers might not intercept an enhanced navigation. For example, the user might switch to another page before an interactive runtime becomes available.
+When an enhanced navigation occurs, `LocationChanged` event handlers registered with Interactive Server and WebAssembly runtimes are typically invoked. There are cases when location changing handlers might not intercept an enhanced navigation. For example, the user might switch to another page before an interactive runtime becomes available.
 
 When calling `NavigateTo`:
-- If forceLoad is false, which is the default: And enhanced navigation is available at the current URL, Blazor's enhanced navigation is activated. Otherwise, Blazor performs a full-page reload for the requested URL.
-- If forceLoad is true: Blazor performs a full-page reload for the requested URL, whether enhanced navigation is available or not.
+- If **forceLoad is false**, which is the default: And enhanced navigation is available at the current URL, Blazor's enhanced navigation is activated. Otherwise, Blazor performs a full-page reload for the requested URL.
+- If **forceLoad is true**: Blazor performs a full-page reload for the requested URL, whether enhanced navigation is available or not.
 
 You can refresh the current page by calling `NavigationManager.Refresh(bool forceLoad = false)`, which always performs an enhanced navigation, if available. If enhanced navigation isn't available, Blazor performs a full-page reload.
 
