@@ -1,4 +1,7 @@
 # blazor-notes
+
+ASP.NET Core Blazor .NET 8.0
+
 > [!IMPORTANT]
 > This is a collection of notes about **ASP.NET Core Blazor** taken while reading other resources\*. The purpose of this `readme` is simply to consolidate those notes I find important or useful in some way, into a single page for my own personal reference.
 > 
