@@ -68,8 +68,9 @@
     * [Interactive Component Parameters must be Serializable](#interactive-component-parameters-must-be-serializable)
     * [Child Component must have same Render Mode as it's Parent](#child-component-must-have-same-render-mode-as-its-parent)
     * [Closure of Circuits when there are no remaining Interactive Server Components](#closure-of-circuits-when-there-are-no-remaining-interactive-server-components)
- * [Prerender ASP.NET Core Razor Components](#prerender-asp-net-core-razor-components)
+  * [Prerender ASP.NET Core Razor Components](#prerender-asp-net-core-razor-components)
     * [Persist Prerendered State](#persist-prerendered-state)
+  * [Generic Type Support](#generic-type-support)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -792,6 +793,9 @@ The `PersistentComponentState` service can be used to persist state created duri
 By initializing components with the same state used during prerendering, any expensive initialization steps are only executed once. The rendered UI also matches the prerendered UI, so no flicker occurs in the browser.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
+
+## Generic Type Support
+
 
 
 
