@@ -64,6 +64,8 @@
     * [Interactive Component Parameters must be Serializable](#interactive-component-parameters-must-be-serializable)
     * [Child Component must have same Render Mode as it's Parent](#child-component-must-have-same-render-mode-as-its-parent)
     * [Closure of Circuits when there are no remaining Interactive Server Components](#closure-of-circuits-when-there-are-no-remaining-interactive-server-components)
+ * [Prerender ASP.NET Core Razor Components](#prerender-asp-net-core-razor-components)
+    * [Persist Prerendered State](#persist-prerendered-state)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -707,6 +709,19 @@ Applying a different interactive render mode to a child component than its paren
 Interactive Server components handle web UI events using a real-time connection with the browser called a circuit. A circuit and its associated state are created when a root Interactive Server component is rendered. The circuit is closed when there are no remaining Interactive Server components on the page, which frees up server resources.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
+
+## Prerender ASP.NET Core Razor Components
+Prerendering is the process of initially rendering page content on the server without enabling event handlers for rendered controls. The server outputs the HTML UI of the page as soon as possible in response to the initial request, which makes the app feel more responsive to users.
+
+### Persist Prerendered State
+State used during prerendering is lost and must be recreated when the app is fully loaded.
+
+Component may set initial state during prerendering in `OnInitialized` lifecycle method. After the `SignalR` connection to the client is established, the component rerenders, and the initial state is replaced when `OnInitialized` executes a second time. If any state is created asynchronously, the UI may flicker as the prerendered UI is replaced when the component is rerendered.
+
+State created during prerendering can be persisted to avoid having to recreate it when `OnInitialized` executes a second time.
+
+
+[*Reference - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
 
 
 
