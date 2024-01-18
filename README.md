@@ -5,7 +5,7 @@
 > 
 > In some cases, the notes may be a copy and paste. In others, I may shorten it as per my understanding of the original text. In all cases, the content is not my own and I provide a link to the original source\*.
 >
-> \* *this content is mostly from [**Microsoft**'s Blazor documentation](https://learn.microsoft.com/en-us/aspnet/core/blazor), with some pointers to [**Microsoft**'s ASP.NET Core documentation](https://learn.microsoft.com/en-us/aspnet/core/fundamentals) and [**Mozilla** documentation](https://developer.mozilla.org/en-US/docs/Web) for additional reading about broader web development concepts.*
+> \* *this content is mostly from [**Microsoft's Blazor documentation**](https://learn.microsoft.com/en-us/aspnet/core/blazor), with some pointers to [**Microsoft's ASP.NET Core documentation**](https://learn.microsoft.com/en-us/aspnet/core/fundamentals) and [**Mozilla MDN Web Docs**](https://developer.mozilla.org/en-US/docs/Web) for additional reading about broader web development concepts.*
 
 ##### ASP.NET Core Blazor .NET 8.0
 
