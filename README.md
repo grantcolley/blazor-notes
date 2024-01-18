@@ -120,7 +120,7 @@ Interactive or **interactive rendering** means that the **component has the capa
 
 [*Reference - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
 
-### Routing and navigation
+## Routing and navigation
 If **prerendering** isn't disabled, the Blazor router (Router component, `<Router>` in `Routes.razor`) performs static routing to components during **static server-side rendering** (static SSR). This type of routing is called static routing.
 
 When an **interactive render mode** is assigned to the Routes component, the Blazor router becomes ***interactive after static SSR*** with static routing on the server. This type of routing is called interactive routing.
@@ -144,16 +144,16 @@ Components support multiple route templates using multiple `@page` directives.
 @page "/different-blazor-route"
 ```
 
-##### Focus an Element on Navigation
+### Focus an Element on Navigation
 The `FocusOnNavigate` component sets the UI focus to an element based on a CSS selector after navigating from one page to another.
 ```C#
 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
 ```
 
-##### Route to Components from Multiple Assemblies
+### Route to Components from Multiple Assemblies
 Use the Router component's `AdditionalAssemblies` parameter and the endpoint convention builder `AddAdditionalAssemblies` to discover routable components in additional assemblies. 
 
-##### Interactive Routing
+### Interactive Routing
 An interactive render mode can be assigned to the Routes component `Routes.razor`, that makes the Blazor router become interactive after static SSR and static routing on the server.
 ```
 <Routes @rendermode="InteractiveServer" />
@@ -173,7 +173,7 @@ If the `Routes` component is defined in the server project, the `AdditionalAssem
 </Router>
 ```
 
-##### Route Parameters
+### Route Parameters
 Route parameter names are case insensitive. Optional parameters are supported.
 ```C#
 @page "/route-parameter-2/{text?}"
@@ -207,7 +207,7 @@ Components can specify route parameters in the route template of the `@page` dir
 }
 ```
 
-##### NavigationManager
+### NavigationManager
 Use `NavigationManager` to manage URIs and navigation.
 
 * **NavigationManager.NavigateTo** - if `forceLoad == true`, client-side routing is bypassed and the browser is forced to load the new page from the server
@@ -218,12 +218,12 @@ Use `NavigationManager` to manage URIs and navigation.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
 
-### Dependency Injection
+## Dependency Injection
 Register common services
 
 If one or more common services are required client- and server-side, you can place the common service registrations in a method client-side and call the method to register the services in both projects.
 
-##### Service Lifetime
+### Service Lifetime
 **Scoped**
 - Client-side doesn't currently have a concept of DI scopes. Scoped-registered services behave like Singleton services.
 - Server-side development supports the Scoped lifetime across HTTP requests but not across SignalR connection/circuit messages among components that are loaded on the client. It recreates the services on each HTTP request.
@@ -242,7 +242,7 @@ Inject the services into the components using the `@inject` Razor directive or `
 protected IDataAccess DataRepository { get; set; } = default!;
 ```
 
-##### Keyed Services
+### Keyed Services
 Blazor supports injecting keyed services using the `[Inject]` attribute. Keys allow for scoping of registration and consumption of services when using dependency injection.
 ```C#
 [Inject(Key = "my-service")]
@@ -252,7 +252,7 @@ public IMyService MyService { get; set; }
 > [!TIP]
 > In ASP.NET Core apps, scoped services are typically scoped to the current request. After the request completes, any scoped or transient services are disposed by the DI system. Server-side, the request scope lasts for the duration of the client connection, which can result in transient and scoped services living much longer than expected. Client-side, services registered with a scoped lifetime are treated as singletons, so they live longer than scoped services in typical ASP.NET Core apps.
 
-##### OwningComponentBase
+### OwningComponentBase
 **OwningComponentBase** is an abstract type derived from `ComponentBase` that creates a DI scope corresponding to the lifetime of the component. Using this scope, it's possible to use DI services with a scoped lifetime and have them live as long as the component.
 
 **OwningComponentBase** is an abstract, disposable child of the `ComponentBase` type with a protected `ScopedServices` property of type `IServiceProvider`. The provider can be used to resolve services that are scoped to the lifetime of the component.
@@ -272,20 +272,20 @@ public IMyService MyService { get; set; }
 
 [*Reference - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
 
-### Startup
-##### Startup Process
+## Startup
+### Startup Process
 The Blazor startup process is automatic and asynchronous via the Blazor script `blazor.*.js`, where the * placeholder is:
 - web for a Blazor Web App
 - server for a Blazor Server app
 - webassembly for a Blazor WebAssembly app
 
-##### Load Client-side Boot Resources
+### Load Client-side Boot Resources
 When an app loads in the browser, the app downloads boot resources from the server:
 - JavaScript code to bootstrap the app
 - .NET runtime and assemblies
 - Locale specific data
 
-##### Control Headers in Code
+### Control Headers in Code
 **Server-side and Prerendered Client-side Scenarios**
 <br>
 Use ASP.NET Core Middleware to control the headers collection.
@@ -316,7 +316,7 @@ app.MapFallbackToFile("index.html", staticFileOptions);
 ```
 [*Reference - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
 
-### Logging
+## Logging
 Logging configuration can be loaded from app settings files. For more information, see ASP.NET Core Blazor configuration.
 
 At default log levels and without configuring additional logging providers:
@@ -325,8 +325,8 @@ At default log levels and without configuring additional logging providers:
 
 [*Reference - Microsoft ASP.NET Core Blazor : Logging*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging).
 
-### Exceptions
-##### Handle Caught Exceptions Outside of a Razor Component's Lifecycle
+## Exceptions
+### Handle Caught Exceptions Outside of a Razor Component's Lifecycle
 Use `ComponentBase.DispatchExceptionAsync` in a Razor component to process exceptions thrown outside of the component's lifecycle call stack. This permits the component's code to treat exceptions as though they're lifecycle method exceptions. Thereafter, Blazor's error handling mechanisms, such as error boundaries, can process the exceptions.
 <br>
 `ComponentBase.DispatchExceptionAsync` is used in Razor component files that inherit from `ComponentBase`.
@@ -342,8 +342,8 @@ catch (Exception ex)
 ```
 A common scenario is if a component wants to start an asynchronous operation but doesn't await a Task. If the operation fails, you may still want the component to treat the failure as a component lifecycle exception.
 
-##### Detailed Errors
-###### Circuit Errors
+### Detailed Errors
+#### Circuit Errors
 This applies to Blazor Web Apps operating over a circuit.
 <br>
 For development purposes, sensitive circuit error information can be made available to the client by enabling detailed errors.
@@ -363,7 +363,7 @@ Set the DetailedErrors configuration key to true in the app's Development enviro
 }
 ```
 
-###### Razor Component Server-side Rendering
+#### Razor Component Server-side Rendering
 Use the `RazorComponentsServiceOptions.DetailedErrors` option to control producing detailed information on errors for Razor component server-side rendering. The default value is `false`.
 ```C#
 builder.Services.AddRazorComponents(options => options.DetailedErrors = true);
@@ -372,9 +372,9 @@ builder.Services.AddRazorComponents(options => options.DetailedErrors = true);
 > [!WARNING]
 > Only enable detailed errors in the Development environment.
 
-##### Global Exception Handling
+### Global Exception Handling
 
-###### ErrorBoundary
+#### ErrorBoundary
 To define an error boundary, use the `ErrorBoundary` component to wrap existing content. The app continues to function normally, but the error boundary handles unhandled exceptions.
 ```C#
 <article class="content px-4">
@@ -400,7 +400,7 @@ To define an error boundary, use the `ErrorBoundary` component to wrap existing 
 [*Reference - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
 
 # Components
-### Components Overview
+## Components Overview
 Blazor apps are built using Razor components with the `.razor` file extension using a combination of C# and HTML markup, that render into an in-memory representation of the browser's `Document Object Model (DOM)` called a render tree, which is used to update the UI.
 
 Components are ordinary C# classes and `ComponentBase` is the base class for components, defining properties and methods for basic functionality, like processing a set of built-in component lifecycle events.
@@ -427,19 +427,19 @@ A component's name must start with an uppercase character e.g. `ProductDetail.ra
 
 Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
 
-##### Markup
+### Markup
 When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
 
 > [!NOTE]
 > The Blazor framework processes a component internally as a [render tree](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#render), which is the combination of a component's DOM and [Cascading Style Sheet Object Model (CSSOM)](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model). After the component is initially rendered, the component's render tree is regenerated in response to events. Blazor compares the new render tree against the previous render tree and applies any modifications to the browser's DOM for display.
 
-##### Asynchronous Methods
+### Asynchronous Methods
 > [!WARNING]
 > The Blazor framework doesn't track void-returning asynchronous methods `async`. As a result, exceptions aren't caught if void is returned. Always return a `Task` from asynchronous methods.
 
 Unlike in Razor pages (.cshtml), Blazor can't perform asynchronous work in a Razor expression while rendering a component. This is because Blazor is designed for rendering interactive UIs. In an interactive UI, the screen must always display something, so it doesn't make sense to block the rendering flow. Instead, asynchronous work is performed during one of the asynchronous lifecycle events. After each asynchronous lifecycle event, the component may render again.
 
-##### Render Fragments
+### Render Fragments
 Components can set the content of another component using `RenderFragment`.
 
 `RenderFragmentChild.razor`:
@@ -465,7 +465,7 @@ The following component provides content for rendering the `RenderFragmentChild.
 </RenderFragmentChild>
 ```
 
-##### Capture References to Components
+### Capture References to Components
 To capture a component reference:
 - Add an `@ref` attribute to the child component.
 - Define a field with the same type as the child component.
@@ -509,7 +509,7 @@ To manipulate component references after the component has finished rendering, u
 }
 ```
 
-##### Static Assets
+### Static Assets
 Static assets are located in the project's [web root (wwwroot)](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root) folder or folders under the `wwwroot` folder.
 
 Use a base-relative path (/) to refer to the web root for a static asset.
@@ -517,7 +517,7 @@ Use a base-relative path (/) to refer to the web root for a static asset.
 <img alt="Company logo" src="/images/logo.png" />
 ```
 
-##### Root Component
+### Root Component
 A root Razor component (root component) is the first component loaded of any component hierarchy created by the app.
 
 In an app created from the Blazor Web App project template, the App component (App.razor) is specified as the default root component in the `Program.cs` file.
@@ -540,7 +540,7 @@ builder.RootComponents.Add<App>("#app");
 <br>
 [*Reference - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
-### Render Modes
+## Render Modes
 Every component in a Blazor Web App adopts a render mode to determine the hosting model that it uses, where it's rendered, and whether or not it's interactive.
 
 Render mode is applied using a `@rendermode` directive on the component instance or on the component definition
@@ -553,7 +553,7 @@ Render mode is applied using a `@rendermode` directive on the component instance
 > [!IMPORTANT]
 > Prerendering is enabled by default for interactive components.
 
-##### Enabling Interactive Render Modes
+### Enabling Interactive Render Modes
 A Blazor Web App must be configured to support interactive render modes in it's `Program.cs`.
 
 **Component builder extensions** adds services to support rendering Interactive Server `AddInteractiveServerComponents` or Interactive WebAssembly components `AddInteractiveWebAssemblyComponents`.
@@ -583,14 +583,14 @@ app.MapRazorComponents<App>()
 > [!NOTE]
 > Individual components are still required to declare their render mode.
 
-##### Apply a Render Mode to a Component
+### Apply a Render Mode to a Component
 
-###### Apply a Render Mode to a Component Instance
+#### Apply a Render Mode to a Component Instance
 ```C#
 <Dialog @rendermode="InteractiveServer" />
 ```
 
-###### Apply a Render Mode to a Component Definition
+#### Apply a Render Mode to a Component Definition
 ```C#
 @page "..."
 @rendermode InteractiveServer
@@ -603,13 +603,13 @@ Routable pages by default use the same render mode as the Router component that 
 > [!TIP]
 > Component authors should avoid coupling a component's implementation to a specific render mode. Instead, component authors should typically design components to support any render mode or hosting model. A component's implementation should avoid assumptions on where it's running (server or client)
 
-##### Apply a Render Mode to the Entire App
+### Apply a Render Mode to the Entire App
 To set the render mode for the entire app, indicate the render mode at the highest-level interactive component in the app's component hierarchy that isn't a root component. This is typically specified where the Routes component is used in the App component `Components/App.razor`:
 ```C#
 <Routes @rendermode="InteractiveServer" />
 ```
 
-##### Prerendering
+### Prerendering
 Prerendering is the process of initially rendering page content on the server without enabling event handlers for rendered controls.
 
 > [!NOTE]
@@ -626,7 +626,7 @@ To disable prerendering in a component definition:
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 ```
 
-##### Static Server-side Rendering (Static SSR)
+### Static Server-side Rendering (Static SSR)
 By default, components use the static server-side rendering (static SSR). The component renders to the response stream and interactivity isn't enabled.
 
 ##### Interactive Server-side Rendering (Interactive SSR)
@@ -638,7 +638,7 @@ Interactive SSR components become interactive after the SignalR circuit is estab
 @rendermode InteractiveServer
 ```
 
-##### Client-side Rendering (CSR)
+### Client-side Rendering (CSR)
 Client-side rendering (CSR) renders the component interactively on the client using Blazor WebAssembly. The .NET runtime and app bundle are downloaded and cached when the WebAssembly component is initially rendered. 
 
 CSR components become interactive after the Blazor app bundle is downloaded and the .NET runtime is active on the client.
@@ -650,7 +650,7 @@ Components using CSR must be built from a separate client project that sets up t
 > [!TIP]
 > Components using CSR must be built from a separate client project that sets up the Blazor WebAssembly host.
 
-##### Automatic (Auto) Rendering
+### Automatic (Auto) Rendering
 The component is initially rendered with interactive server-side rendering (interactive SSR) using the Blazor Server hosting model. The .NET runtime and app bundle are downloaded to the client in the background and cached so that they can be used on future visits.
 
 The Auto render mode never dynamically changes the render mode of a component already on the page. The Auto render mode makes an initial decision about which type of interactivity to use for a component, then the component keeps that type of interactivity for as long as it's on the page. One factor in this initial decision is considering whether components already exist on the page with WebAssembly/Server interactivity. Auto mode prefers to select a render mode that matches the render mode of existing interactive components. The reason that the Auto mode prefers to use an existing interactivity mode is to avoid introducing a new interactive runtime that doesn't share state with the existing runtime.
@@ -660,12 +660,12 @@ The Auto render mode never dynamically changes the render mode of a component al
 > [!TIP]
 > Components using the Auto render mode must be built from a separate client project that sets up the Blazor WebAssembly host.
 
-##### Client-side Services fail to Resolve during Prerendering
+### Client-side Services fail to Resolve during Prerendering
 Assuming that prerendering isn't disabled for a component or for the app, a component in the .Client project is prerendered on the server. Because the server doesn't have access to registered client-side Blazor services, it isn't possible to inject these services into a component without receiving an error that the service can't be found during prerendering.
 
 The recomended approach is to register the services in the main project, which makes them available during prerendering. 
 
-##### Render Mode Propagation
+### Render Mode Propagation
 Render modes propagate down the component hierarchy.
 
 **Rules for applying render modes:**
@@ -674,7 +674,7 @@ Render modes propagate down the component hierarchy.
 - You can't switch to a different interactive render mode in a child component. For example, a Server component can't be a child of a WebAssembly component.
 - Parameters passed to an interactive child component from a Static parent must be JSON serializable. This means that you can't pass render fragments or child content from a Static parent component to an interactive child component.
 
-##### Render Mode Inheritance
+### Render Mode Inheritance
 Child components inherit it's parent's render mode.
 
 In the following example the `SharedMessage` component inherits it's paren't `@rendermode InteractiveServer`.
@@ -685,7 +685,7 @@ In the following example the `SharedMessage` component inherits it's paren't `@r
 <SharedMessage />
 ```
 
-##### Child Components with Different Render Modes
+### Child Components with Different Render Modes
 In the following example, both `SharedMessage` components are prerendered (by default).
 - The first `SharedMessage` component with interactive server-side rendering (interactive SSR) is interactive after the **SignalR** circuit is established.
 - The second `SharedMessage` component with client-side rendering (CSR) is interactive after the Blazor app bundle is downloaded and the .NET runtime is active on the client.
@@ -697,13 +697,13 @@ In the following example, both `SharedMessage` components are prerendered (by de
 <SharedMessage @rendermode="InteractiveWebAssembly" />
 ```
 
-##### Interactive Component Parameters must be Serializable
+### Interactive Component Parameters must be Serializable
 Parameters for interactive components must be serializable. Non-serializable component parameters, such as child content or a render fragment, are not supported, and will result in a `System.InvalidOperationException`.
 
-##### Child Component must have same Render Mode as it's Parent
+### Child Component must have same Render Mode as it's Parent
 Applying a different interactive render mode to a child component than its parent's render mode will result in a runtime error.
 
-##### Closure of Circuits when there are no remaining Interactive Server Components
+### Closure of Circuits when there are no remaining Interactive Server Components
 Interactive Server components handle web UI events using a real-time connection with the browser called a circuit. A circuit and its associated state are created when a root Interactive Server component is rendered. The circuit is closed when there are no remaining Interactive Server components on the page, which frees up server resources.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
