@@ -22,6 +22,7 @@
     * [Interactive-Routing](#interactive-routing)
     * [Route Parameters](#route-parameters)
     * [NavigationManager](#navigationmanager)
+    * [Enhanced Navigation and Form Handling](#enhanced-navigation-and-form-handling)
   * [Dependency Injection](#dependency-injection)
     * [Service Lifetime](#service-lifetime)
     * [Keyed Services](#keyed-services)
@@ -217,6 +218,29 @@ Use `NavigationManager` to manage URIs and navigation.
 * **NavigationManager.LocationChanged** - event fired when the navigation path has changed. If `IsNavigationIntercepted == true`, then the Blazor intercepted the navigation from the browser, else `NavigationManager.NavigateTo` caused the navigation to occur.
 
 * **NavigationManager.Refresh(bool forceLoad = false)** - refreshes the page
+
+### Enhanced Navigation and Form Handling
+
+Enhanced navigation is enabled by default.
+
+Blazor Web Apps are capable of two types of routing for page navigation and form handling requests:
+- Normal navigation (cross-document navigation): a full-page reload is triggered for the request URL.
+- Enhanced navigation (same-document navigation): Blazor intercepts the request and performs a fetch request instead. Blazor then patches the response content into the page's DOM. Blazor's enhanced navigation and form handling avoid the need for a full-page reload and preserves more of the page state, so pages load faster, usually without losing the user's scroll position on the page.
+
+Enhanced navigation is available when:
+- The Blazor Web App script (blazor.web.js) is used, not the Blazor Server script (blazor.server.js) or Blazor WebAssembly script (blazor.webassembly.js).
+- The feature isn't explicitly disabled.
+- The destination URL is within the internal base URI space (the app's base path).
+
+If server-side routing and enhanced navigation are enabled, location changing handlers are only invoked for programmatic navigation initiated from an interactive runtime. In future releases, additional types of navigation, such as link clicks, may also invoke location changing handlers.
+
+When an enhanced navigation occurs, LocationChanged event handlers registered with Interactive Server and WebAssembly runtimes are typically invoked. There are cases when location changing handlers might not intercept an enhanced navigation. For example, the user might switch to another page before an interactive runtime becomes available.
+
+When calling `NavigateTo`:
+- If forceLoad is false, which is the default: And enhanced navigation is available at the current URL, Blazor's enhanced navigation is activated. Otherwise, Blazor performs a full-page reload for the requested URL.
+- If forceLoad is true: Blazor performs a full-page reload for the requested URL, whether enhanced navigation is available or not.
+
+You can refresh the current page by calling `NavigationManager.Refresh(bool forceLoad = false)`, which always performs an enhanced navigation, if available. If enhanced navigation isn't available, Blazor performs a full-page reload.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
 
@@ -720,6 +744,49 @@ Component may set initial state during prerendering in `OnInitialized` lifecycle
 
 State created during prerendering can be persisted to avoid having to recreate it when `OnInitialized` executes a second time.
 
+> [NOTE]
+> If the app adopts [interactive (enhanced) routing](#enhanced-navigation-and-form-handling) and the page is reached via an internal navigation, prerendering doesn't occur. Therefore, you must perform a full page reload for the PrerenderedCounter1 component.
+
+The `PersistentComponentState` service can be used to persist state created during the prerendering stage. `PersistentComponentState.RegisterOnPersisting` registers a callback to persist the component state before the app is paused. The state is retrieved when the app resumes.
+
+```C#
+@implements IDisposable
+@inject PersistentComponentState ApplicationState
+
+...
+
+@code {
+    private {TYPE} data;
+    private PersistingComponentStateSubscription persistingSubscription;
+
+    protected override async Task OnInitializedAsync()
+    {
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistData);
+
+        if (!ApplicationState.TryTakeFromJson<{TYPE}>("{TOKEN}", out var restored))
+        {
+            data = await ...;
+        }
+        else
+        {
+            data = restored!;
+        }
+    }
+
+    private Task PersistData()
+    {
+        ApplicationState.PersistAsJson("{TOKEN}", data);
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+}
+```
+
+By initializing components with the same state used during prerendering, any expensive initialization steps are only executed once. The rendered UI also matches the prerendered UI, so no flicker occurs in the browser.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
 
