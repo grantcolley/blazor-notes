@@ -747,7 +747,7 @@ Component may set initial state during prerendering in `OnInitialized` lifecycle
 
 State created during prerendering can be persisted to avoid having to recreate it when `OnInitialized` executes a second time.
 
-> [NOTE]
+> [!NOTE]
 > If the app adopts [interactive (enhanced) routing](#enhanced-navigation-and-form-handling) and the page is reached via an internal navigation, prerendering doesn't occur. Therefore, you must perform a full page reload for the PrerenderedCounter1 component.
 
 The `PersistentComponentState` service can be used to persist state created during the prerendering stage. `PersistentComponentState.RegisterOnPersisting` registers a callback to persist the component state before the app is paused. The state is retrieved when the app resumes.
