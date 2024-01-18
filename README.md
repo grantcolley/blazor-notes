@@ -797,6 +797,8 @@ By initializing components with the same state used during prerendering, any exp
 ## Generic Type Support
 
 
+[*Reference - Microsoft ASP.NET Core Blazor : Generic Type Support*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support)
+
 
 
 
