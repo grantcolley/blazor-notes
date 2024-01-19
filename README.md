@@ -886,7 +886,7 @@ When a components method is onvoked by a service outside of Blazor's synchroniza
 
 ## Preserve Relationships with @key
 
-[*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
+[*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships)
 
 
 
