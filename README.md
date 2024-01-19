@@ -74,7 +74,9 @@
     * [Generic Type Parameter Support](#generic-type-parameter-support)  
     * [Cascaded Generic Type Support](#cascaded-generic-type-support)
   * [Synchronization Context](#synchronization-context)
-
+    * [Avoid Thread-blocking Calls](#avoid-thread-blocking-calls)
+    * [Invoke Component Methods Externally to Update State](#invoke-component-methods-externally-to-update-state)
+  * [Preserve Relationships with @key](#preserve-relationships-with-key)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -852,8 +854,40 @@ When cascading the data in the following, the type must be provided to the compo
 [*Reference - Microsoft ASP.NET Core Blazor : Generic Type Support*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support)
 
 ## Synchronization Context
+Blazor uses a synchronization context (`SynchronizationContext`) to enforce a single logical thread of execution. A component's lifecycle methods and event callbacks raised by Blazor are executed on the synchronization context.
+
+Blazor's server-side synchronization context attempts to emulate a single-threaded environment so that it closely matches the WebAssembly model in the browser, which is single threaded. At any given point in time, work is performed on exactly one thread, which yields the impression of a single logical thread. No two operations execute concurrently.
+
+### Avoid Thread-blocking Calls
+The following methods block the execution thread and thus block the app from resuming work until the underlying Task is complete:
+- Result
+- Wait
+- WaitAny
+- WaitAll
+- Sleep
+- GetResult
+
+### Invoke Component Methods Externally to Update State
+In the event a component must be updated based on an external event, such as a timer or other notification, use the `InvokeAsync` method, which dispatches code execution to Blazor's synchronization context.
+
+When a components method is onvoked by a service outside of Blazor's synchronization context, the component can use `InvokeAsync` to switch to the correct context. 
+```C#
+    public async Task OnNotify(string key, int value)
+    {
+        await InvokeAsync(() =>
+        {
+            // do stuff here under the correct context...
+            StateHasChanged();
+        });
+    }
+```
 
 [*Reference - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
+
+## Preserve Relationships with @key
+
+[*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
+
 
 
 
