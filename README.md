@@ -71,6 +71,10 @@
   * [Prerender ASP.NET Core Razor Components](#prerender-asp-net-core-razor-components)
     * [Persist Prerendered State](#persist-prerendered-state)
   * [Generic Type Support](#generic-type-support)
+    * [Generic Type Parameter Support](#generic-type-parameter-support)  
+    * [Cascaded Generic Type Support](#cascaded-generic-type-support)
+  * [Synchronization Context](#synchronization-context)
+
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -795,11 +799,61 @@ By initializing components with the same state used during prerendering, any exp
 [*Reference - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
 
 ## Generic Type Support
+### Generic Type Parameter Support
+The `@typeparam` directive declares a generic type parameter.
 
+```C#
+@typeparam TEntity where TEntity : IEntity
+```
+
+```C#
+@typeparam TExample
+
+@if (ExampleList is not null)
+{
+    <ul>
+        @foreach (var item in ExampleList)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<TExample>? ExampleList{ get; set; }
+}
+```
+
+### Cascaded Generic Type Support
+An ancestor component can cascade a type parameter by name to descendants using the `[CascadingTypeParameter]` attribute.
+
+```C#
+@attribute [CascadingTypeParameter(nameof(TExample))]
+@typeparam TExample
+```
+
+By adding @attribute `[CascadingTypeParameter(...)]` to a component, the specified generic type argument is automatically used by descendants that:
+- Are nested as child content for the component in the same .razor document.
+- Also declare a `@typeparam` with the exact same name.
+- Don't have another value explicitly supplied or implicitly inferred for the type parameter. If another value is supplied or inferred, it takes precedence over the cascaded generic type.
+
+When cascading the data in the following, the type must be provided to the component.
+
+```C#
+<CascadingValue Value="@stringData">
+    <ListGenericTypeItems3 TExample="string">
+        <ListDisplay1 />
+        <ListDisplay2 />
+    </ListGenericTypeItems3>
+</CascadingValue>
+```
 
 [*Reference - Microsoft ASP.NET Core Blazor : Generic Type Support*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support)
 
+## Synchronization Context
 
+[*Reference - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
 
 
 
