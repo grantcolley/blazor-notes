@@ -83,6 +83,7 @@
     * [Apply a Layout to a Component](#apply-a-layout-to-a-component)
     * [Apply a Layout to a Folder of Components](#apply-a-layout-to-a-folder-of-components)
     * [Apply a Default Layout to an App](#apply-a-default-layout-to-an-app)
+  * [Sections](#sections) 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1010,6 +1011,24 @@ Specify the default app layout in the `Router` component's `RouteView` component
 
 [*Reference - Microsoft ASP.NET Core Blazor : Layout*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/layouts)
 
+## Sections
+Sections allow you to control the content in a Razor component from a child Razor component.
+`SectionOutlet` renders content provided by `SectionContent` components with matching `SectionName` or `SectionId` arguments. Two or more `SectionOutlet` components can't have the same `SectionName` or `SectionId`.
+```C#
+<SectionOutlet SectionName="my-section-name" />
+```
+
+`SectionContent` provides content as a `RenderFragment` to `SectionOutlet` components with a matching `SectionName` or `SectionId`. If several `SectionContent` components have the same `SectionName` or `SectionId`, the matching `SectionOutlet` component renders the content of the **last** rendered `SectionContent`.
+```C#
+<SectionContent SectionName="my-section-name">
+    <button class="btn btn-primary">Click me</button>
+</SectionContent>
+```
+
+> [!WARNING]
+> `SectionName` and `SectionId` are mutually exclusive. Use one or the other.
+
+[*Reference - Microsoft ASP.NET Core Blazor : Sections*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/sections)
 
 
 
