@@ -84,7 +84,7 @@
     * [Apply a Layout to a Folder of Components](#apply-a-layout-to-a-folder-of-components)
     * [Apply a Default Layout to an App](#apply-a-default-layout-to-an-app)
   * [Sections](#sections)
-  * [Control <head> Content](#control-head-content)
+  * [Control \<head\> Content](#control-head-content)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1031,7 +1031,7 @@ Sections allow you to control the content in a Razor component from a child Razo
 
 [*Reference - Microsoft ASP.NET Core Blazor : Sections*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/sections)
 
-## Control <head> Content
+## Control \<head\> Content
 Razor components can modify the HTML `<head>` element content of a page, including setting the page's `<title>` element and modifying `<meta>` elements.
 
 Specify the page's title with the `<PageTitle>` component, which enables rendering an HTML `<title>` element to a HeadOutlet component.
