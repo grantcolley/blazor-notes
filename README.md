@@ -885,7 +885,46 @@ When a components method is onvoked by a service outside of Blazor's synchroniza
 [*Reference - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
 
 ## Preserve Relationships with @key
+### Use of the @key Directive Attribute
+When rendering a list of elements or components and the elements or components subsequently change, Blazor must decide which of the previous elements or components are retained and how model objects should map to them. Normally, this process is automatic and sufficient for general rendering, but there are often cases where controlling the process using the `@key` directive attribute is required.
 
+The mapping process of elements or components to a collection can be controlled with the `@key` directive attribute. Use of `@key` guarantees the preservation of elements or components based on the key's value.
+
+In the following example, when the people collection changes, the association between `Details` instances and `person` instances is retained. With the `Details` component keyed on the person item, Blazor ignores rerendering `Details` components that haven't changed.
+
+```C#
+<h1>People Example</h1>
+
+@foreach (var person in people)
+{
+    <Details @key="person" Data="@person.Data" />
+}
+```
+
+ If an person instance changes, the `@key` attribute directive forces Blazor to:
+- Discard the entire `<Details>` and their descendants.
+- Rebuild the subtree within the UI with new elements and components.
+
+This is useful to guarantee that no UI state is preserved when the collection changes within a subtree.
+
+Other collection updates exhibit the same behavior when the `@key` directive attribute is used:
+- When a `Person` is inserted at the beginning of the collection, one new `Details` instance is inserted at that corresponding position. Other instances are left unchanged.
+- If an instance is deleted from the collection, only the corresponding component instance is removed from the UI. Other instances are left unchanged.
+- If collection entries are re-ordered, the corresponding component instances are preserved and re-ordered in the UI.
+
+Generally, it makes sense to supply one of the following values for `@key`:
+- Model object instances. For example, the `Person` instance (`person`) was used in the earlier example. This ensures preservation based on object reference equality.
+- Unique identifiers. For example, unique identifiers can be based on primary key values of type `int`, `string`, or `Guid`.
+
+> [!NOTE]
+> The only advantage to using @key is control over how model instances are mapped to the preserved component instances, instead of Blazor selecting the mapping.
+
+> [!TIP]
+> Typically, it makes sense to use `@key` whenever a list is rendered (for example, in a `foreach` block) and a suitable value exists to define the `@key`.
+
+> [!WARNING]
+> There's a performance cost when rendering with `@key`. The performance cost isn't large, but only specify `@key` if preserving the element or component benefits the app.
+ 
 [*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships)
 
 
