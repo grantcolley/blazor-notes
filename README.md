@@ -78,6 +78,7 @@
     * [Invoke Component Methods Externally to Update State](#invoke-component-methods-externally-to-update-state)
   * [Preserve Relationships with @key](#preserve-relationships-with-key)
   * [Overwriting Parameters](#overwriting-parameters)
+  * [Attribute Splatting](#attribute-splatting)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -929,15 +930,47 @@ Generally, it makes sense to supply one of the following values for `@key`:
 
 ## Overwriting Parameters
 The Blazor framework generally imposes safe parent-to-child parameter assignment:
+- Parameters aren't overwritten unexpectedly.
+- Side effects are minimized. For example, additional renders are avoided because they may create infinite rendering loops.
 
-Parameters aren't overwritten unexpectedly.
-Side effects are minimized. For example, additional renders are avoided because they may create infinite rendering loops.
+A child component receives new parameter values that possibly overwrite existing values when the parent component rerenders.
+
+> [!NOTE]
+> General guidance is not to create components that directly write to their own parameters after the component is rendered for the first time.
 
 [*Reference - Microsoft ASP.NET Core Blazor : Overwriting Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/overwriting-parameters)
 
+## Attribute Splatting
+Additional attributes can be captured in a dictionary and then *splatted* onto an element when the component is rendered using the `@attributes` Razor directive attribute.
 
+```C#
+<input id="useIndividualParams"
+       maxlength="@maxlength"
+       placeholder="@placeholder"
+       required="@required"
+       size="@size" />
 
+<input id="useAttributesDict"
+       @attributes="InputAttributes" />
 
+@code {
+    private string maxlength = "10";
+    private string placeholder = "Input placeholder text";
+    private string required = "required";
+    private string size = "50";
+
+    private Dictionary<string, object> InputAttributes { get; set; } =
+        new()
+        {
+            { "maxlength", "10" },
+            { "placeholder", "Input placeholder text" },
+            { "required", "required" },
+            { "size", "50" }
+        };
+}
+```
+
+[*Reference - Microsoft ASP.NET Core Blazor : Attribute Splatting*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/splat-attributes-and-arbitrary-parameters)
 
 
 
