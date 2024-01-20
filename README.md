@@ -885,7 +885,6 @@ When a components method is onvoked by a service outside of Blazor's synchroniza
 [*Reference - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
 
 ## Preserve Relationships with @key
-### Use of the @key Directive Attribute
 When rendering a list of elements or components and the elements or components subsequently change, Blazor must decide which of the previous elements or components are retained and how model objects should map to them. Normally, this process is automatic and sufficient for general rendering, but there are often cases where controlling the process using the `@key` directive attribute is required.
 
 The mapping process of elements or components to a collection can be controlled with the `@key` directive attribute. Use of `@key` guarantees the preservation of elements or components based on the key's value.
