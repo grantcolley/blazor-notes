@@ -102,7 +102,7 @@ Blazor Web Apps provide a component-based architecture with server-side renderin
 
 * **Hybrid** <br>Blazor Hybrid enables using Razor components in a native client app with a blend of native and web technologies for web, mobile, and desktop platforms. Code runs natively in the .NET process and renders web UI to an embedded Web View control using a local interop channel. WebAssembly isn't used in Hybrid apps. Hybrid apps are built with .NET Multi-platform App UI (.NET MAUI), which is a cross-platform framework for creating native mobile and desktop apps with C# and XAML.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor)
+[*Source - Microsoft ASP.NET Core Blazor : Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor)
 
 ## Supported Platforms
 * Apple Safari
@@ -110,7 +110,7 @@ Blazor Web Apps provide a component-based architecture with server-side renderin
 * Microsoft Edge
 * Mozilla Firefox
 
-[*Reference - Microsoft ASP.NET Core Blazor : Supported Platforms*](https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms)
+[*Source - Microsoft ASP.NET Core Blazor : Supported Platforms*](https://learn.microsoft.com/en-us/aspnet/core/blazor/supported-platforms)
 
 ## Hosting Models
 ### Blazor Server hosting model
@@ -129,7 +129,7 @@ A Blazor WebAssembly app built as a **Progressive Web App (PWA)** uses modern br
 ### Blazor Hybrid
 Blazor Hybrid apps can be built using different .NET native app frameworks, including **.NET MAUI**, **WPF**, and **Windows Forms**. Blazor provides `BlazorWebView` controls for adding Razor components to apps built with these frameworks.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Hosting Models*](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models)
+[*Source - Microsoft ASP.NET Core Blazor : Hosting Models*](https://learn.microsoft.com/en-us/aspnet/core/blazor/hosting-models)
 
 # Fundamentals
 ### Static and interactive rendering concepts
@@ -139,7 +139,7 @@ Static or **static rendering** is a **server-side scenario** that means the comp
 
 Interactive or **interactive rendering** means that the **component has the capacity to process .NET events via C# code**. The .NET events are either **processed on the server** by the ASP.NET Core runtime **or in the browser** on the client by the WebAssembly-based Blazor runtime.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
+[*Source - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
 
 ## Routing and navigation
 If **prerendering** isn't disabled, the Blazor router (Router component, `<Router>` in `Routes.razor`) performs static routing to components during **static server-side rendering** (static SSR). This type of routing is called static routing.
@@ -260,7 +260,7 @@ When calling `NavigateTo`:
 
 You can refresh the current page by calling `NavigationManager.Refresh(bool forceLoad = false)`, which always performs an enhanced navigation, if available. If enhanced navigation isn't available, Blazor performs a full-page reload.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
+[*Source - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
 
 ## Dependency Injection
 Register common services
@@ -314,7 +314,7 @@ public IMyService MyService { get; set; }
 > [!TIP]
 > Regular scoped objects injected into the component using `@inject` or the `[Inject]` attribute are tied to the user's circuit, which remains intact and isn't disposed until the underlying circuit is deconstructed. Scoped objects created using `ScopedServices.GetRequiredService<ITimeTravel>();` receives a new ITimeTravel service instance each time the component is initialized.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
+[*Source - Microsoft ASP.NET Core Blazor : Dependency Injection*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection)
 
 ## Startup
 ### Startup Process
@@ -358,7 +358,7 @@ var staticFileOptions = new StaticFileOptions
 
 app.MapFallbackToFile("index.html", staticFileOptions);
 ```
-[*Reference - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
+[*Source - Microsoft ASP.NET Core Blazor : Startup*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup)
 
 ## Logging
 Logging configuration can be loaded from app settings files. For more information, see ASP.NET Core Blazor configuration.
@@ -367,7 +367,7 @@ At default log levels and without configuring additional logging providers:
 - **On the server**, logging only occurs to the server-side .NET console in the Development environment at the LogLevel.Information level or higher. For general ASP.NET Core logging guidance, see [Logging in .NET Core and ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging).
 - **On the client**, logging only occurs to the client-side browser developer tools console at the LogLevel.Information level or higher.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Logging*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging).
+[*Source - Microsoft ASP.NET Core Blazor : Logging*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/logging).
 
 ## Exceptions
 ### Handle Caught Exceptions Outside of a Razor Component's Lifecycle
@@ -441,7 +441,7 @@ To define an error boundary, use the `ErrorBoundary` component to wrap existing 
 >
 >If you prefer not to enable server interactivity across the entire app from the `Routes` component, place the error boundary further down the component hierarchy.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
+[*Source - Microsoft ASP.NET Core Blazor : Handle Errors*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/handle-errors).
 
 # Components
 ## Components Overview
@@ -576,13 +576,13 @@ app.MapRazorComponents<App>();
 builder.RootComponents.Add<App>("#app");
 ```
 
-[*Reference - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
+[*Source - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
 <br>
-[*Reference - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
+[*Source - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
 <br>
-[*Reference - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
+[*Source - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
 <br>
-[*Reference - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
+[*Source - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
 ## Render Modes
 Every component in a Blazor Web App adopts a render mode to determine the hosting model that it uses, where it's rendered, and whether or not it's interactive.
@@ -750,7 +750,7 @@ Applying a different interactive render mode to a child component than its paren
 ### Closure of Circuits when there are no remaining Interactive Server Components
 Interactive Server components handle web UI events using a real-time connection with the browser called a circuit. A circuit and its associated state are created when a root Interactive Server component is rendered. The circuit is closed when there are no remaining Interactive Server components on the page, which frees up server resources.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
+[*Source - Microsoft ASP.NET Core Blazor : Render Modes*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes)
 
 ## Prerender ASP.NET Core Razor Components
 Prerendering is the process of initially rendering page content on the server without enabling event handlers for rendered controls. The server outputs the HTML UI of the page as soon as possible in response to the initial request, which makes the app feel more responsive to users.
@@ -806,7 +806,7 @@ The `PersistentComponentState` service can be used to persist state created duri
 
 By initializing components with the same state used during prerendering, any expensive initialization steps are only executed once. The rendered UI also matches the prerendered UI, so no flicker occurs in the browser.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
+[*Source - Microsoft ASP.NET Core Blazor : Prerender*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender)
 
 ## Generic Type Support
 ### Generic Type Parameter Support
@@ -859,7 +859,7 @@ When cascading the data in the following, the type must be provided to the compo
 </CascadingValue>
 ```
 
-[*Reference - Microsoft ASP.NET Core Blazor : Generic Type Support*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support)
+[*Source - Microsoft ASP.NET Core Blazor : Generic Type Support*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/generic-type-support)
 
 ## Synchronization Context
 Blazor uses a synchronization context (`SynchronizationContext`) to enforce a single logical thread of execution. A component's lifecycle methods and event callbacks raised by Blazor are executed on the synchronization context.
@@ -890,7 +890,7 @@ When a components method is onvoked by a service outside of Blazor's synchroniza
     }
 ```
 
-[*Reference - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
+[*Source - Microsoft ASP.NET Core Blazor : Synchronization Context*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/synchronization-context)
 
 ## Preserve Relationships with @key
 When rendering a list of elements or components and the elements or components subsequently change, Blazor must decide which of the previous elements or components are retained and how model objects should map to them. Normally, this process is automatic and sufficient for general rendering, but there are often cases where controlling the process using the `@key` directive attribute is required.
@@ -932,7 +932,7 @@ Generally, it makes sense to supply one of the following values for `@key`:
 > [!WARNING]
 > There's a performance cost when rendering with `@key`. The performance cost isn't large, but only specify `@key` if preserving the element or component benefits the app.
  
-[*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships)
+[*Source - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships)
 
 ## Overwriting Parameters
 The Blazor framework generally imposes safe parent-to-child parameter assignment:
@@ -944,7 +944,7 @@ A child component receives new parameter values that possibly overwrite existing
 > [!NOTE]
 > General guidance is not to create components that directly write to their own parameters after the component is rendered for the first time.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Overwriting Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/overwriting-parameters)
+[*Source - Microsoft ASP.NET Core Blazor : Overwriting Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/overwriting-parameters)
 
 ## Attribute Splatting
 Additional attributes can be captured in a dictionary and then *splatted* onto an element when the component is rendered using the `@attributes` Razor directive attribute.
@@ -976,7 +976,7 @@ Additional attributes can be captured in a dictionary and then *splatted* onto a
 }
 ```
 
-[*Reference - Microsoft ASP.NET Core Blazor : Attribute Splatting*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/splat-attributes-and-arbitrary-parameters)
+[*Source - Microsoft ASP.NET Core Blazor : Attribute Splatting*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/splat-attributes-and-arbitrary-parameters)
 
 ## Layouts
 A Blazor layout is a Razor component that shares markup with components that reference it. Layouts can use data binding, dependency injection, and other features of components.
@@ -1010,7 +1010,7 @@ Specify the default app layout in the `Router` component's `RouteView` component
 > [!TIP]
 > Layouts can be nested.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Layout*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/layouts)
+[*Source - Microsoft ASP.NET Core Blazor : Layout*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/layouts)
 
 ## Sections
 Sections allow you to control the content in a Razor component from a child Razor component.
@@ -1029,7 +1029,7 @@ Sections allow you to control the content in a Razor component from a child Razo
 > [!WARNING]
 > `SectionName` and `SectionId` are mutually exclusive. Use one or the other.
 
-[*Reference - Microsoft ASP.NET Core Blazor : Sections*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/sections)
+[*Source - Microsoft ASP.NET Core Blazor : Sections*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/sections)
 
 ## Control \<head\> Content
 Razor components can modify the HTML `<head>` element content of a page, including setting the page's `<title>` element and modifying `<meta>` elements.
@@ -1059,7 +1059,7 @@ In an app created from the Blazor WebAssembly project template, the `HeadOutlet`
 builder.RootComponents.Add<HeadOutlet>("head::after");
 ```
 
-[*Reference - Microsoft ASP.NET Core Blazor : Control <head> Content*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/control-head-content)
+[*Source - Microsoft ASP.NET Core Blazor : Control <head> Content*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/control-head-content)
 
 
 
