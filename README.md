@@ -88,7 +88,7 @@
     * [Root-level Cascading Values](#root-level-cascading-values)
     * [CascadingValue Component](#cascadingvalue-component)
     * [\[CascadingParameter\] attribute](#cascadingparameter-attribute)
-    * [Cascading Values/Parameters and Render Mode Boundaries](#cascading-values-parameters-and-render-mode-boundaries)
+    * [Cascading Values/Parameters and Render Mode Boundaries](#cascading-valuesparameters-and-render-mode-boundaries)
     * [Cascade Multiple Values](#cascade-multiple-values)
 
 # Overview
