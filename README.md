@@ -83,7 +83,8 @@
     * [Apply a Layout to a Component](#apply-a-layout-to-a-component)
     * [Apply a Layout to a Folder of Components](#apply-a-layout-to-a-folder-of-components)
     * [Apply a Default Layout to an App](#apply-a-default-layout-to-an-app)
-  * [Sections](#sections) 
+  * [Sections](#sections)
+  * [Control <head> Content](#control-head-content)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1030,8 +1031,35 @@ Sections allow you to control the content in a Razor component from a child Razo
 
 [*Reference - Microsoft ASP.NET Core Blazor : Sections*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/sections)
 
+## Control <head> Content
+Razor components can modify the HTML `<head>` element content of a page, including setting the page's `<title>` element and modifying `<meta>` elements.
 
+Specify the page's title with the `<PageTitle>` component, which enables rendering an HTML `<title>` element to a HeadOutlet component.
 
+Specify `<head>` element content with the `HeadContent` component, which provides content to a `HeadOutlet` component.
+
+```C#
+<PageTitle>@title</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="@description">
+</HeadContent>
+```
+
+The `HeadOutlet` component renders content provided by `PageTitle` and `HeadContent` components.
+```C#
+<head>
+    ...
+    <HeadOutlet />
+</head>
+```
+
+In an app created from the Blazor WebAssembly project template, the `HeadOutlet` component is added to the `RootComponents` collection of the `WebAssemblyHostBuilder` in the client-side `Program` file:
+```C#
+builder.RootComponents.Add<HeadOutlet>("head::after");
+```
+
+[*Reference - Microsoft ASP.NET Core Blazor : Control <head> Content*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/control-head-content)
 
 
 
