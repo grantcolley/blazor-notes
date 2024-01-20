@@ -976,7 +976,7 @@ Additional attributes can be captured in a dictionary and then *splatted* onto a
 
 [*Reference - Microsoft ASP.NET Core Blazor : Attribute Splatting*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/splat-attributes-and-arbitrary-parameters)
 
-## Layout
+## Layouts
 A Blazor layout is a Razor component that shares markup with components that reference it. Layouts can use data binding, dependency injection, and other features of components.
 
 A layout is a `.razor` component that inherits from `LayoutComponentBase` which defines a `Body` property (`RenderFragment` type) for the rendered content inside the layout. `@Body` specifies the location in the layout markup where the content is rendered.
