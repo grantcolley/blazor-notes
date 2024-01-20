@@ -79,6 +79,10 @@
   * [Preserve Relationships with @key](#preserve-relationships-with-key)
   * [Overwriting Parameters](#overwriting-parameters)
   * [Attribute Splatting](#attribute-splatting)
+  * [Layouts](#layouts)
+    * [Apply a Layout to a Component](#apply-a-layout-to-a-component)
+    * [Apply a Layout to a Folder of Components](#apply-a-layout-to-a-folder-of-components)
+    * [Apply a Default Layout to an App](#apply-a-default-layout-to-an-app)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -972,8 +976,39 @@ Additional attributes can be captured in a dictionary and then *splatted* onto a
 
 [*Reference - Microsoft ASP.NET Core Blazor : Attribute Splatting*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/splat-attributes-and-arbitrary-parameters)
 
+## Layout
+A Blazor layout is a Razor component that shares markup with components that reference it. Layouts can use data binding, dependency injection, and other features of components.
 
+A layout is a `.razor` component that inherits from `LayoutComponentBase` which defines a `Body` property (`RenderFragment` type) for the rendered content inside the layout. `@Body` specifies the location in the layout markup where the content is rendered.
 
+### Apply a Layout to a Component
+Add an `@using` directive to the `_Imports.razor` file.
+```C#
+@using BlazorSample.Components.Layout
+```
+
+Use the `@layout` Razor directive to apply a layout to a routable Razor component that has an `@page` directive. The compiler converts `@layout` into a `LayoutAttribute` and applies the attribute to the component class.
+
+```C#
+@page "/mypage"
+@layout MyCustomLayout
+
+<h2>Hello World!</h2>
+```
+
+### Apply a Layout to a Folder of Components
+Every folder of an app can optionally contain a template file named `_Imports.razor`. The compiler includes the directives specified in the imports file in all of the Razor templates in the same folder and recursively in all of its subfolders.
+
+### Apply a Default Layout to an App
+Specify the default app layout in the `Router` component's `RouteView` component. Use the `DefaultLayout` parameter to set the layout type:
+```C
+<RouteView RouteData="@routeData" DefaultLayout="@typeof({LAYOUT})" />
+```
+
+> [!TIP]
+> Layouts can be nested.
+
+[*Reference - Microsoft ASP.NET Core Blazor : Layout*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/layouts)
 
 
 
