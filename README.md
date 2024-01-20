@@ -84,6 +84,12 @@
     * [Apply a Default Layout to an App](#apply-a-default-layout-to-an-app)
   * [Sections](#sections)
   * [Control \<head\> Content](#control-head-content)
+  * [Cascading Values and Parameters](#cascading-values-and-parameters)
+    * [Root-level Cascading Values](#root-level-cascading-values)
+    * [CascadingValue Component](#cascadingvalue-component)
+    * [\[CascadingParameter\] attribute](#cascadingparameter-attribute)
+    * [Cascading Values/Parameters and Render Mode Boundaries](#cascading-values-parameters-and-render-mode-boundaries)
+    * [Cascade Multiple Values](#cascade-multiple-values)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1060,7 +1066,106 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 [*Source - Microsoft ASP.NET Core Blazor : Control <head> Content*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/control-head-content)
 
+## Cascading Values and Parameters
+Cascading values and parameters provide a convenient way to flow data down a component hierarchy. Unlike `Component` parameters, cascading values and parameters don't require an attribute assignment for each descendent component where the data is consumed. Cascading values and parameters also allow components to coordinate with each other across a component hierarchy.
 
+### Root-level Cascading Values
+Root-level cascading values can be registered for the entire component hierarchy. Named cascading values and subscriptions for update notifications are supported.
+
+```C#
+builder.Services.AddCascadingValue(sp => new MyClass { Units = 123 });
+builder.Services.AddCascadingValue("SecondClass", sp => new MyClass { Units = 456 });
+```
+
+```C#
+@page "/page1"
+
+@code {
+    [CascadingParameter]
+    public MyClass? MyClass { get; set; }
+
+    [CascadingParameter(Name = "SecondClass")]
+    public MyClass? SecondClass { get; set; }
+}
+```
+
+In the following example, `MyClass` is registered as a cascading value using `CascadingValueSource<T>`, where `<T>` is the type. The `isFixed` flag indicates whether the value is fixed. If false, all recipients are subscribed for update notifications, which are issued by calling `NotifyChangedAsync`.
+
+```C#
+builder.Services.AddCascadingValue(sp =>
+{
+    var myClass = new MyClass { Units = 789 };
+    var source = new CascadingValueSource<MyClass>(myClass, isFixed: false);
+    return source;
+});
+```
+
+### CascadingValue Component
+A cascading value is provided using a `CascadingValue` component, which wraps a subtree of a component hierarchy and supplies a single value to all of the components within its subtree.
+
+```C#
+<CascadingValue Value="@myClass">
+    <Router ...>
+        <Found ...>
+            ...
+        </Found>
+    </Router>
+</CascadingValue>
+
+@code {
+    private MyClass myClass = new MyClass { Units = 789 };
+}
+```
+
+### [CascadingParameter] Attribute
+To make use of cascading values, descendent components declare cascading parameters using the `[CascadingParameter]` attribute. 
+
+```C#
+@code {
+    [CascadingParameter]
+    protected MyClass? MyClass { get; set; }
+}
+```
+
+### Cascading Values/Parameters and Render Mode Boundaries
+
+> [!WARNING]
+> Cascading parameters don't pass data across render mode boundaries!
+> 
+> Interactive sessions run in a different context than the pages that use static server-side rendering (static SSR). There's no requirement that the server producing the page is even the same machine that hosts some later Interactive Server session, including for WebAssembly components where the server is a different machine to the client. The benefit of static server-side rendering (static SSR) is to gain the full performance of pure stateless HTML rendering.
+
+### Cascade Multiple Values
+To cascade multiple values of the same type within the same subtree, provide a unique Name string to each `CascadingValue` component and their corresponding `[CascadingParameter]` attributes.
+
+```C#
+<CascadingValue Value="@parentCascadeParameter1" Name="CascadeParam1">
+    <CascadingValue Value="@ParentCascadeParameter2" Name="CascadeParam2">
+        ...
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    private CascadingType? parentCascadeParameter1;
+
+    [Parameter]
+    public CascadingType? ParentCascadeParameter2 { get; set; }
+}
+```
+And in the consuming component...
+```C#
+@code {
+    [CascadingParameter(Name = "CascadeParam1")]
+    protected CascadingType? ChildCascadeParameter1 { get; set; }
+
+    [CascadingParameter(Name = "CascadeParam2")]
+    protected CascadingType? ChildCascadeParameter2 { get; set; }
+}
+```
+
+
+
+
+[*Source - Microsoft ASP.NET Core Blazor : Cascading Values and Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/cascading-values-and-parameters)
 
 
 
