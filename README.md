@@ -77,6 +77,7 @@
     * [Avoid Thread-blocking Calls](#avoid-thread-blocking-calls)
     * [Invoke Component Methods Externally to Update State](#invoke-component-methods-externally-to-update-state)
   * [Preserve Relationships with @key](#preserve-relationships-with-key)
+  * [Overwriting Parameters](#overwriting-parameters)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -926,8 +927,13 @@ Generally, it makes sense to supply one of the following values for `@key`:
  
 [*Reference - Microsoft ASP.NET Core Blazor : Preserve relationships with @key*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/element-component-model-relationships)
 
+## Overwriting Parameters
+The Blazor framework generally imposes safe parent-to-child parameter assignment:
 
+Parameters aren't overwritten unexpectedly.
+Side effects are minimized. For example, additional renders are avoided because they may create infinite rendering loops.
 
+[*Reference - Microsoft ASP.NET Core Blazor : Overwriting Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/overwriting-parameters)
 
 
 
