@@ -900,23 +900,23 @@ In the following example, when the people collection changes, the association be
 }
 ```
 
- If an person instance changes, the `@key` attribute directive forces Blazor to:
+ If an `person` instance changes, the `@key` attribute directive forces Blazor to:
 - Discard the entire `<Details>` and their descendants.
 - Rebuild the subtree within the UI with new elements and components.
 
 This is useful to guarantee that no UI state is preserved when the collection changes within a subtree.
 
-Other collection updates exhibit the same behavior when the `@key` directive attribute is used:
+Collection updates exhibit the following behavior when the `@key` directive attribute is used:
 - When a `Person` is inserted at the beginning of the collection, one new `Details` instance is inserted at that corresponding position. Other instances are left unchanged.
 - If an instance is deleted from the collection, only the corresponding component instance is removed from the UI. Other instances are left unchanged.
 - If collection entries are re-ordered, the corresponding component instances are preserved and re-ordered in the UI.
 
 Generally, it makes sense to supply one of the following values for `@key`:
-- Model object instances. For example, the `Person` instance (`person`) was used in the earlier example. This ensures preservation based on object reference equality.
+- Model object instances. For example, the `Person` instance (`person`) was used in the example. This ensures preservation based on object reference equality.
 - Unique identifiers. For example, unique identifiers can be based on primary key values of type `int`, `string`, or `Guid`.
 
 > [!NOTE]
-> The only advantage to using @key is control over how model instances are mapped to the preserved component instances, instead of Blazor selecting the mapping.
+> The only advantage to using `@key` is control over how model instances are mapped to the preserved component instances, instead of Blazor selecting the mapping.
 
 > [!TIP]
 > Typically, it makes sense to use `@key` whenever a list is rendered (for example, in a `foreach` block) and a suitable value exists to define the `@key`.
