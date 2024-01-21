@@ -1222,7 +1222,7 @@ Lambda expressions are supported as the delegate event handler.
 ```
 
 ### EventCallback
-To expose events across components, use an `EventCallback`. The following Child component demonstrates how a button's `onclick` handler is set up to receive an `EventCallback` delegate from the sample's parent component.
+To expose events across components, use an `EventCallback`. The following child component demonstrates how a button's `onclick` handler is set up to receive an `EventCallback` delegate from the sample's parent component.
 ```C#
 <button @onclick="OnClickCallback">Trigger a Parent component method.</button>
 
@@ -1250,7 +1250,7 @@ To expose events across components, use an `EventCallback`. The following Child 
 ```
 
 > [!TIP]
-> Prefer the strongly typed EventCallback<TValue> over EventCallback. EventCallback<TValue> provides enhanced error feedback to users of the component. Similar to other UI event handlers, specifying the event parameter is optional. Use EventCallback when there's no value passed to the callback.
+> Prefer the strongly typed `EventCallback<TValue>` over `EventCallback`. `EventCallback<TValue>` provides enhanced error feedback to users of the component. Similar to other UI event handlers, specifying the event parameter is optional. Use `EventCallback` when there's no value passed to the callback.
 
 `EventCallback` and `EventCallback<TValue>` permit asynchronous delegates.
 
