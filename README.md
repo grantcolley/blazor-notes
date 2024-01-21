@@ -95,6 +95,7 @@
     * [EventCallback](#eventcallback)
     * [Prevent Default Actions](#prevent-default-actions)
     * [Stop Event Propagation](#stop-event-propagation)
+  * [Data Binding](#data-binding) 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1312,8 +1313,9 @@ Use the `@on{DOM EVENT}:stopPropagation` directive attribute to stop event propa
 <br>
 [*Source - Mozilla : DOM event*](https://developer.mozilla.org/en-US/docs/Web/Events)
 
+## Data Binding
 
-
+[*Source - Microsoft ASP.NET Core Blazor : Data Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/data-binding)
 
 
 
