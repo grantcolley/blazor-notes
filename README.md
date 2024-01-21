@@ -95,7 +95,10 @@
     * [EventCallback](#eventcallback)
     * [Prevent Default Actions](#prevent-default-actions)
     * [Stop Event Propagation](#stop-event-propagation)
-  * [Data Binding](#data-binding) 
+  * [Data Binding](#data-binding)
+    * [Binding](#binding)
+    * [Execute Asynchronous Logic After Binding](#execute-asynchronous-logic-after-binding)
+    * [Two-Way Binding](#two-way-binding)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1314,6 +1317,71 @@ Use the `@on{DOM EVENT}:stopPropagation` directive attribute to stop event propa
 [*Source - Mozilla : DOM event*](https://developer.mozilla.org/en-US/docs/Web/Events)
 
 ## Data Binding
+### Binding
+Razor components provide data binding features with the `@bind` Razor directive attribute with a field, property, or Razor expression value. The text box is updated in the UI only when the component is rendered, not in response to changing the field's or property's value. Since components render themselves after event handler code executes, field and property updates are usually reflected in the UI immediately after an event handler is triggered.
+<br>
+In the following example, when the user enters a value in the text box and changes element focus, the `onchange` event is fired and the `inputValue` property is set to the changed value.
+```C#
+<input @bind="inputValue" />
+
+@code {
+    private string? inputValue;
+}
+```
+
+### Execute Asynchronous Logic After Binding
+To execute asynchronous logic after binding, use `@bind:after="{EVENT}"`. An assigned C# method isn't executed until the bound value is assigned synchronously. 
+
+Using an event callback parameter (`EventCallback`/`EventCallback<T>`) with `@bind:after` isn't supported. Instead, pass a method that returns an `Action` or `Task` to `@bind:after`.
+
+In the following example:
+- The `<input>` element's value is bound to the value of `searchText` synchronously.
+- After each keystroke (`onchange` event) in the field, the `PerformSearch` method executes asynchronously.
+- `PerformSearch` calls a service with an asynchronous method (`FetchAsync`) to return search results.
+```C#
+@inject ISearchService SearchService
+
+<input @bind="searchText" @bind:after="PerformSearch" />
+
+@code {
+    private string? searchText;
+    private string[]? searchResult;
+
+    private async Task PerformSearch()
+    {
+        searchResult = await SearchService.FetchAsync(searchText);
+    }
+}
+```
+
+### Two-Way Binding
+In **ASP.NET Core 7.0** or later, `@bind:get`/`@bind:set` modifier syntax is used to implement two-way data binding.
+- `@bind:get:` Specifies the value to bind.
+- `@bind:set:` Specifies a callback for when the value changes.
+
+> [!NOTE]
+> The `@bind:get` and `@bind:set` modifiers are always used together.
+
+```C#
+<p>
+    <input @bind:event="oninput" @bind:get="inputValue" @bind:set="OnInput" />
+</p>
+
+<p>
+    <code>inputValue</code>: @inputValue
+</p>
+
+@code {
+    private string? inputValue;
+
+    private void OnInput(string value)
+    {
+        var newValue = value ?? string.Empty;
+
+        inputValue = newValue.Length > 4 ? "Long!" : newValue;
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Data Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/data-binding)
 
