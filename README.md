@@ -1174,6 +1174,8 @@ For event handling:
 ```C#
 @page "/event-handler-1"
 
+<h2>@headingValue</h2>
+
 <button @onclick="UpdateHeading">
 
 @code {
