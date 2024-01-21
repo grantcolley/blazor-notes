@@ -92,6 +92,9 @@
     * [Cascade Multiple Values](#cascade-multiple-values)
   * [Event Handling](#event-handling)
     * [Delegate Event Handlers](#delegate-event-handlers)
+    * [EventCallback](#eventcallback)
+    * [Prevent Default Actions](#prevent-default-actions)
+    * [Stop Event Propagation](#stop-event-propagation)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -585,11 +588,11 @@ builder.RootComponents.Add<App>("#app");
 
 [*Source - Microsoft ASP.NET Core Blazor : Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components)
 <br>
-[*Source - How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
+[*Source - Mozilla : How Browsers Work*](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work)
 <br>
-[*Source - Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
+[*Source - Mozilla : Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
 <br>
-[*Source - ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
+[*Source - Microsoft ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
 
 ## Render Modes
 Every component in a Blazor Web App adopts a render mode to determine the hosting model that it uses, where it's rendered, and whether or not it's interactive.
@@ -1172,22 +1175,142 @@ For event handling:
 - Delegate event handlers automatically trigger a UI render, so there's no need to manually call `StateHasChanged`.
 - Exceptions are logged.
 ```C#
-@page "/event-handler-1"
+@page "/event-handler"
 
 <h2>@headingValue</h2>
 
-<button @onclick="UpdateHeading">
+<button @onclick="UpdateHeading">Update heading</button>
 
 @code {
-    private void UpdateHeading()
+    private async Task UpdateHeading()
     {
+        await Task.Delay(2000);
         headingValue = $"New heading ({DateTime.Now})";
     }
 }
 ```
 
-[*Source - Microsoft ASP.NET Core Blazor : Cascading Values and Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/cascading-values-and-parameters)
+For events that support an event argument type, specifying an event parameter in the event method definition is only necessary if the event type is used in the method.
+```C#
+@page "/event-handler"
 
+<button @onclick="ReportPointerLocation">Where's my mouse pointer for this button?</button>
+
+<p>@mousePointerMessage</p>
+
+@code {
+    private string? mousePointerMessage;
+
+    private void ReportPointerLocation(MouseEventArgs e)
+    {
+        mousePointerMessage = $"Mouse coordinates: {e.ScreenX}:{e.ScreenY}";
+    }
+}
+```
+
+Lambda expressions are supported as the delegate event handler.
+```C#
+@page "/event-handler"
+
+<h2>@heading</h2>
+
+<button @onclick="@(e => heading = "New heading!!!")">Update heading</button>
+
+@code {
+    private string heading = "Initial heading";
+}
+```
+
+### EventCallback
+To expose events across components, use an `EventCallback`. The following Child component demonstrates how a button's `onclick` handler is set up to receive an `EventCallback` delegate from the sample's parent component.
+```C#
+<button @onclick="OnClickCallback">Trigger a Parent component method.</button>
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+}
+```
+
+```C#
+@page "/parent-child"
+
+<Child OnClickCallback="@ShowMessage">Show message from a child component.</Child>
+
+<p>@message</p>
+
+@code {
+    private string? message;
+
+    private void ShowMessage(MouseEventArgs e)
+    {
+        message = $"Blaze a new trail with Blazor! ({e.ScreenX}:{e.ScreenY})";
+    }
+}
+```
+
+> [!TIP]
+> Prefer the strongly typed EventCallback<TValue> over EventCallback. EventCallback<TValue> provides enhanced error feedback to users of the component. Similar to other UI event handlers, specifying the event parameter is optional. Use EventCallback when there's no value passed to the callback.
+
+`EventCallback` and `EventCallback<TValue>` permit asynchronous delegates.
+
+```C#
+<h3>Child2 Component</h3>
+
+<button @onclick="TriggerEvent">Click Me</button>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnClickCallback { get; set; }
+
+    private async Task TriggerEvent()
+    {
+        await OnClickCallback.InvokeAsync("Blaze It!");
+    }
+}
+```
+
+```C#
+@page "/parent-child"
+
+<Child OnClickCallback="@(async (value) => { await Task.Yield(); messageText = value; })" />
+
+<p>@messageText</p>
+
+@code {
+    private string messageText = string.Empty;
+}
+```
+
+### Prevent Default Actions
+Use the `@on{DOM EVENT}:preventDefault` directive attribute to prevent the default action for an event.
+
+```C#
+@page "/event-handler"
+
+<input value="@count" @onkeydown="KeyHandler" @onkeydown:preventDefault />
+
+@code {
+    private void KeyHandler(KeyboardEventArgs e)
+    {
+    }
+}
+```
+
+### Stop Event Propagation
+Use the `@on{DOM EVENT}:stopPropagation` directive attribute to stop event propagation within the Blazor scope.
+
+```C#
+@page "/event-handler"
+
+<div @onclick="OnSelectChildDiv" @onclick:stopPropagation=true>
+    Child div that stops propagation.
+</div>
+```
+
+[*Source - Microsoft ASP.NET Core Blazor : Cascading Values and Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/cascading-values-and-parameters)
+<br>
+[*Source - Mozilla : DOM event*](https://developer.mozilla.org/en-US/docs/Web/Events)
 
 
 
