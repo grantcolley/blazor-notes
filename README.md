@@ -90,6 +90,8 @@
     * [\[CascadingParameter\] attribute](#cascadingparameter-attribute)
     * [Cascading Values/Parameters and Render Mode Boundaries](#cascading-valuesparameters-and-render-mode-boundaries)
     * [Cascade Multiple Values](#cascade-multiple-values)
+  * [Event Handling](#event-handling)
+    * [Delegate Event Handlers](#delegate-event-handlers)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1162,8 +1164,25 @@ And in the consuming component...
 }
 ```
 
+## Event Handling
+### Delegate Event Handlers
+Specify delegate event handlers in Razor component markup with `@on{DOM EVENT}="{DELEGATE}"`.
+For event handling:
+- Asynchronous delegate event handlers that return a `Task` are supported.
+- Delegate event handlers automatically trigger a UI render, so there's no need to manually call `StateHasChanged`.
+- Exceptions are logged.
+```C#
+@page "/event-handler-1"
 
+<button @onclick="UpdateHeading">
 
+@code {
+    private void UpdateHeading()
+    {
+        headingValue = $"New heading ({DateTime.Now})";
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Cascading Values and Parameters*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/cascading-values-and-parameters)
 
