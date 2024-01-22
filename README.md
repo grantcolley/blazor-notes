@@ -99,7 +99,16 @@
     * [Binding](#binding)
     * [Execute Asynchronous Logic After Binding](#execute-asynchronous-logic-after-binding)
     * [Two-Way Binding](#two-way-binding)
-
+  * [Razor Component Lifecycle](#razor-component-lifecycle)
+    * [Lifecycle Events](#lifecycle-events)
+      * [Component Lifecycle Events](#component-lifecycle-events)
+      * [The Render Lifecycle](#the-render-lifecycle)
+    * [SetParametersAsync](#setparametersasync)
+    * [OnInitialized{Async}](#oninitializedasync)
+    * [OnParametersSet{Async}](#onparameterssetasync)
+    * [OnParametersSet{Async}](#onparameterssetasync)
+    * [OnAfterRender{Async}](#onafterrenderasync)
+        
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
 
@@ -1385,6 +1394,63 @@ In **ASP.NET Core 7.0** or later, `@bind:get`/`@bind:set` modifier syntax is use
 
 [*Source - Microsoft ASP.NET Core Blazor : Data Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/data-binding)
 
+## Razor Component Lifecycle
+### Lifecycle Events
+#### Component Lifecycle Events
+1. If the component is rendering for the first time on a request:
+    -  Create the component's instance.
+    -  Perform property injection. Run `SetParametersAsync`.
+    - Call `OnInitialized{Async}`. If an incomplete `Task` is returned, the `Task` is awaited and then the component is rerendered.
+2. Call `OnParametersSet{Async}`. If an incomplete `Task` is returned, the `Task` is awaited and then the component is rerendered.
+3. Render for all synchronous work and complete `Tasks`.
+
+#### The Render Lifecycle
+1. Avoid further rendering operations on the component:
+    - After the first render.
+    - When ShouldRender is false.
+2. Build the render tree diff (difference) and render the component.
+3. Await the DOM to update.
+4. Call OnAfterRender{Async}.
+
+> [!NOTE]
+> A parent component renders before its children components because rendering is what determines which children are present. If synchronous parent component initialization is used, the parent initialization is guaranteed to complete first. If asynchronous parent component initialization is used, the completion order of parent and child component initialization can't be determined because it depends on the initialization code running.
+
+> [!TIP]
+> It isn't necessary to call `ComponentBase` methods unless a custom base class is used with custom logic.
+
+### SetParametersAsync
+`SetParametersAsync` sets parameters supplied by the component's parent in the render tree or from route parameters.
+
+### OnInitialized{Async}
+`OnInitialized` and `OnInitializedAsync` are invoked when the component is initialized after having received its initial parameters in `SetParametersAsync`.
+
+Blazor apps that prerender their content on the server call `OnInitializedAsync` twice:
+   - Once when the component is initially rendered statically as part of the page.
+   - A second time when the browser renders the component.
+
+> [!WARNING]
+> While a Blazor app is prerendering, certain actions, such as calling into `JavaScript (JS interop)`, aren't possible.
+
+> [!TIP]
+> Use streaming rendering with Interactive Server components to improve the user experience for components that perform long-running asynchronous tasks in `OnInitializedAsync` to fully render.
+
+### OnParametersSet{Async}
+`OnParametersSet` or `OnParametersSetAsync` are called after the component is initialized in `OnInitialized` or `OnInitializedAsync`.
+
+### OnAfterRender{Async}
+`OnAfterRender` and `OnAfterRenderAsync` are invoked after a component has rendered interactively and the UI has finished updating (for example, after elements are added to the browser DOM).
+
+Use this stage to perform additional initialization steps with the rendered content, such as `JS interop` calls that interact with the rendered `DOM elements`.
+
+For `OnAfterRenderAsync`, the component doesn't automatically rerender after the completion of any returned `Task` to avoid an infinite render loop.
+The `firstRender` parameter for `OnAfterRender` and `OnAfterRenderAsync`:
+   - Is set to true the first time that the component instance is rendered.
+   - Can be used to ensure that initialization work is only performed once.
+
+> [!NOTE]
+> `OnAfterRender` and `OnAfterRenderAsync` aren't called during the prerendering process on the server. The methods are called when the component is rendered interactively after prerendering.
+
+[*Source - Microsoft ASP.NET Core Blazor : Lifecycle*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle)
 
 
 
