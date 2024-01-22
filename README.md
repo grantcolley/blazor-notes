@@ -108,6 +108,7 @@
     * [OnParametersSet{Async}](#onparameterssetasync)
     * [OnParametersSet{Async}](#onparameterssetasync)
     * [OnAfterRender{Async}](#onafterrenderasync)
+    * [StateHasChanged](#statehaschanged)
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1449,6 +1450,11 @@ The `firstRender` parameter for `OnAfterRender` and `OnAfterRenderAsync`:
 
 > [!NOTE]
 > `OnAfterRender` and `OnAfterRenderAsync` aren't called during the prerendering process on the server. The methods are called when the component is rendered interactively after prerendering.
+
+### StateHasChanged
+Calling `StateHasChanged` notifies the component that its state has changed causing the component to be rerendered.
+
+`StateHasChanged` is called automatically for `EventCallback` methods.
 
 [*Source - Microsoft ASP.NET Core Blazor : Lifecycle*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle)
 
