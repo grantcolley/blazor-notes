@@ -1416,7 +1416,7 @@ In **ASP.NET Core 7.0** or later, `@bind:get`/`@bind:set` modifier syntax is use
 > A parent component renders before its children components because rendering is what determines which children are present. If synchronous parent component initialization is used, the parent initialization is guaranteed to complete first. If asynchronous parent component initialization is used, the completion order of parent and child component initialization can't be determined because it depends on the initialization code running.
 
 > [!TIP]
-> It isn't necessary to call `ComponentBase` methods unless a custom base class is used with custom logic.
+> When overriding Blazor's lifecycle methods, it isn't necessary to call base class lifecycle methods for `ComponentBase`. However, a component should call an overridden base class lifecycle method if the base class method contains logic that must be executed. 
 
 ### SetParametersAsync
 `SetParametersAsync` sets parameters supplied by the component's parent in the render tree or from route parameters.
