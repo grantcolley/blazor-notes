@@ -117,7 +117,9 @@
     * [Streaming Rendering](#streaming-rendering)
     * [Suppress UI refreshing with ShouldRender](#suppress-ui-refreshing-with-shouldrender)
     * [When to call StateHasChanged](#when-to-call-statehaschanged)
-  * [Dynamically-rendered Components](#dynamically-rendered-components) 
+  * [Dynamically-rendered Components](#dynamically-rendered-components)
+    * [DynamicComponent](#dynamiccomponent)
+    * [Event Callbacks](#event-callbacks)
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1589,6 +1591,128 @@ However, it might make sense to call `StateHasChanged` in the following cases:
 [*Source - Microsoft ASP.NET Core Blazor : Rendering*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
 
 ## Dynamically-rendered Components
+### DynamicComponent
+`DynamicComponent` component allows you to render components by type, which is useful for rendering components without iterating through possible types or using conditional logic. For example, `DynamicComponent` can render a component based on a user selection from a dropdown list.
+
+In the following example:
+- `componentType` specifies the type.
+- parameters specifies component parameters to pass to the `componentType` component, in the form of a `IDictionary<string, object>`.
+  
+```C#
+<DynamicComponent Type="@componentType" Parameters="@parameters" />
+
+@code {
+    private Type componentType = ...;
+    private IDictionary<string, object> parameters = ...;
+}
+```
+
+### Event Callbacks
+Event callbacks `EventCallback` can be passed to a `DynamicComponent` in its parameter dictionary.
+
+`RocketLab.razor`
+```C#
+<h2>Rocket Lab®</h2>
+
+<button @onclick="OnClickCallback">Trigger a Parent component method</button>
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+}
+```
+
+`SpaceX.razor`
+```C#
+<h2>SpaceX®</h2>
+
+<button @onclick="OnClickCallback">Trigger a Parent component method</button>
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+}
+```
+
+`DynamicComponent.razor`
+```C#
+@page "/dynamic-component"
+
+<label>
+    Select your transport:
+    <select @onchange="OnDropdownChange">
+        <option value="">Select a value</option>
+        <option value="@nameof(RocketLab2)">Rocket Lab</option>
+        <option value="@nameof(SpaceX2)">SpaceX</option>
+    </select>
+</label>
+
+@if (selectedType is not null)
+{
+    <div class="border border-primary my-1 p-1">
+        <DynamicComponent Type="@selectedType" Parameters="@Components[selectedType.Name].Parameters" />
+    </div>
+}
+
+<p>
+    @message
+</p>
+
+@code {
+    private Type? selectedType;
+    private string? message;
+
+    private Dictionary<string, ComponentMetadata> Components
+    {
+        get
+        {
+            return new Dictionary<string, ComponentMetadata>()
+            {
+                {
+                    "RocketLab",
+                    new ComponentMetadata
+                    {
+                        Name = "Rocket Lab",
+                        Parameters =
+                            new()
+                            {
+                                {
+                                    "OnClickCallback",
+                                    EventCallback.Factory.Create<MouseEventArgs>(
+                                        this, ShowDTMessage)
+                                }
+                            }
+                    }
+                },
+                {
+                    "VirginGalactic",
+                    new ComponentMetadata
+                    {
+                        Name = "Virgin Galactic",
+                        Parameters =
+                            new()
+                            {
+                                {
+                                    "OnClickCallback",
+                                    EventCallback.Factory.Create<MouseEventArgs>(
+                                        this, ShowDTMessage)
+                                }
+                            }
+                    }
+                }
+            };
+        }
+    }
+
+    private void OnDropdownChange(ChangeEventArgs e)
+    {
+        selectedType = Type.GetType($"BlazorSample.Components.{e.Value}");
+    }
+
+    private void ShowDTMessage(MouseEventArgs e) =>
+        message = $"The current DT is: {DateTime.Now}.";
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : DynamicComponent*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/dynamiccomponent)
 
