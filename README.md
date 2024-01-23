@@ -114,7 +114,8 @@
   * [Virtualization](#virtualization)
   * [Rendering](#rendering)
     * [Rendering Conventions for ComponentBase](#rendering-conventions-for-componentbase)
-    * 
+    * [Streaming Rendering](#streaming-rendering)
+    * [Suppress UI refreshing with ShouldRender](#suppress-ui-refreshing-with-shouldrender)
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1539,8 +1540,23 @@ By default, Razor components inherit from the `ComponentBase` base class, which 
 - After notification of an event and invoking one of its own event handlers.
 - After a call to its own `StateHasChanged` method.
 
+### Streaming Rendering
+Use *streaming rendering* with interactive server-side rendering (interactive SSR) to stream content updates on the response stream and improve the user experience for components that perform long-running asynchronous tasks to fully render.
+
+To improve the user experience, streaming rendering initially renders the entire page quickly with placeholder content while asynchronous operations execute. After the operations are complete, the updated content is sent to the client on the same response connection and patched into the DOM.
+
+Streaming rendering requires the server to avoid buffering the output. The response data must flow to the client as the data is generated.
+
+To stream content updates when using static server-side rendering (static SSR), apply the `[StreamRendering(true)]` attribute to the component. Streaming rendering must be explicitly enabled because streamed updates may cause content on the page to shift.
+
+```C#
+@page "/weather"
+@attribute [StreamRendering(true)]
+```
+
+### Suppress UI refreshing with ShouldRender
 
 
-
+[*Source - Microsoft ASP.NET Core Blazor : Streaming Rendering*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
 
 
