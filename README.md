@@ -1586,7 +1586,7 @@ However, it might make sense to call `StateHasChanged` in the following cases:
 > [!NOTE]
 > Due to the way that tasks are defined in .NET, a receiver of a `Task` can only observe its final completion, not intermediate asynchronous states. Therefore, `ComponentBase` can only trigger rerendering when the `Task` is first returned and when the `Task` finally completes. The framework can't know to rerender a component at other intermediate points.
 
-[*Source - Microsoft ASP.NET Core Blazor : Streaming Rendering*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
+[*Source - Microsoft ASP.NET Core Blazor : Rendering*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
 
 ## Dynamically-rendered Components
 
