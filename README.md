@@ -110,6 +110,9 @@
     * [OnAfterRender{Async}](#onafterrenderasync)
     * [StateHasChanged](#statehaschanged)
   * [Virtualization](#virtualization)
+  * [Rendering](#rendering)
+    * [Rendering Conventions for ComponentBase](#rendering-conventions-for-componentbase)
+    * 
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1486,7 +1489,13 @@ When the user scrolls to an arbitrary point in the `Virtualize<TItem>` component
 
 [*Source - Microsoft ASP.NET Core Blazor : Virtualization*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization)
 
-
+## Rendering
+### Rendering Conventions for ComponentBase
+By default, Razor components inherit from the `ComponentBase` base class, which contains logic to trigger rerendering at the following times:
+- After applying an updated set of parameters from a parent component.
+- After applying an updated value for a cascading parameter.
+- After notification of an event and invoking one of its own event handlers.
+- After a call to its own `StateHasChanged` method.
 
 
 
