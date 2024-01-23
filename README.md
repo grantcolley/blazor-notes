@@ -109,6 +109,7 @@
     * [OnParametersSet{Async}](#onparameterssetasync)
     * [OnAfterRender{Async}](#onafterrenderasync)
     * [StateHasChanged](#statehaschanged)
+  * [Virtualization](#virtualization)
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1458,6 +1459,32 @@ Calling `StateHasChanged` notifies the component that its state has changed caus
 
 [*Source - Microsoft ASP.NET Core Blazor : Lifecycle*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle)
 
+## Virtualization
+Virtualization is a technique for limiting UI rendering to just the parts that are currently visible using the the `Virtualize<TItem>` component, thereby improving the perceived performance of component rendering.
+
+Use the `Virtualize<TItem>` component when:
+- Rendering a set of data items in a loop.
+- Most of the items aren't visible due to scrolling.
+- The rendered items are the same size.
+
+When the user scrolls to an arbitrary point in the `Virtualize<TItem>` component's list of items, the component calculates the visible items to show. Unseen items aren't rendered.
+
+```C#
+<div style="height:500px;overflow-y:scroll" tabindex="-1">
+    <Virtualize Items="@allFlights" Context="flight">
+        <FlightSummary @key="flight.FlightId" Details="@flight.Summary" />
+    </Virtualize>
+</div>
+```
+
+> [!TIP]
+> Keyboard scroll support.
+> 
+> To allow users to scroll virtualized content using their keyboard, ensure that the virtualized elements or scroll container itself is focusable. If you fail to take this step, keyboard scrolling doesn't work in Chromium-based browsers.
+>
+> The example above uses a tabindex attribute on the scroll container.
+
+[*Source - Microsoft ASP.NET Core Blazor : Virtualization*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization)
 
 
 
