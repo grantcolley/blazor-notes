@@ -120,7 +120,10 @@
   * [Dynamically-rendered Components](#dynamically-rendered-components)
     * [DynamicComponent](#dynamiccomponent)
     * [Event Callbacks](#event-callbacks)
-        
+* [Forms](#forms)
+  * [Forms Overview](#forms-overview)
+  * 
+    
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
 
@@ -1716,6 +1719,10 @@ Event callbacks `EventCallback` can be passed to a `DynamicComponent` in its par
 
 [*Source - Microsoft ASP.NET Core Blazor : DynamicComponent*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/dynamiccomponent)
 
+# Forms
+## Forms Overview
+
+[*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
 
 
