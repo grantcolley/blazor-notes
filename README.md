@@ -109,6 +109,8 @@
     * [OnParametersSet{Async}](#onparameterssetasync)
     * [OnAfterRender{Async}](#onafterrenderasync)
     * [StateHasChanged](#statehaschanged)
+    * [Stateful Reconnection after Prerendering](#stateful-reconnection-after-prerendering)
+    * [Component Disposal with IDisposable and IAsyncDisposable](#component-disposal-with-idisposable-and-iasyncdisposable)
   * [Virtualization](#virtualization)
   * [Rendering](#rendering)
     * [Rendering Conventions for ComponentBase](#rendering-conventions-for-componentbase)
@@ -1459,6 +1461,46 @@ The `firstRender` parameter for `OnAfterRender` and `OnAfterRenderAsync`:
 Calling `StateHasChanged` notifies the component that its state has changed causing the component to be rerendered.
 
 `StateHasChanged` is called automatically for `EventCallback` methods.
+
+### Stateful Reconnection after Prerendering
+When prerendering on the server, a component is initially rendered statically as part of the page. Once the browser establishes a `SignalR` connection back to the server, the component is rendered again and interactive. If the `OnInitialized{Async}` lifecycle method for initializing the component is present, the method is executed twice:
+- When the component is prerendered statically.
+- After the server connection has been established.
+
+### Component Disposal with IDisposable and IAsyncDisposable
+
+`IDisposable`
+```C#
+@implements IDisposable
+
+@code {
+    public void Dispose()
+    {
+        obj?.Dispose();
+    }
+}
+```
+
+`IAsyncDisposable`
+```C#
+@implements IAsyncDisposable
+
+@code {
+    public async ValueTask DisposeAsync()
+    {
+        if (obj is not null)
+        {
+            await obj.DisposeAsync();
+        }
+    }
+}
+```
+
+> [!NOTE]
+> Components shouldn't need to implement `IDisposable` and `IAsyncDisposable` simultaneously. If both are implemented, the framework only executes the asynchronous overload.
+
+> [!WARNING]
+> Always unsubscribe event handlers from .NET events.
 
 [*Source - Microsoft ASP.NET Core Blazor : Lifecycle*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle)
 
