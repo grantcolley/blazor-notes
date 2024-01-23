@@ -116,6 +116,8 @@
     * [Rendering Conventions for ComponentBase](#rendering-conventions-for-componentbase)
     * [Streaming Rendering](#streaming-rendering)
     * [Suppress UI refreshing with ShouldRender](#suppress-ui-refreshing-with-shouldrender)
+    * [When to call StateHasChanged](#when-to-call-statehaschanged)
+  * [Dynamically-rendered Components](#dynamically-rendered-components) 
         
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1555,8 +1557,42 @@ To stream content updates when using static server-side rendering (static SSR), 
 ```
 
 ### Suppress UI refreshing with ShouldRender
+`ShouldRender` is called each time a component is rendered, and it can be used to manage UI refreshing.
+```C#
+@page "/control-render"
 
+@code {
+    private bool shouldRender = true;
+
+    protected override bool ShouldRender()
+    {
+        return shouldRender;
+    }
+}
+```
+
+### When to call StateHasChanged
+Calling `StateHasChanged` allows you to trigger a render at any time.
+
+Code shouldn't need to call `StateHasChanged` when:
+- Routinely handling events, whether synchronously or asynchronously, since ComponentBase triggers a render for most routine event handlers.
+- Implementing typical lifecycle logic, such as OnInitialized or OnParametersSetAsync, whether synchronously or asynchronously, since ComponentBase triggers a render for typical lifecycle events.
+
+However, it might make sense to call `StateHasChanged` in the following cases:
+- An asynchronous handler involves multiple asynchronous phases
+- Receiving a call from something external to the Blazor rendering and event handling system
+- To render component outside the subtree that is rerendered by a particular event
+
+> [!NOTE]
+> Due to the way that tasks are defined in .NET, a receiver of a `Task` can only observe its final completion, not intermediate asynchronous states. Therefore, `ComponentBase` can only trigger rerendering when the `Task` is first returned and when the `Task` finally completes. The framework can't know to rerender a component at other intermediate points.
 
 [*Source - Microsoft ASP.NET Core Blazor : Streaming Rendering*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/rendering)
+
+## Dynamically-rendered Components
+
+[*Source - Microsoft ASP.NET Core Blazor : DynamicComponent*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/dynamiccomponent)
+
+
+
 
 
