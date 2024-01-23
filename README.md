@@ -1482,7 +1482,7 @@ When the user scrolls to an arbitrary point in the `Virtualize<TItem>` component
 > 
 > To allow users to scroll virtualized content using their keyboard, ensure that the virtualized elements or scroll container itself is focusable. If you fail to take this step, keyboard scrolling doesn't work in Chromium-based browsers.
 >
-> The example above uses a tabindex attribute on the scroll container.
+> The example above uses a `tabindex` attribute on the scroll container.
 
 [*Source - Microsoft ASP.NET Core Blazor : Virtualization*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization)
 
