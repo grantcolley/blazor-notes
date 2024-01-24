@@ -1727,6 +1727,7 @@ Standard HTML forms are supported. Create a form using the normal HTML `<form>` 
 @page "/starship-plain-form"
 
 <form method="post" @onsubmit="Submit" @formname="starship-plain-form">
+    <AntiforgeryToken />
     <label>
         Identifier: 
         <InputText @bind-Value="Model!.Id" />
