@@ -1863,7 +1863,18 @@ Forms using the HTML `<form>` element must manually add the `AntiforgeryToken` c
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
 ## Input Components
+The Blazor framework provides built-in input components to receive and validate user input supported in an `EditForm` with an `EditContext`. Inputs are validated when they're changed and when a form is submitted.
 
+Input component and what they are rendered as:
+- InputCheckbox `<input type="checkbox">`
+- InputDate<TValue>	`<input type="date">`
+- InputFile	`<input type="file">`
+- InputNumber<TValue>	`<input type="number">`
+- InputRadio<TValue>	`<input type="radio">`
+- InputRadioGroup<TValue>	Group of child `InputRadio<TValue>`
+- InputSelect<TValue>	`<select>`
+- InputText	`<input>`
+- InputTextArea `<textarea>`
 
 [*Source - Microsoft ASP.NET Core Blazor : Input Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components)
 
