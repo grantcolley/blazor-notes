@@ -1721,6 +1721,31 @@ Event callbacks `EventCallback` can be passed to a `DynamicComponent` in its par
 
 # Forms
 ## Forms Overview
+Standard HTML forms are supported. Create a form using the normal HTML `<form>` tag and specify an `@onsubmit` handler for handling the submitted form request.
+
+```C#
+@page "/starship-plain-form"
+
+<form method="post" @onsubmit="Submit" @formname="starship-plain-form">
+        <label>
+            Identifier: 
+            <InputText @bind-Value="Model!.Id" />
+        </label>
+        <button type="submit">Submit</button>
+</form>
+
+@code {
+    [SupplyParameterFromForm]
+    public Starship? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+        Logger.LogInformation("Id = {Id}", Model?.Id);
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
