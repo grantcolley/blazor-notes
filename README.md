@@ -1747,6 +1747,17 @@ Standard HTML forms are supported. Create a form using the normal HTML `<form>` 
 }
 ```
 
+> [!TIP]
+> The `[SupplyParameterFromForm]` attribute indicates that the value of the associated property should be supplied from the form data. Data in the request that matches the property's name is bound to the property.
+
+Blazor enhances page navigation and form handling by intercepting the request in order to apply the response to the existing DOM, preserving as much of the rendered form as possible. The enhancement avoids the need to fully load the page and provides a much smoother user experience, similar to a single-page app (SPA), although the component is rendered on the server.
+
+> [!NOTE]
+> `Streaming` rendering is supported for plain HTML forms.
+
+> [!IMPORTANT]
+> For an HTML form, always use the `@formname` attribute directive to assign the form's name.
+
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
 
