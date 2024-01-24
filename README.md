@@ -1727,11 +1727,11 @@ Standard HTML forms are supported. Create a form using the normal HTML `<form>` 
 @page "/starship-plain-form"
 
 <form method="post" @onsubmit="Submit" @formname="starship-plain-form">
-        <label>
-            Identifier: 
-            <InputText @bind-Value="Model!.Id" />
-        </label>
-        <button type="submit">Submit</button>
+    <label>
+        Identifier: 
+        <InputText @bind-Value="Model!.Id" />
+    </label>
+    <button type="submit">Submit</button>
 </form>
 
 @code {
