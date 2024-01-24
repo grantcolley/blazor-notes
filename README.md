@@ -128,6 +128,7 @@
     * [Form Submission](#form-submission)
     * [Antiforgery Support](#antiforgery-support)
   * [Input Components](#input-components)
+  * [Binding](#binding) 
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1877,6 +1878,10 @@ Input component and what they are rendered as:
 - InputTextArea `<textarea>`
 
 [*Source - Microsoft ASP.NET Core Blazor : Input Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components)
+
+## Binding
+
+[*Source - Microsoft ASP.NET Core Blazor : Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/binding)
 
 
 
