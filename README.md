@@ -125,6 +125,8 @@
     * [HTML Forms](#html-forms)
     * [EditForm](#editform)
     * [DataAnnotations](#dataannotations)
+    * [Form Submission](#form-submission)
+    * [Antiforgery Support](#antiforgery-support)
   * 
     
 # Overview
@@ -1844,6 +1846,19 @@ The following example uses `DataAnnotations`.
     }
 }
 ```
+
+### Form Submission
+`EditForm` provides the following callbacks for handling form submission:
+- `OnValidSubmit` runs when a form with valid fields is submitted.
+- `OnInvalidSubmit` runs when a form with invalid fields is submitted.
+- `OnSubmit` runs regardless of the form fields' validation status. The form is validated by calling `EditContext.Validate` in the event handler method. If `Validate` returns true, the form is valid.
+
+### Antiforgery Support
+The `AntiforgeryToken` component renders an antiforgery token as a hidden field, and the `[RequireAntiforgeryToken]` attribute enables antiforgery protection. If an antiforgery check fails, a `400 - Bad Request response` is thrown and the form isn't processed.
+
+`EditForm`, automatically adds the `AntiforgeryToken` component and `[RequireAntiforgeryToken]` attribute to provide antiforgery protection by default.
+
+Forms using the HTML `<form>` element must manually add the `AntiforgeryToken` component to the form.
 
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
