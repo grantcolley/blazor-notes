@@ -122,6 +122,8 @@
     * [Event Callbacks](#event-callbacks)
 * [Forms](#forms)
   * [Forms Overview](#forms-overview)
+    * [HTML Forms](#html-forms)
+    * [EditForm](#editform)
   * 
     
 # Overview
@@ -1721,6 +1723,10 @@ Event callbacks `EventCallback` can be passed to a `DynamicComponent` in its par
 
 # Forms
 ## Forms Overview
+> [!NOTE]
+> Built-in input components can be ound to an object or model that can use data annotations.
+
+### HTML Forms
 Standard HTML forms are supported. Create a form using the normal HTML `<form>` tag and specify an `@onsubmit` handler for handling the submitted form request.
 
 ```C#
@@ -1758,6 +1764,33 @@ Blazor enhances page navigation and form handling by intercepting the request in
 
 > [!IMPORTANT]
 > For an HTML form, always use the `@formname` attribute directive to assign the form's name.
+
+### EditForm
+Blazor also has built-in form support using the framework's `EditForm` component.
+
+```C#
+@page "/starship"
+
+<EditForm Model="@Model" OnSubmit="@Submit" FormName="Starship1">
+    <label>
+        Identifier: 
+        <InputText @bind-Value="Model!.Id" />
+    </label>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Starship? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+        Logger.LogInformation("Id = {Id}", Model?.Id);
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
 
