@@ -127,7 +127,7 @@
     * [DataAnnotations](#dataannotations)
     * [Form Submission](#form-submission)
     * [Antiforgery Support](#antiforgery-support)
-  * 
+  * [Input Components](#input-components)
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1861,6 +1861,11 @@ The `AntiforgeryToken` component renders an antiforgery token as a hidden field,
 Forms using the HTML `<form>` element must manually add the `AntiforgeryToken` component to the form.
 
 [*Source - Microsoft ASP.NET Core Blazor : Forms Overview*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms)
+
+## Input Components
+
+
+[*Source - Microsoft ASP.NET Core Blazor : Input Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components)
 
 
 
