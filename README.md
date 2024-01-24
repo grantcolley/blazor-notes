@@ -124,6 +124,7 @@
   * [Forms Overview](#forms-overview)
     * [HTML Forms](#html-forms)
     * [EditForm](#editform)
+    * [DataAnnotations](#dataannotations)
   * 
     
 # Overview
@@ -1751,6 +1752,11 @@ Standard HTML forms are supported. Create a form using the normal HTML `<form>` 
     {
         Logger.LogInformation("Id = {Id}", Model?.Id);
     }
+
+    public class Starship
+    {
+        public string? Id { get; set; }
+    }
 }
 ```
 
@@ -1788,6 +1794,53 @@ Blazor also has built-in form support using the framework's `EditForm` component
     private void Submit()
     {
         Logger.LogInformation("Id = {Id}", Model?.Id);
+    }
+
+    public class Starship
+    {
+        public string? Id { get; set; }
+    }
+}
+```
+
+Blazor enhances page navigation and form handling for EditForm components.
+
+### DataAnnotations
+
+The following example uses `DataAnnotations`.
+
+`OnSubmit` is replaced with `OnValidSubmit`, a `ValidationSummary` component is added to display validation messages when the form is invalid, and a `DataAnnotationsValidator` component attaching validation support using data annotations.
+
+```C#
+@page "/starship-"
+@using System.ComponentModel.DataAnnotations
+
+<EditForm Model="@Model" OnValidSubmit="@Submit" FormName="Starship2">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <label>
+        Identifier: 
+        <InputText @bind-Value="Model!.Id" />
+    </label>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Starship? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private void Submit()
+    {
+        Logger.LogInformation("Id = {Id}", Model?.Id);
+    }
+
+    public class Starship
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Id is too long.")]
+        public string? Id { get; set; }
     }
 }
 ```
