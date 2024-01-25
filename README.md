@@ -137,7 +137,11 @@
   * [Form Validation](#form-validation)
   * [DataAnnotationsValidator](#dataannotationsvalidator)
   * [Server Validation with a Validator Component](#server-validation-with-a-validator-component)
-    
+  * [Validation Summary and Validation Message Components](#validation-summary-and-validation-message-components)
+  * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
+  * [Nested Models, Collection Types, and Complex Types](#nested-models-collection-types-and-complex-types)
+  * [Enable the Submit Button Based on Form Validation](#enable-the-submit-button-based-on-form-validation)
+
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
 
@@ -2090,7 +2094,117 @@ public class CustomValidation : ComponentBase
 ```
 
 ### Server Validation with a Validator Component
+Server validation is supported in addition to client validation where the `EditContext.Model` to a backend server API for processing model validation on the server. The server API includes both the built-in framework data annotations validation and custom validation logic supplied by the developer. If validation passes on the server, process the form and send back a `success status code (200 - OK)`. If validation fails, return a `failure status code (400 - Bad Request)` and the field validation errors.
 
+> [!TIP]
+> To support model validation on the backend server API, the model should be in a shared class library that can be referenced by the client and server api projects. Furthermore, since the model requires data annotations, the shared class library must reference the `System.ComponentModel.Annotations` package.
+
+### Validation Summary and Validation Message Components
+The `ValidationSummary` component summarizes all validation messages.
+```C#
+<ValidationSummary Model="@Model" />
+```
+
+The `ValidationMessage<TValue>` component displays validation messages for a specific field.
+```C#
+<ValidationMessage For="@(() => Model!.MaximumAccommodation)" />
+```
+
+### Determine if a Form Field is Valid
+Use `EditContext.IsValid(fieldIdentifier)` to determine if a field is valid without obtaining validation messages.
+```C
+var isValid = editContext.IsValid(fieldIdentifier);
+```
+
+### Nested Models, Collection Types, and Complex Types
+`DataAnnotationsValidator` only validates top-level properties of the model bound to the form that aren't collection or complex-type properties.
+
+To validate the bound model's entire object graph, including collection and complex-type properties, use the `ObjectGraphDataAnnotationsValidator` provided by the experimental `Microsoft.AspNetCore.Components.DataAnnotations.Validation` package:
+
+```C#
+<EditForm ...>
+    <ObjectGraphDataAnnotationsValidator />
+    ...
+</EditForm>
+```
+
+Annotate model properties with `[ValidateComplexType]`. 
+
+```C#
+using System;
+using System.ComponentModel.DataAnnotations;
+
+public class Starship
+{
+    [ValidateComplexType]
+    public ShipDescription ShipDescription { get; set; } = new();
+}
+```
+
+### Enable the Submit Button Based on Form Validation
+Validate the form in the context's `OnFieldChanged` callback to enable and disable the submit button.
+
+```C#
+@page "/starship"
+@implements IDisposable
+@inject ILogger<Starship14> Logger
+
+<EditForm EditContext="@editContext" OnValidSubmit="@Submit" FormName="Starship14">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label>
+            Identifier:
+            <InputText @bind-Value="Model!.Id" />
+        </label>
+    </div>
+    <div>
+        <button type="submit" disabled="@formInvalid">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    private bool formInvalid = false;
+    private EditContext? editContext;
+
+    [SupplyParameterFromForm]
+    private Starship? Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??=
+            new()
+                {
+                    Id = "NCC-1701",
+                    Classification = "Exploration"
+                };
+        editContext = new(Model);
+        editContext.OnFieldChanged += HandleFieldChanged;
+    }
+
+    private void HandleFieldChanged(object? sender, FieldChangedEventArgs e)
+    {
+        if (editContext is not null)
+        {
+            formInvalid = !editContext.Validate();
+            StateHasChanged();
+        }
+    }
+
+    private void Submit()
+    {
+        Logger.LogInformation("Submit called: Processing the form");
+    }
+
+    public void Dispose()
+    {
+        if (editContext is not null)
+        {
+            editContext.OnFieldChanged -= HandleFieldChanged;
+        }
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
