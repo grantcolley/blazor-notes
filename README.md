@@ -133,7 +133,9 @@
    * [Model Binding](#model-binding)
    * [Context Binding](#context-binding)
    * [Form Names](#form-names)
-* [Validation](#validation) 
+* [Validation](#validation)
+  * [Form Validation](#form-validation)
+  * 
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1942,7 +1944,83 @@ Supplying a form name is required for all forms that are submitted by statically
 [*Source - Microsoft ASP.NET Core Blazor : Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/binding)
 
 ## Validation
+### Form Validation
+In basic form validation scenarios, an `EditForm` instance can use declared `EditContext` and `ValidationMessageStore` instances to validate form fields. A handler for the `OnValidationRequested` event of the `EditContext` executes custom validation logic. The handler's result updates the `ValidationMessageStore` instance.
 
+```C#
+@page "/starship"
+@implements IDisposable
+
+<EditForm EditContext="editContext" OnValidSubmit="@Submit" FormName="Starship8">
+    <div>
+        <label>
+            <InputCheckbox @bind-Value="Model!.Subsystem1" />
+            Safety Subsystem
+        </label>
+    </div>
+    <div>
+        <label>
+            <InputCheckbox @bind-Value="Model!.Subsystem2" />
+            Emergency Shutdown Subsystem
+        </label>
+    </div>
+    <div>
+        <ValidationMessage For="() => Model!.Options" />
+    </div>
+    <div>
+        <button type="submit">Update</button>
+    </div>
+</EditForm>
+
+@code {
+    private EditContext? editContext;
+
+    [SupplyParameterFromForm]
+    public Holodeck? Model { get; set; }
+
+    private ValidationMessageStore? messageStore;
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+        editContext = new(Model);
+        editContext.OnValidationRequested += HandleValidationRequested;
+        messageStore = new(editContext);
+    }
+
+    private void HandleValidationRequested(object? sender,
+        ValidationRequestedEventArgs args)
+    {
+        messageStore?.Clear();
+
+        // Custom validation logic
+        if (!Model!.Options)
+        {
+            messageStore?.Add(() => Model.Options, "Select at least one.");
+        }
+    }
+
+    private void Submit()
+    {
+        Logger.LogInformation("Submit called: Processing the form");
+    }
+
+    public class Holodeck
+    {
+        public bool Subsystem1 { get; set; }
+        public bool Subsystem2 { get; set; }
+        public bool Options => Subsystem1 || Subsystem2;
+    }
+
+    public void Dispose()
+    {
+        if (editContext is not null)
+        {
+            editContext.OnValidationRequested -= HandleValidationRequested;
+        }
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
