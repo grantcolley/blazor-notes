@@ -128,7 +128,12 @@
     * [Form Submission](#form-submission)
     * [Antiforgery Support](#antiforgery-support)
   * [Input Components](#input-components)
-  * [Binding](#binding) 
+* [Forms Binding](#forms-binding)
+   * [EditForm/EditContext Model](#editForm-editContext-model)
+   * [Model Binding](#model-binding)
+   * [Context Binding](#context-binding)
+   * [Form Names](#form-names)
+* [Validation](#validation) 
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -1879,9 +1884,66 @@ Input component and what they are rendered as:
 
 [*Source - Microsoft ASP.NET Core Blazor : Input Components*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components)
 
-## Binding
+## Forms Binding
+### EditForm/EditContext Model
+An `EditForm` creates an `EditContext` based on the assigned object as a cascading value for other components in the form. The `EditContext` tracks metadata about the edit process, including which form fields have been modified and the current validation messages. Assigning to either an `EditForm.Model` or an `EditForm.EditContext` can bind a form to data.
+
+> [!WARNING]
+> `EditContext` or `EditForm` are mutually exclusive so assign a model to either one or a runtime error is thrown.
+
+```C#
+<EditForm ... Model="@Model" ...>
+    ...
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    public Starship? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+}
+```
+
+### Context Binding
+```C#
+<EditForm ... EditContext="@editContext" ...>
+    ...
+</EditForm>
+
+@code {
+    private EditContext? editContext;
+
+    [SupplyParameterFromForm]
+    public Starship? Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+        editContext = new(Model);
+    }
+}
+```
+
+### Form Names
+Use the `FormName` parameter to assign a form name. Form names must be unique to bind model data.
+
+```C#
+<EditForm ... FormName="abc">
+    ...
+</EditForm>
+```
+
+Supplying a form name is required for all forms that are submitted by statically-rendered server-side components but not for forms that are submitted by interactively-rendered components. However, the recommendation is to supply a unique form name for every form to prevent runtime form posting errors if interactivity is ever dropped for a form.
+
+> [!NOTE]
+> The form name is only checked when the form is posted to an endpoint as a traditional `HTTP POST` request from a statically-rendered server-side component to ensure form names don't collide and events are routed to the correct form for form `POST` events.
 
 [*Source - Microsoft ASP.NET Core Blazor : Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/binding)
+
+## Validation
+
+
+[*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
 
 
