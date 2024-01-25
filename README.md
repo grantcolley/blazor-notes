@@ -136,6 +136,7 @@
 * [Validation](#validation)
   * [Form Validation](#form-validation)
   * [DataAnnotationsValidator](#dataannotationsvalidator)
+  * [Server Validation with a Validator Component](#server-validation-with-a-validator-component)
     
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2087,6 +2088,9 @@ public class CustomValidation : ComponentBase
     }
 }
 ```
+
+### Server Validation with a Validator Component
+
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
