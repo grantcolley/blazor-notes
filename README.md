@@ -142,6 +142,9 @@
   * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
   * [Nested Models, Collection Types, and Complex Types](#nested-models-collection-types-and-complex-types)
   * [Enable the Submit Button Based on Form Validation](#enable-the-submit-button-based-on-form-validation)
+* [State Management](#state-management)
+  * [Maintain User State](#maintain-user-state)
+  * [Persist a State Across Circuits](#persist-a-state-across-circuits)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2209,6 +2212,45 @@ Validate the form in the context's `OnFieldChanged` callback to enable and disab
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
+## State Management
+### Maintain User State
+Server-side Blazor is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a ***circuit***.
+
+If a user experiences a temporary network connection loss, Blazor attempts to reconnect the user to their original circuit with their original state, however this isn't always possible. When a user can't be reconnected to their original circuit, the user receives a new circuit with an empty state.
+
+### Persist a State Across Circuits
+To preserve state across circuits, the app must persist the data to some other storage location than the server's memory.
+
+### Where to Persist State
+#### Server-side Storage
+Store in a database, or some other "external" persistent storage.
+
+#### URL
+Store as part of the url
+
+#### Browser Storage
+- `localStorage` is scoped to the browser's window. Data persists in `localStorage` until explicitly cleared.
+- `sessionStorage` is scoped to the browser's tab. Each tab has its own independent version of the data.
+- `ProtectedLocalStorage` leverages **ASP.NET Core Data Protection** for `localStorage`
+- `ProtectedSessionStorage` leverages **ASP.NET Core Data Protection** for `sessionStorage`
+
+> [!TIP]
+> Generally, `sessionStorage` is safer to use than `localStorage` because it avoids the risk that a user opens multiple tabs and encounters issues sharing state across tabs.
+>
+> `localStorage` is the better choice if the app must persist state across closing and reopening the browser.
+
+> [!NOTE]
+> Protected Browser Storage relies on **ASP.NET Core Data Protection** and is only supported for server-side Blazor apps.
+
+```C#
+private async Task IncrementCount()
+{
+    currentCount++;
+    await ProtectedSessionStore.SetAsync("count", currentCount);
+}
+```
+
+#### In-memory State Container Service
 
 
 
