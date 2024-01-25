@@ -2254,6 +2254,12 @@ private async Task IncrementCount()
 }
 ```
 
+During prerendering:
+- An interactive connection to the user's browser doesn't exist.
+- The browser doesn't yet have a page in which it can run **JavaScript** code.
+
+`localStorage` or `sessionStorage` aren't available during prerendering and any attempt to interact with storage will result in an error. One way to resolve the error is to disable prerendering.
+
 #### In-memory State Container Service
 
 
