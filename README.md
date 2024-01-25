@@ -145,6 +145,10 @@
 * [State Management](#state-management)
   * [Maintain User State](#maintain-user-state)
   * [Persist a State Across Circuits](#persist-a-state-across-circuits)
+    * [Server-side Storage](#server-side-storage)
+    * [URL](#url)
+    * [Browser Storage](#browser-storage)
+    * [In-memory State Container Service](#in-memory-state-container-service)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
