@@ -136,6 +136,7 @@
 * [Validation](#validation)
   * [Form Validation](#form-validation)
   * [DataAnnotationsValidator](#dataannotationsvalidator)
+  * [Create a Custom Validator](#create-a-custom-validator)
   * [Server Validation with a Validator Component](#server-validation-with-a-validator-component)
   * [Validation Summary and Validation Message Components](#validation-summary-and-validation-message-components)
   * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
