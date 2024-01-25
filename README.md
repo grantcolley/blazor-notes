@@ -129,7 +129,7 @@
     * [Antiforgery Support](#antiforgery-support)
   * [Input Components](#input-components)
 * [Forms Binding](#forms-binding)
-   * [EditForm/EditContext Model](#editForm-editContext-model)
+   * [EditForm/EditContext Model](#editFormeditContext-model)
    * [Model Binding](#model-binding)
    * [Context Binding](#context-binding)
    * [Form Names](#form-names)
@@ -1891,6 +1891,7 @@ An `EditForm` creates an `EditContext` based on the assigned object as a cascadi
 > [!WARNING]
 > `EditContext` or `EditForm` are mutually exclusive so assign a model to either one or a runtime error is thrown.
 
+### Model Binding
 ```C#
 <EditForm ... Model="@Model" ...>
     ...
