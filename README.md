@@ -100,6 +100,7 @@
     * [Execute Asynchronous Logic After Binding](#execute-asynchronous-logic-after-binding)
     * [Two-Way Binding](#two-way-binding)
     * [Binding with Component Parameters](#binding-with-component-parameters)
+    * [Bind Across More Than Two Components](#bind-across-more-than-two-components)
   * [Razor Component Lifecycle](#razor-component-lifecycle)
     * [Lifecycle Events](#lifecycle-events)
       * [Component Lifecycle Events](#component-lifecycle-events)
@@ -1493,6 +1494,15 @@ In the following `Parent1` component, the `year` field is bound to the `Year` pa
     }
 }
 ```
+
+### Bind Across More Than Two Components
+> [!NOTE]
+> You can bind parameters through any number of nested components, but you must respect the one-way flow of data:
+> - Change notifications flow up the hierarchy.
+> - New parameter values flow down the hierarchy.
+
+> [!TIP]
+> A common and recommended approach is to only store the underlying data in the parent component to avoid any confusion about what state must be updated
 
 [*Source - Microsoft ASP.NET Core Blazor : Data Binding*](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/data-binding)
 
