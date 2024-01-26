@@ -2332,6 +2332,111 @@ During prerendering:
 `localStorage` or `sessionStorage` aren't available during prerendering and any attempt to interact with storage will result in an error. One way to resolve the error is to disable prerendering.
 
 #### In-memory State Container Service
+Nested components typically bind data using chained binding.
 
+Nested and unnested components can share access to data using a registered in-memory state container.
 
+A custom state container class can use an assignable `Action` to notify components in different parts of the app of state changes.
+
+`StateContainer.cs`
+```C#
+public class StateContainer
+{
+    private string? savedString;
+
+    public string Property
+    {
+        get => savedString ?? string.Empty;
+        set
+        {
+            savedString = value;
+            NotifyStateChanged();
+        }
+    }
+
+    public event Action? OnChange;
+
+    private void NotifyStateChanged() => OnChange?.Invoke();
+}
+```
+
+Client-side apps `Program.cs`
+```C#
+builder.Services.AddSingleton<StateContainer>();
+```
+
+Server-side apps `Program.cs`
+```C#
+builder.Services.AddScoped<StateContainer>();
+```
+
+`Shared/Nested.razor`
+```C#
+@implements IDisposable
+@inject StateContainer StateContainer
+
+<h2>Nested component</h2>
+
+<p>Nested component Property: <b>@StateContainer.Property</b></p>
+
+<p>
+    <button @onclick="ChangePropertyValue">
+        Change the Property from the Nested component
+    </button>
+</p>
+
+@code {
+    protected override void OnInitialized()
+    {
+        StateContainer.OnChange += StateHasChanged;
+    }
+
+    private void ChangePropertyValue()
+    {
+        StateContainer.Property = 
+            $"New value set in the Nested component: {DateTime.Now}";
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
+```
+
+```C#
+@page "/state-container-example"
+@implements IDisposable
+@inject StateContainer StateContainer
+
+<h1>State Container Example component</h1>
+
+<p>State Container component Property: <b>@StateContainer.Property</b></p>
+
+<p>
+    <button @onclick="ChangePropertyValue">
+        Change the Property from the State Container Example component
+    </button>
+</p>
+
+<Nested />
+
+@code {
+    protected override void OnInitialized()
+    {
+        StateContainer.OnChange += StateHasChanged;
+    }
+
+    private void ChangePropertyValue()
+    {
+        StateContainer.Property = "New value set in the State " +
+            $"Container Example component: {DateTime.Now}";
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
+```
 
