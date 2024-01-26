@@ -156,7 +156,8 @@
     * [Antiforgery Support](#antiforgery-support)
     * [Authentication](#authentication)
       * [Server-side Blazor Authentication](#server-side-blazor-authentication)
-      * [IHttpContextAccessor/HttpContext](#ihttpcontextaccessorhttpcontext) 
+        * [IHttpContextAccessor/HttpContext](#ihttpcontextaccessorhttpcontext)
+        * [Shared State](#shared-state)
     * 
 
 # Overview
@@ -2462,12 +2463,18 @@ Interactively-rendered server-side Blazor operates over a `SignalR` connection w
 
 The built-in `AuthenticationStateProvider` service obtains authentication state data from ASP.NET Core's `HttpContext.User`. This is how authentication state integrates with existing ASP.NET Core authentication mechanisms.
 
-#### IHttpContextAccessor/HttpContext
+##### IHttpContextAccessor/HttpContext
 `IHttpContextAccessor` must be avoided with interactive rendering because there isn't a valid `HttpContext` available.
 
 `IHttpContextAccessor` can be used for components that are statically rendered on the server. However, it is recommended to avoid using it if possible.
 
 `HttpContext` can be used as a cascading parameter only in statically-rendered root components, to inspect and modify headers or other properties in the `App` component.
+
+##### Shared State
+Server-side Blazor apps live in server memory, and multiple app sessions are hosted within the same process. For each app session, Blazor starts a circuit with its own dependency injection container scope, thus scoped services are unique per Blazor session.
+
+> [!WARNING]
+> Extreme care should be taken with singletons, as this can introduce security vulnerabilities, such as leaking user state across circuits.
 
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
