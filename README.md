@@ -155,7 +155,8 @@
   * [Security Overview](#security-overview)
     * [Antiforgery Support](#antiforgery-support)
     * [Authentication](#authentication)
-      * [Server-side Blazor Authentication](#server-side-blazor-authentication) 
+      * [Server-side Blazor Authentication](#server-side-blazor-authentication)
+      * [IHttpContextAccessor/HttpContext](#ihttpcontextaccessorhttpcontext) 
     * 
 
 # Overview
@@ -2460,6 +2461,14 @@ Blazor uses the existing ASP.NET Core authentication mechanisms to establish the
 Interactively-rendered server-side Blazor operates over a `SignalR` connection with the client. Authentication in `SignalR`-based apps is handled when the connection is established. Authentication can be based on a cookie or some other bearer token, but authentication is managed via the `SignalR` hub and entirely within the `circuit`.
 
 The built-in `AuthenticationStateProvider` service obtains authentication state data from ASP.NET Core's `HttpContext.User`. This is how authentication state integrates with existing ASP.NET Core authentication mechanisms.
+
+#### IHttpContextAccessor/HttpContext
+`IHttpContextAccessor` must be avoided with interactive rendering because there isn't a valid `HttpContext` available.
+
+`IHttpContextAccessor` can be used for components that are statically rendered on the server. However, it is recommended to avoid using it if possible.
+
+`HttpContext` can be used as a cascading parameter only in statically-rendered root components, to inspect and modify headers or other properties in the `App` component.
+
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
