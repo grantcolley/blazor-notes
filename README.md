@@ -151,6 +151,7 @@
     * [URL](#url)
     * [Browser Storage](#browser-storage)
     * [In-memory State Container Service](#in-memory-state-container-service)
+* [Security and Identity](#security-and-identity)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2287,7 +2288,7 @@ Validate the form in the context's `OnFieldChanged` callback to enable and disab
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
-## State Management
+# State Management
 ### Maintain User State
 Server-side Blazor is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a ***circuit***.
 
@@ -2439,4 +2440,10 @@ builder.Services.AddScoped<StateContainer>();
     }
 }
 ```
+
+[*Source - Microsoft ASP.NET Core Blazor : State Management*](https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management)
+
+# Security and Identity
+
+[*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
