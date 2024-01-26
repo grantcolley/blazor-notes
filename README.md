@@ -130,20 +130,20 @@
     * [Form Submission](#form-submission)
     * [Antiforgery Support](#antiforgery-support)
   * [Input Components](#input-components)
-* [Forms Binding](#forms-binding)
-   * [EditForm/EditContext Model](#editFormeditContext-model)
-   * [Model Binding](#model-binding)
-   * [Context Binding](#context-binding)
-   * [Form Names](#form-names)
-* [Validation](#validation)
-  * [Form Validation](#form-validation)
-  * [DataAnnotationsValidator](#dataannotationsvalidator)
-  * [Create a Custom Validator](#create-a-custom-validator)
-  * [Server Validation with a Validator Component](#server-validation-with-a-validator-component)
-  * [Validation Summary and Validation Message Components](#validation-summary-and-validation-message-components)
-  * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
-  * [Nested Models, Collection Types, and Complex Types](#nested-models-collection-types-and-complex-types)
-  * [Enable the Submit Button Based on Form Validation](#enable-the-submit-button-based-on-form-validation)
+  * [Forms Binding](#forms-binding)
+    * [EditForm/EditContext Model](#editFormeditContext-model)
+    * [Model Binding](#model-binding)
+    * [Context Binding](#context-binding)
+    * [Form Names](#form-names)
+  * [Validation](#validation)
+    * [Form Validation](#form-validation)
+    * [DataAnnotationsValidator](#dataannotationsvalidator)
+    * [Create a Custom Validator](#create-a-custom-validator)
+    * [Server Validation with a Validator Component](#server-validation-with-a-validator-component)
+    * [Validation Summary and Validation Message Components](#validation-summary-and-validation-message-components)
+    * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
+    * [Nested Models, Collection Types, and Complex Types](#nested-models-collection-types-and-complex-types)
+    * [Enable the Submit Button Based on Form Validation](#enable-the-submit-button-based-on-form-validation)
 * [State Management](#state-management)
   * [Maintain User State](#maintain-user-state)
   * [Persist a State Across Circuits](#persist-a-state-across-circuits)
@@ -2294,22 +2294,22 @@ Validate the form in the context's `OnFieldChanged` callback to enable and disab
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
 
 # State Management
-### Maintain User State
+## Maintain User State
 Server-side Blazor is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a ***circuit***.
 
 If a user experiences a temporary network connection loss, Blazor attempts to reconnect the user to their original circuit with their original state, however this isn't always possible. When a user can't be reconnected to their original circuit, the user receives a new circuit with an empty state.
 
-### Persist a State Across Circuits
+## Persist a State Across Circuits
 To preserve state across circuits, the app must persist the data to some other storage location than the server's memory.
 
-### Where to Persist State
-#### Server-side Storage
+## Where to Persist State
+### Server-side Storage
 Store in a database, or some other "external" persistent storage.
 
-#### URL
+### URL
 Store as part of the url
 
-#### Browser Storage
+### Browser Storage
 - `localStorage` is scoped to the browser's window. Data persists in `localStorage` until explicitly cleared.
 - `sessionStorage` is scoped to the browser's tab. Each tab has its own independent version of the data.
 - `ProtectedLocalStorage` leverages **ASP.NET Core Data Protection** for `localStorage`
@@ -2337,7 +2337,7 @@ During prerendering:
 
 `localStorage` or `sessionStorage` aren't available during prerendering and any attempt to interact with storage will result in an error. One way to resolve the error is to disable prerendering.
 
-#### In-memory State Container Service
+### In-memory State Container Service
 Nested components typically bind data using chained binding.
 
 Nested and unnested components can share access to data using a registered in-memory state container.
