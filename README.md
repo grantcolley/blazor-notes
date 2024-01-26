@@ -152,6 +152,11 @@
     * [Browser Storage](#browser-storage)
     * [In-memory State Container Service](#in-memory-state-container-service)
 * [Security and Identity](#security-and-identity)
+  * [Security Overview](#security-overview)
+    * [Antiforgery Support](#antiforgery-support)
+    * [Authentication](#authentication)
+      * [Server-side Blazor Authentication](#server-side-blazor-authentication) 
+    * 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2444,6 +2449,17 @@ builder.Services.AddScoped<StateContainer>();
 [*Source - Microsoft ASP.NET Core Blazor : State Management*](https://learn.microsoft.com/en-us/aspnet/core/blazor/state-management)
 
 # Security and Identity
+## Security Overview
+### Antiforgery Support
+Blazor adds Antiforgery Middleware and requires endpoint antiforgery protection by default. The `AntiforgeryToken` component renders an antiforgery token as a hidden field, and this component is automatically added to `EditForm` instances.
+
+### Authentication
+Blazor uses the existing ASP.NET Core authentication mechanisms to establish the user's identity.
+
+#### Server-side Blazor Authentication
+Interactively-rendered server-side Blazor operates over a `SignalR` connection with the client. Authentication in `SignalR`-based apps is handled when the connection is established. Authentication can be based on a cookie or some other bearer token, but authentication is managed via the `SignalR` hub and entirely within the `circuit`.
+
+The built-in `AuthenticationStateProvider` service obtains authentication state data from ASP.NET Core's `HttpContext.User`. This is how authentication state integrates with existing ASP.NET Core authentication mechanisms.
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
