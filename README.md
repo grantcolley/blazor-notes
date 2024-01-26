@@ -99,6 +99,7 @@
     * [Binding](#binding)
     * [Execute Asynchronous Logic After Binding](#execute-asynchronous-logic-after-binding)
     * [Two-Way Binding](#two-way-binding)
+    * [Binding with Component Parameters](#binding-with-component-parameters)
   * [Razor Component Lifecycle](#razor-component-lifecycle)
     * [Lifecycle Events](#lifecycle-events)
       * [Component Lifecycle Events](#component-lifecycle-events)
@@ -1429,6 +1430,66 @@ In **ASP.NET Core 7.0** or later, `@bind:get`/`@bind:set` modifier syntax is use
         var newValue = value ?? string.Empty;
 
         inputValue = newValue.Length > 4 ? "Long!" : newValue;
+    }
+}
+```
+
+### Binding with Component Parameters
+Binding a property of a child component to a property in its parent component is called a chained bind because multiple levels of binding occur simultaneously.
+
+Component parameters bind to the property of a parent using `@bind-{PROPERTY}`, where the `{PROPERTY}` placeholder is the property to bind. An event handler and value must be specified separately to support updating the property in the parent from the child component.
+
+The following `ChildBind` component has a `Year` component parameter and an `EventCallback<TValue>`.
+
+`EventCallback.InvokeAsync` invokes the delegate associated with the binding with the provided argument and dispatches an event notification for the changed property.
+
+`ChildBind.razor`
+```C#
+<div class="card bg-light mt-3" style="width:18rem ">
+    <div class="card-body">
+        <h3 class="card-title">ChildBind Component</h3>
+        <p class="card-text">
+            Child <code>Year</code>: @Year
+        </p>
+        <button @onclick="UpdateYearFromChild">Update Year from Child</button>
+    </div>
+</div>
+
+@code {
+    private Random r = new();
+
+    [Parameter]
+    public int Year { get; set; }
+
+    [Parameter]
+    public EventCallback<int> YearChanged { get; set; }
+
+    private async Task UpdateYearFromChild()
+    {
+        await YearChanged.InvokeAsync(r.Next(1950, 2021));
+    }
+}
+```
+
+In the following `Parent1` component, the `year` field is bound to the `Year` parameter of the child component. The `Year` parameter is bindable because it has a companion `YearChanged` event that matches the type of the `Year` parameter.
+
+`Parent1.razor`
+```C#
+@page "/parent"
+
+<p>Parent <code>year</code>: @year</p>
+
+<button @onclick="UpdateYear">Update Parent <code>year</code></button>
+
+<ChildBind @bind-Year="year" />
+
+@code {
+    private Random r = new();
+    private int year = 1979;
+
+    private void UpdateYear()
+    {
+        year = r.Next(1950, 2021);
     }
 }
 ```
