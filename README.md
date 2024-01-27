@@ -2603,7 +2603,19 @@ The `AuthorizeView` component also supports role-based or policy-based authoriza
 ```
 
 ### [Authorize] Attribute
+`[Authorize]` can only be used on `@page` components reached via the Blazor router. `[Authorize]` also supports role-based or policy-based authorization. 
 
+```C#
+@page "/"
+@attribute [Authorize(Roles = "Admin, Superuser")]
+
+<p>You can only see this if you're in the 'Admin' or 'Superuser' role.</p>
+```
+
+> [!NOTE]
+> If neither Roles nor Policy is specified, both `[Authorize]` attribute and `<AuthorizeView>` component uses the default policy:
+> - Authenticated (signed-in) users are authorized.
+> - Unauthenticated (signed-out) users are unauthorized.
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
