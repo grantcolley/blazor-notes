@@ -2661,5 +2661,10 @@ If the app is required to check authorization rules as part of procedural logic,
 }
 ```
 
+> [!IMPORTANT]
+> In .NET 8 or later add cascading authentication state services to the service collection in the `Program.cs`.
+> 
+> `builder.Services.AddCascadingAuthenticationState();`
+
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
