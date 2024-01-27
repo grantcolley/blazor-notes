@@ -160,6 +160,7 @@
         * [Shared State](#shared-state)
       * [Client-side Blazor Authentication](#client-side-blazor-authentication)
     * [AuthenticationStateProvider](#authenticationstateprovider)
+    * [Expose the Authentication State as a Cascading Parameter](#expose-the-authentication-state-as-acascading-parameter)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2512,6 +2513,39 @@ The `AuthenticationStateProvider` service can provide the current user's `Claims
     }
 }
 ```
+
+### Expose the Authentication State as a Cascading Parameter
+If authentication state data is required for procedural logic, such as when performing an action triggered by the user, obtain the authentication state data by defining a cascading parameter of type `Task<AuthenticationState>`.
+
+```C#
+@page "/cascade-auth-state"
+
+<h1>Cascade Auth State</h1>
+
+<p>@authMessage</p>
+
+@code {
+    private string authMessage = "The user is NOT authenticated.";
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user?.Identity is not null && user.Identity.IsAuthenticated)
+            {
+                authMessage = $"{user.Identity.Name} is authenticated.";
+            }
+        }
+    }
+}
+```
+
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
