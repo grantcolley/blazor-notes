@@ -2546,6 +2546,29 @@ If authentication state data is required for procedural logic, such as when perf
 }
 ```
 
+Set up the `Task<AuthenticationState>` cascading parameter using the `AuthorizeRouteView` and cascading authentication state services.
+
+```C#
+<Router ...>
+    <Found ...>
+        <AuthorizeRouteView RouteData="@routeData" 
+            DefaultLayout="@typeof(Layout.MainLayout)" />
+        ...
+    </Found>
+</Router>
+```
+
+In `Program.cs`, register cascading authentication state services.
+
+```C#
+builder.Services.AddCascadingAuthenticationState();
+```
+
+In a client-side Blazor app, add services for options and authorization to `Program.cs`.
+
+```C#
+builder.Services.AddCascadingAuthenticationState();
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
