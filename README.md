@@ -164,6 +164,7 @@
     * [Authorization](#authorization)
     * [AuthorizeView](#authorizeview)
     * [\[Authorize\] Attribute](#authorize-attribute)
+    * [Procedural Logic](#procedural-logic)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2616,6 +2617,49 @@ The `AuthorizeView` component also supports role-based or policy-based authoriza
 > If neither Roles nor Policy is specified, both `[Authorize]` attribute and `<AuthorizeView>` component uses the default policy:
 > - Authenticated (signed-in) users are authorized.
 > - Unauthenticated (signed-out) users are unauthorized.
+
+### Procedural Logic
+If the app is required to check authorization rules as part of procedural logic, a cascaded parameter of type `Task<AuthenticationState>` can be used to obtain the user's `ClaimsPrincipal`. `Task<AuthenticationState>` can be combined with other services, such as `IAuthorizationService`, to evaluate policies.
+
+```C#
+@page "/procedural-logic"
+@inject IAuthorizationService AuthorizationService
+
+<button @onclick="@DoSomething">Do something important</button>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    private async Task DoSomething()
+    {
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user is not null)
+            {
+                if (user.Identity is not null && user.Identity.IsAuthenticated)
+                {
+                    // ...
+                }
+
+                if (user.IsInRole("Admin"))
+                {
+                    // ...
+                }
+
+                if ((await AuthorizationService.AuthorizeAsync(user, "content-editor"))
+                    .Succeeded)
+                {
+                    // ...
+                }
+            }
+        }
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
