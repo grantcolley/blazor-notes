@@ -160,7 +160,7 @@
         * [Shared State](#shared-state)
       * [Client-side Blazor Authentication](#client-side-blazor-authentication)
     * [AuthenticationStateProvider](#authenticationstateprovider)
-    * [Expose the Authentication State as a Cascading Parameter](#expose-the-authentication-state-as-acascading-parameter)
+    * [Expose the Authentication State as a Cascading Parameter](#expose-the-authentication-state-as-a-cascading-parameter)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
