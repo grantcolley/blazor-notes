@@ -158,7 +158,8 @@
       * [Server-side Blazor Authentication](#server-side-blazor-authentication)
         * [IHttpContextAccessor/HttpContext](#ihttpcontextaccessorhttpcontext)
         * [Shared State](#shared-state)
-    * 
+      * [Client-side Blazor Authentication](#client-side-blazor-authentication)
+    * [AuthenticationStateProvider](#authenticationstateprovider)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2476,6 +2477,41 @@ Server-side Blazor apps live in server memory, and multiple app sessions are hos
 > [!WARNING]
 > Extreme care should be taken with singletons, as this can introduce security vulnerabilities, such as leaking user state across circuits.
 
+#### Client-side Blazor Authentication
+For SPA app, like client-side Blazor, authentication checks can be bypassed because all client-side code can be modified by users.
+
+### AuthenticationStateProvider
+`AuthenticationStateProvider` is the underlying service used by the `AuthorizeView` component and cascading authentication services to obtain the authentication state for a user.
+
+`AuthenticationStateProvider` typically isn't use directly whereas the `AuthorizeView` component or `Task<AuthenticationState>` approaches are. The main drawback to using `AuthenticationStateProvider` directly is that the component isn't notified automatically if the underlying authentication state data changes.
+
+The `AuthenticationStateProvider` service can provide the current user's `ClaimsPrincipal` data.
+
+```C#
+@code {
+    private string? authMessage;
+    private string? surname;
+    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+    private async Task GetClaimsPrincipalData()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            authMessage = $"{user.Identity.Name} is authenticated.";
+            claims = user.Claims;
+            surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+        }
+        else
+        {
+            authMessage = "The user is NOT authenticated.";
+        }
+    }
+}
+```
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
