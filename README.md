@@ -144,6 +144,8 @@
     * [Determine if a Form Field is Valid](#determine-if-a-form-field-is-valid)
     * [Nested Models, Collection Types, and Complex Types](#nested-models-collection-types-and-complex-types)
     * [Enable the Submit Button Based on Form Validation](#enable-the-submit-button-based-on-form-validation)
+* [Manually Build a Render Tree](#manually-build-a-render-tree)
+  * [RenderTreeBuilder](#rendertreebuilder) 
 * [State Management](#state-management)
   * [Maintain User State](#maintain-user-state)
   * [Persist a State Across Circuits](#persist-a-state-across-circuits)
@@ -2300,6 +2302,63 @@ Validate the form in the context's `OnFieldChanged` callback to enable and disab
 ```
 
 [*Source - Microsoft ASP.NET Core Blazor : Validation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/validation)
+
+## Manually Build a Render Tree
+### RenderTreeBuilder
+`RenderTreeBuilder` provides methods for manipulating components and elements, including building components manually in C# code.
+
+In `RenderTreeBuilder` methods with a sequence number, sequence numbers are source code line numbers. The Blazor difference algorithm relies on the sequence numbers corresponding to distinct lines of code, not distinct call invocations. When creating a component with RenderTreeBuilder methods, hardcode the arguments for sequence numbers.
+
+Sequence numbers relate to code line numbers and not execution order. The runtime uses this information to generate efficient tree diffs in linear time, which is far faster than is normally possible for a general tree diff algorithm.
+
+`PetDetails.razor`
+```C#
+<h2>Pet Details</h2>
+
+<p>@PetDetailsQuote</p>
+
+@code
+{
+    [Parameter]
+    public string? PetDetailsQuote { get; set; }
+}
+```
+
+`BuiltContent.razor`
+```C#
+@page "/built-content"
+
+<PageTitle>Built Content</PageTitle>
+
+<h1>Built Content Example</h1>
+
+<div>
+    @CustomRender
+</div>
+
+<button @onclick="RenderComponent">
+    Create three Pet Details components
+</button>
+
+@code {
+    private RenderFragment? CustomRender { get; set; }
+
+    private RenderFragment CreateComponent() => builder =>
+    {
+        for (var i = 0; i < 3; i++) 
+        {
+            builder.OpenComponent(0, typeof(PetDetails));
+            builder.AddAttribute(1, "PetDetailsQuote", "Someone's best friend!");
+            builder.CloseComponent();
+        }
+    };
+
+    private void RenderComponent()
+    {
+        CustomRender = CreateComponent();
+    }
+}
+```
 
 # State Management
 ## Maintain User State
