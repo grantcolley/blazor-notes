@@ -162,7 +162,8 @@
     * [AuthenticationStateProvider](#authenticationstateprovider)
     * [Expose the Authentication State as a Cascading Parameter](#expose-the-authentication-state-as-a-cascading-parameter)
     * [Authorization](#authorization)
-    * 
+    * [AuthorizeView](#authorizeview)
+    * [\[Authorize\] Attribute](#authorize-attribute)
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2580,6 +2581,29 @@ Access is typically granted or denied based on whether:
 - A user is in a role.
 - A user has a claim.
 - A policy is satisfied.
+
+### AuthorizeView
+The `AuthorizeView` component selectively displays UI content depending on whether the user is authorized. It exposes a `@context` variable of type `AuthenticationState`, giving access to information about the signed-in user.
+
+The `AuthorizeView` component also supports role-based or policy-based authorization. For client-side Blazor apps the `<Authorizing>` component can be displayed while authentication is in progress. This isn't applicable to Server-side Blazor apps, which know the authentication state as soon as the state is established, so `<Authorizing>` is never displayed.
+
+```C#
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p>Hello, @context.User.Identity?.Name!</p>
+        <p>You have the 'Admin' role claim.</p>
+    </Authorized>
+    <Authorizing>
+        <p>You can only see this content while authentication is in progress.</p>
+    </Authorizing>
+    <NotAuthorized>
+        <p>You're not authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
+```
+
+### [Authorize] Attribute
+
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
