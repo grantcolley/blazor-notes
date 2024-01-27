@@ -161,6 +161,8 @@
       * [Client-side Blazor Authentication](#client-side-blazor-authentication)
     * [AuthenticationStateProvider](#authenticationstateprovider)
     * [Expose the Authentication State as a Cascading Parameter](#expose-the-authentication-state-as-a-cascading-parameter)
+    * [Authorization](#authorization)
+    * 
 
 # Overview
 Blazor is a .NET frontend web framework that supports both server-side rendering and client interactivity in a single programming model
@@ -2569,6 +2571,15 @@ In a client-side Blazor app, add services for options and authorization to `Prog
 ```C#
 builder.Services.AddCascadingAuthenticationState();
 ```
+
+### Authorization
+After a user is authenticated, authorization rules are applied to control what the user can do.
+
+Access is typically granted or denied based on whether:
+- A user is authenticated (signed in).
+- A user is in a role.
+- A user has a claim.
+- A policy is satisfied.
 
 [*Source - Microsoft ASP.NET Core Blazor : Security*](https://learn.microsoft.com/en-us/aspnet/core/blazor/security)
 
