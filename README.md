@@ -2627,11 +2627,14 @@ In `Program.cs`, register cascading authentication state services.
 builder.Services.AddCascadingAuthenticationState();
 ```
 
-In a client-side Blazor app, add services for options and authorization to `Program.cs`.
-
-```C#
-builder.Services.AddCascadingAuthenticationState();
-```
+> [!NOTE]
+> Services for options and authorization are already present in server-side Blazor app, so no further steps are required.
+> 
+> In a client-side Blazor app, however, add services for options and authorization to `Program.cs`.
+>```C#
+>builder.Services.AddOptions();
+>builder.Services.AddAuthorizationCore();
+>```
 
 ### Authorization
 After a user is authenticated, authorization rules are applied to control what the user can do.
