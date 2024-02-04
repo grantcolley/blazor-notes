@@ -208,6 +208,23 @@ We recommend using the **Azure SignalR Service** for apps that adopt the Blazor 
 The Blazor WebAssembly hosting model runs components client-side in the browser on a **WebAssembly-based .NET runtime**. Razor components, their dependencies, and the .NET runtime are downloaded to the browser. Components are executed directly on the browser UI thread. Unused code is stripped out of the app when it's published by the **Intermediate Language (IL) Trimmer**.
 A Blazor WebAssembly app built as a **Progressive Web App (PWA)** uses modern browser APIs to enable many of the capabilities of a native client app, such as working offline, running in its own app window, launching from the host's operating system, receiving push notifications, and automatically updating in the background.
 
+The Blazor script handles:
+- Downloading the .NET runtime, Razor components, and the component's dependencies.
+- Initialization of the runtime.
+
+Blazor WebAssembly optimizes payload size to reduce download times:
+- Unused code is stripped out of the app when it's published by the Intermediate Language (IL) Trimmer.
+- HTTP responses are compressed.
+- The .NET runtime and assemblies are cached in the browser.
+
+The Blazor WebAssembly hosting model offers several benefits:
+- For standalone Blazor WebAssembly apps, an ASP.NET Core web server isn't required to host the app. Serverless deployment scenarios are possible, such as serving the app from a Content Delivery Network (CDN).
+
+The Blazor WebAssembly hosting model has the following limitations:
+- Razor components are restricted to the capabilities of the browser.
+- Download size is larger, and components take longer to load.
+- Code sent to the client can't be protected from inspection and tampering by users.
+
 ### Blazor Hybrid
 Blazor Hybrid apps can be built using different .NET native app frameworks, including **.NET MAUI**, **WPF**, and **Windows Forms**. Blazor provides `BlazorWebView` controls for adding Razor components to apps built with these frameworks.
 
