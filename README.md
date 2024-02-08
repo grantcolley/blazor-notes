@@ -2379,7 +2379,14 @@ Sequence numbers relate to code line numbers and not execution order. The runtim
 
 # State Management
 ## Maintain User State
-Server-side Blazor is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a ***circuit***.
+> [!IMPORTANT]
+> Server-side Blazor is a stateful app framework. Most of the time, the app maintains a connection to the server. The user's state is held in the server's memory in a ***circuit***.
+
+> [!NOTE]
+> Examples of user state held in a circuit include:
+> - The hierarchy of component instances and their most recent render output in the rendered UI.
+> - The values of fields and properties in component instances.
+> - Data held in dependency injection (DI) service instances that are scoped to the circuit.
 
 If a user experiences a temporary network connection loss, Blazor attempts to reconnect the user to their original circuit with their original state, however this isn't always possible. When a user can't be reconnected to their original circuit, the user receives a new circuit with an empty state.
 
