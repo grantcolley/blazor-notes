@@ -225,6 +225,11 @@ The Blazor WebAssembly hosting model has the following limitations:
 - Download size is larger, and components take longer to load.
 - Code sent to the client can't be protected from inspection and tampering by users.
 
+> [!NOTE]
+> Static site hosting is possible with standalone Blazor WebAssembly apps because they're downloaded to clients as a set of static files which can be delivered via a Content Delivery Network (CDN) (for example, Azure CDN).
+>
+> ***If static hosting is an app requirement, select standalone Blazor WebAssembly.***
+
 ### Blazor Hybrid
 Blazor Hybrid apps can be built using different .NET native app frameworks, including **.NET MAUI**, **WPF**, and **Windows Forms**. Blazor provides `BlazorWebView` controls for adding Razor components to apps built with these frameworks.
 
