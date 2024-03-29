@@ -782,7 +782,7 @@ To disable prerendering in a component definition:
 By default, components use the static server-side rendering (static SSR). The component renders to the response stream and interactivity isn't enabled.
 
 ##### Interactive Server-side Rendering (Interactive SSR)
-Interactive server-side rendering (interactive SSR) renders the component interactively from the server using Blazor Server. User interactions are handled over a real-time connection with the browser. The circuit connection is established when the Server component is rendered.
+Interactive server-side rendering (interactive SSR) renders the component interactively from the server using Blazor Server. User interactions are handled over a real-time connection with the browser, where the user interaction results in a `DOM diff` sent back to the browser. The circuit connection is established when the Server component is rendered.
 
 Interactive SSR components become interactive after the SignalR circuit is established.
 
