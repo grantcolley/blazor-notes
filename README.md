@@ -18,6 +18,8 @@
     * [Blazor Hybrid](#blazor-hybrid)
 * [Fundamentals](#fundamentals)
   * [Static and Interactive Rendering Concepts](#static-and-interactive-rendering-concepts)
+    * [Static Rendering](#static-rendering)
+    * [Interactive Rendering](#interactive-rendering)
   * [Routing and Navigation](#routing-and-navigation)
     * [Focus an Element on Navigation](#focus-an-element-on-navigation)
     * [Route to Components from Multiple Assemblies](#route-to-components-from-multiple-assemblies)
@@ -239,8 +241,10 @@ Blazor Hybrid apps can be built using different .NET native app frameworks, incl
 ### Static and interactive rendering concepts
 Razor components are either statically rendered or interactively rendered.
 
+#### Static Rendering
 Static or **static rendering** is a **server-side scenario** that means the component is rendered without the capacity for interplay between the user and .NET/C# code. JavaScript and HTML DOM events remain unaffected, but no user events on the client can be processed with .NET running on the server.
 
+#### Interactive Rendering
 Interactive or **interactive rendering** means that the **component has the capacity to process .NET events via C# code**. The .NET events are either **processed on the server** by the ASP.NET Core runtime **or in the browser** on the client by the WebAssembly-based Blazor runtime.
 
 [*Source - Microsoft ASP.NET Core Blazor : Static and interactive rendering concepts*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals#static-and-interactive-rendering-concepts)
