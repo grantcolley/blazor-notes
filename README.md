@@ -226,7 +226,7 @@ The Blazor WebAssembly hosting model has the following limitations:
 - Code sent to the client can't be protected from inspection and tampering by users.
 
 > [!NOTE]
-> Static site hosting is possible with standalone Blazor WebAssembly apps because they're downloaded to clients as a set of static files which can be delivered via a Content Delivery Network (CDN) (for example, Azure CDN).
+> Static site hosting is possible with standalone Blazor WebAssembly apps because they're downloaded to clients as a set of static files which can be delivered via Amazon S3, or a Content Delivery Network (CDN) such as Azure CDN.
 >
 > ***If static hosting is an app requirement, select standalone Blazor WebAssembly.***
 
