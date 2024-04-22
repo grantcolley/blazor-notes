@@ -780,6 +780,20 @@ To disable prerendering in a component definition:
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 ```
 
+> [!WARNING]
+> Disabling prerendering has consequences.
+> 
+> When `prerender:false` then `HttpContext` will be null, whereas it is not during prerendering. This has implications such as
+> attempting to obtain the access token from `HttpContext`.
+> 
+> ```C#
+>        if (HttpContext != null)
+>        {
+>            // 👇 never reached if InteractiveServerRenderMode(prerender:false)
+>            string accessToken = await HttpContext.GetTokenAsync("access_token");
+>        }
+> ```  
+
 ### Static Server-side Rendering (Static SSR)
 By default, components use the static server-side rendering (static SSR). The component renders to the response stream and interactivity isn't enabled.
 
