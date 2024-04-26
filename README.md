@@ -2573,6 +2573,8 @@ Blazor adds Antiforgery Middleware and requires endpoint antiforgery protection 
 Blazor uses the existing ASP.NET Core authentication mechanisms to establish the user's identity.
 
 #### Server-side Blazor Authentication
+The authentication context is only established when the app starts, which is when the app first connects to the WebSocket. The authentication context is maintained for the lifetime of the circuit. Apps periodically revalidate the user's authentication state, currently every 30 minutes by default.
+
 Interactively-rendered server-side Blazor operates over a `SignalR` connection with the client. Authentication in `SignalR`-based apps is handled when the connection is established. Authentication can be based on a cookie or some other bearer token, but authentication is managed via the `SignalR` hub and entirely within the `circuit`.
 
 The built-in `AuthenticationStateProvider` service obtains authentication state data from ASP.NET Core's `HttpContext.User`. This is how authentication state integrates with existing ASP.NET Core authentication mechanisms.
