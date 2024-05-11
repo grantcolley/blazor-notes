@@ -581,6 +581,11 @@ A component's name must start with an uppercase character e.g. `ProductDetail.ra
 
 Component file paths for routable components match their URLs in kebab case. For example, a `ProductDetail.razor` component with a route template of `@page "/product-detail"` is requested in a browser at the relative URL `/product-detail`.
 
+> [!TIP]
+> The difference between **Razor Views (.cshtml)** and **Razor Components (.razor)** is **Razor Views** statically render an HTML string, whereas **Razor Components** are designed for interactivity and mirror the browsers DOM as a RenderTree with a diffing operation to perform DOM updates.
+>
+> With .NET 8, **Razor Components** can also be statically rendered to harness the speed of ASP.NET through static SSR.
+
 ### Markup
 When an app is compiled, the HTML markup and C# rendering logic are converted into a component class. Members of the component class are defined in one or more `@code` blocks.
 
