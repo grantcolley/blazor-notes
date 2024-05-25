@@ -371,6 +371,8 @@ When calling `NavigateTo`:
 You can refresh the current page by calling `NavigationManager.Refresh(bool forceLoad = false)`, which always performs an enhanced navigation, if available. If enhanced navigation isn't available, Blazor performs a full-page reload.
 
 [*Source - Microsoft ASP.NET Core Blazor : Routing and Navigation*](https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing)
+<br>
+[*Blazor Enhanced Navigation Fully Explained*](https://www.telerik.com/blogs/blazor-enhanced-navigation-fully-explained)
 
 ## Dependency Injection
 Register common services
@@ -698,8 +700,6 @@ builder.RootComponents.Add<App>("#app");
 [*Source - Mozilla : Cascading Style Sheet Object Model (CSSOM)*](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)
 <br>
 [*Source - Microsoft ASP.NET Core fundamentals overview - Web root*](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/#web-root)
-<br>
-[*Blazor Enhanced Navigation Fully Explained*](https://www.telerik.com/blogs/blazor-enhanced-navigation-fully-explained)
 
 ## Render Modes
 Every component in a Blazor Web App adopts a render mode to determine the hosting model that it uses, where it's rendered, and whether or not it's interactive.
