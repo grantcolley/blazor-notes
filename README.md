@@ -258,8 +258,8 @@ When an **interactive render mode** is assigned to the Routes component, the Bla
 
 > [!IMPORTANT]
 > ***Static routers use endpoint routing and the HTTP request path to determine which component to render**. When the **router becomes interactive, it uses the document's URL (the URL in the browser's address bar) to determine which component to render**, and it can do so without performing an HTTP request to fetch new page content.*
-
-***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
+>
+> ***Interactive routing also prevents prerendering*** because new page content isn't requested from the server with a normal page request.
 
 When a Razor component `.razor` with an `@page` directive is compiled, the generated component class is provided a `RouteAttribute` specifying the component's route template. Routing in Blazor is achieved by providing a route template to each accessible component in the app. 
 
