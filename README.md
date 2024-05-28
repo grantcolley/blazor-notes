@@ -574,7 +574,10 @@ Razor component directive order:
  - System namespaces
  - Microsoft namespaces
  - App namespaces
- - Other directives
+ - Other alphabetically
+@attribute
+@implements
+@inject
 ```
 
 `@using` directives in the `_Imports.razor` file are only applied to Razor files `.razor`, not C# files `.cs`.
