@@ -2,7 +2,7 @@
 ##### ASP.NET Core Blazor .NET 8.0
 
 > [!IMPORTANT]
-> This is a collection of notes about **ASP.NET Core Blazor** taken while reading other resources\*. The purpose of this `readme` is simply to consolidate content I foundnd important or useful to me in some way, and condense them into a single page for my own personal reference.
+> This is a collection of notes about **ASP.NET Core Blazor** taken while reading other resources\*. The purpose of this `readme` is simply to consolidate content I found important or useful to me in some way, and condense them into a single page for my own personal reference.
 >
 > In many cases, the notes may be straight copy and paste. In others, I may shorten or reword it, as per my understanding of the original text. In all cases, the original content is not my own and I provide links to the original source.
 >
